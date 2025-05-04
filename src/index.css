@@ -81,6 +81,15 @@
     @apply font-mono text-green-400;
   }
   
+  /* Button styles */
+  .btn-primary {
+    @apply bg-gradient-to-r from-purple-700 to-purple-500 backdrop-blur-sm border border-purple-500/50 shadow-md shadow-purple-800/20 hover:shadow-lg hover:shadow-purple-800/30 transition-all;
+  }
+  
+  .btn-secondary {
+    @apply bg-purple-800/50 border border-purple-500/30 shadow-md shadow-purple-900/10 hover:shadow-lg hover:shadow-purple-800/20 transition-all;
+  }
+  
   /* Animation for gradient backgrounds */
   @keyframes gradient {
     0% {

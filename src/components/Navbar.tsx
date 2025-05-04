@@ -24,14 +24,12 @@ const Navbar = () => {
   return (
     <header 
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? 'glass-morphism py-3' : 'py-6 bg-transparent'
+        scrolled 
+          ? 'glass-morphism py-3' 
+          : 'py-6 bg-transparent'
       }`}
     >
       <div className="container mx-auto flex justify-between items-center px-4 sm:px-6 md:px-8">
-        <Link to="/" className="opacity-0 pointer-events-none w-0">
-          Hidden Link
-        </Link>
-        
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-8 mx-auto">
           {['About', 'Experience', 'Projects', 'Contact'].map((item) => (
@@ -55,7 +53,7 @@ const Navbar = () => {
 
         {/* Mobile Menu Button */}
         <button 
-          className="md:hidden text-space-text focus:outline-none ml-auto"
+          className="md:hidden text-space-text focus:outline-none mx-auto"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}

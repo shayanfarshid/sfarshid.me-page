@@ -1,148 +1,190 @@
 
-import { useEffect, useState, useRef } from 'react';
-import { ExternalLink } from 'lucide-react';
+import { useState } from 'react';
+import { Send, Mail, Linkedin, Github } from 'lucide-react';
 
 const Contact = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      {
-        root: null,
-        threshold: 0.1,
-      }
-    );
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+  
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitting(true);
     
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-    
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
+    // Simulate form submission
+    setTimeout(() => {
+      setSubmitting(false);
+      setSubmitted(true);
+      
+      // Reset form after a delay
+      setTimeout(() => {
+        setFormData({ name: '', email: '', message: '' });
+        setSubmitted(false);
+      }, 4000);
+    }, 1500);
+  };
   
   return (
-    <section 
-      id="contact" 
-      ref={sectionRef}
-      className="relative z-10 py-20 px-4 sm:py-28 overflow-hidden"
-    >
-      <div 
-        className="absolute inset-0 bg-gradient-to-b from-space-purple/30 to-space/60 z-0"
-        style={{ 
-          backgroundSize: '400% 400%',
-          animation: 'gradient 15s ease infinite',
-        }}
-      />
-      
-      <div className="container relative z-10 mx-auto max-w-4xl">
-        <div className={`text-center mb-12 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-          <h2 className="text-4xl sm:text-5xl font-bold text-gradient mb-4">
-            Connect With Me
-          </h2>
-          <p className="text-lg text-space-text/80 max-w-2xl mx-auto">
-            I'm currently available for new opportunities. If you'd like to discuss a project or have any questions, feel free to reach out.
-          </p>
-        </div>
-        
-        <div className={`glass-morphism rounded-2xl p-8 transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <h3 className="text-2xl font-bold mb-4 text-gradient-purple">
-                Contact Information
-              </h3>
-              
-              <div className="space-y-4">
-                <p className="flex items-center">
-                  <span className="w-24 text-space-text/60">Email:</span>
-                  <a 
-                    href="mailto:shayanfarshid48@gmail.com" 
-                    className="text-purple-300 hover:text-purple-200 transition-colors"
-                  >
-                    shayanfarshid48@gmail.com
-                  </a>
-                </p>
-                
-                <p className="flex items-center">
-                  <span className="w-24 text-space-text/60">LinkedIn:</span>
-                  <a 
-                    href="https://www.linkedin.com/in/sfarshid/" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-purple-300 hover:text-purple-200 transition-colors flex items-center"
-                  >
-                    <span>linkedin.com/in/sfarshid</span>
-                    <ExternalLink className="ml-1" size={14} />
-                  </a>
-                </p>
-                
-                <p className="flex items-center">
-                  <span className="w-24 text-space-text/60">Location:</span>
-                  <span>San Francisco, CA</span>
-                </p>
-              </div>
-            </div>
-            
-            <div>
-              <h3 className="text-2xl font-bold mb-4 text-gradient-purple">
-                Send a Message
-              </h3>
-              
-              <form className="space-y-4">
-                <div>
-                  <label htmlFor="name" className="block text-sm text-space-text/60 mb-1">
-                    Name
-                  </label>
-                  <input 
-                    type="text" 
-                    id="name" 
-                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 focus:border-purple-400 focus:outline-none focus:ring-1 focus:ring-purple-400 transition-colors"
-                  />
+    <section id="contact" className="section-padding relative z-10">
+      <div className="container mx-auto">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gradient mb-4">
+              Let's Connect
+            </h2>
+            <p className="text-space-text/70 max-w-2xl mx-auto">
+              Interested in working together? Drop me a message and I'll get back to you as soon as possible.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            {/* Contact Form */}
+            <div className="lg:col-span-2 glass-morphism rounded-2xl p-8">
+              <form onSubmit={handleSubmit}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  <div className="space-y-2">
+                    <label htmlFor="name" className="block text-sm text-space-text/70">
+                      Name
+                    </label>
+                    <input
+                      id="name"
+                      name="name"
+                      type="text"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 bg-space-light/30 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400/50"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label htmlFor="email" className="block text-sm text-space-text/70">
+                      Email
+                    </label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 bg-space-light/30 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400/50"
+                    />
+                  </div>
                 </div>
-                
-                <div>
-                  <label htmlFor="email" className="block text-sm text-space-text/60 mb-1">
-                    Email
-                  </label>
-                  <input 
-                    type="email" 
-                    id="email" 
-                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 focus:border-purple-400 focus:outline-none focus:ring-1 focus:ring-purple-400 transition-colors"
-                  />
-                </div>
-                
-                <div>
-                  <label htmlFor="message" className="block text-sm text-space-text/60 mb-1">
+                <div className="space-y-2 mb-6">
+                  <label htmlFor="message" className="block text-sm text-space-text/70">
                     Message
                   </label>
-                  <textarea 
-                    id="message" 
-                    rows={4}
-                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 focus:border-purple-400 focus:outline-none focus:ring-1 focus:ring-purple-400 transition-colors"
+                  <textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
+                    rows={5}
+                    className="w-full px-4 py-3 bg-space-light/30 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400/50"
                   ></textarea>
                 </div>
-                
-                <button 
-                  type="submit" 
-                  className="w-full py-2 px-4 bg-gradient-to-r from-purple-600 to-purple-400 rounded-lg text-white font-medium hover:from-purple-700 hover:to-purple-500 transition-all hover:shadow-lg hover:shadow-purple-500/20"
+                <button
+                  type="submit"
+                  disabled={submitting || submitted}
+                  className={`w-full md:w-auto px-8 py-3 rounded-lg flex items-center justify-center space-x-2 transition-all ${
+                    submitted
+                      ? 'bg-green-500/20 border border-green-500/50 text-green-300'
+                      : submitting
+                      ? 'bg-purple-500/20 border border-purple-500/50 text-purple-300'
+                      : 'bg-purple-500/20 border border-purple-500/30 text-purple-300 hover:bg-purple-500/30'
+                  }`}
                 >
-                  Send Message
+                  {submitted ? (
+                    <>
+                      <span>Message Sent!</span>
+                    </>
+                  ) : submitting ? (
+                    <>
+                      <span>Sending...</span>
+                      <span className="animate-spin">
+                        <Send size={16} />
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Send Message</span>
+                      <Send size={16} />
+                    </>
+                  )}
                 </button>
               </form>
+            </div>
+            
+            {/* Contact Info */}
+            <div className="glass-morphism rounded-2xl p-8 space-y-8">
+              <div>
+                <h3 className="text-xl font-bold mb-4 text-gradient-purple">
+                  Contact Information
+                </h3>
+                <ul className="space-y-4">
+                  <li className="flex items-center space-x-3">
+                    <Mail size={18} className="text-purple-400" />
+                    <a href="mailto:contact@example.com" className="hover:text-purple-300">
+                      contact@example.com
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              
+              <div>
+                <h3 className="text-xl font-bold mb-4 text-gradient-purple">
+                  Connect with Me
+                </h3>
+                <div className="flex space-x-4">
+                  <a
+                    href="https://linkedin.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 rounded-full bg-space-light/30 flex items-center justify-center hover:bg-purple-500/30 transition-colors"
+                  >
+                    <Linkedin size={18} />
+                  </a>
+                  <a
+                    href="https://github.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 rounded-full bg-space-light/30 flex items-center justify-center hover:bg-purple-500/30 transition-colors"
+                  >
+                    <Github size={18} />
+                  </a>
+                </div>
+              </div>
+              
+              <div>
+                <h3 className="text-xl font-bold mb-4 text-gradient-purple">
+                  Response Time
+                </h3>
+                <p className="text-space-text/70">
+                  I typically respond within 24-48 hours on business days.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      
+      {/* Decorative elements */}
+      <div className="absolute top-40 left-10 w-32 h-32 bg-purple-500/5 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-20 right-10 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl"></div>
     </section>
   );
 };

@@ -18,13 +18,13 @@ const testimonials: Testimonial[] = [
   },
   {
     name: "Jarin T.",
-    position: "Marketing Strategist | Digital & Social Media Marketing",
+    position: "Marketing Strategist | Digital Media Specialist",
     content: "I am delighted to recommend Shayan as an exceptionally talented data professional. His sharp analytical skills, innovative thinking, and unwavering dedication to excellence have consistently impressed me throughout our collaboration.",
     image: "/lovable-uploads/d6c0d878-abf7-40c0-8cfd-2b9dfd0da24a.png"
   },
   {
     name: "Riaz M.",
-    position: "Business Graduate | Strong Communication & Leadership Skills",
+    position: "Business Graduate | Communication Specialist",
     content: "Shayan's strong work ethic and problem-solving skills truly stand out. He consistently goes above and beyond to meet deadlines and find innovative solutions to complex data challenges.",
     image: "/lovable-uploads/0fb1940f-cf91-499d-944c-bff6335e0a92.png"
   }
@@ -73,7 +73,7 @@ const Testimonials = () => {
     <section 
       id="testimonials" 
       ref={sectionRef}
-      className="section-padding relative z-10 bg-space-light/30"
+      className="section-padding relative z-10 bg-space-light/20"
     >
       <div className="container mx-auto">
         <div className="flex items-center mb-12">
@@ -100,14 +100,14 @@ const Testimonials = () => {
               </div>
             </div>
             
-            <div className="relative h-full">
+            <div className="relative h-[300px]">
               {testimonials.map((testimonial, index) => (
                 <div
                   key={testimonial.name}
                   className={`transition-all duration-500 absolute w-full ${
                     index === currentIndex 
-                      ? 'opacity-100 translate-x-0' 
-                      : 'opacity-0 translate-x-16 pointer-events-none'
+                      ? 'opacity-100 translate-x-0 z-10' 
+                      : 'opacity-0 translate-x-16 z-0 pointer-events-none'
                   }`}
                 >
                   <div className="flex flex-col items-center">

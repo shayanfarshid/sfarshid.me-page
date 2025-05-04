@@ -9,11 +9,14 @@ interface Particle {
   speedY: number;
   opacity: number;
   hue: number;
+  pulse: number;
+  pulseSpeed: number;
 }
 
 const AnimatedBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
+  const mouseRef = useRef({ x: 0, y: 0, radius: 100 });
   
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -31,7 +34,7 @@ const AnimatedBackground = () => {
     // Initialize particles
     const initParticles = () => {
       particlesRef.current = [];
-      const particleCount = Math.floor(window.innerWidth * window.innerHeight / 20000);
+      const particleCount = Math.floor(window.innerWidth * window.innerHeight / 15000);
       
       for (let i = 0; i < particleCount; i++) {
         particlesRef.current.push({
@@ -42,13 +45,27 @@ const AnimatedBackground = () => {
           speedY: (Math.random() - 0.5) * 0.3,
           opacity: Math.random() * 0.5 + 0.2,
           hue: Math.random() * 60 + 240, // Blue to purple range
+          pulse: 0,
+          pulseSpeed: Math.random() * 0.02 + 0.01
         });
       }
     };
     
+    // Handle mouse movement
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseRef.current.x = e.x;
+      mouseRef.current.y = e.y;
+    };
+    
     // Animation loop
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // Create gradient background
+      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+      gradient.addColorStop(0, 'rgba(10, 10, 22, 1)');
+      gradient.addColorStop(1, 'rgba(8, 8, 18, 1)');
+      
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
       
       // Update and draw particles
       particlesRef.current.forEach(particle => {
@@ -62,14 +79,44 @@ const AnimatedBackground = () => {
         if (particle.y < 0) particle.y = canvas.height;
         if (particle.y > canvas.height) particle.y = 0;
         
-        // Twinkle effect
-        particle.opacity = Math.max(0.1, particle.opacity + (Math.random() - 0.5) * 0.02);
+        // Pulse effect
+        particle.pulse += particle.pulseSpeed;
+        if (particle.pulse > Math.PI * 2) {
+          particle.pulse = 0;
+        }
+        
+        // Calculate distance to mouse for interactive effect
+        const dx = particle.x - mouseRef.current.x;
+        const dy = particle.y - mouseRef.current.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        let size = particle.size;
+        let opacity = particle.opacity;
+        
+        // Add pulsing effect
+        size += Math.sin(particle.pulse) * 0.5;
+        opacity += Math.sin(particle.pulse) * 0.1;
+        
+        // Interactive effect when near mouse
+        if (distance < mouseRef.current.radius) {
+          const influence = (mouseRef.current.radius - distance) / mouseRef.current.radius;
+          size *= (1 + influence * 0.5);
+          opacity *= (1 + influence * 0.3);
+        }
         
         // Draw particle
         ctx.beginPath();
-        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${particle.hue}, 70%, 70%, ${particle.opacity})`;
+        ctx.arc(particle.x, particle.y, size, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${particle.hue}, 70%, 70%, ${opacity})`;
         ctx.fill();
+        
+        // Add subtle glow for larger particles
+        if (size > 1.2) {
+          ctx.beginPath();
+          ctx.arc(particle.x, particle.y, size * 2, 0, Math.PI * 2);
+          ctx.fillStyle = `hsla(${particle.hue}, 70%, 70%, ${opacity * 0.15})`;
+          ctx.fill();
+        }
         ctx.closePath();
       });
       
@@ -77,12 +124,15 @@ const AnimatedBackground = () => {
     };
     
     window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('mousemove', handleMouseMove);
+    
     resizeCanvas();
     initParticles();
     animate();
     
     return () => {
       window.removeEventListener('resize', resizeCanvas);
+      window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
   
