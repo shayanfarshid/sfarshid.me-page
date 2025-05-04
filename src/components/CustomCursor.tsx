@@ -16,7 +16,8 @@ const CustomCursor = () => {
                           target.tagName === 'A' ||
                           window.getComputedStyle(target).cursor === 'pointer';
       
-      setIsPointer(isClickable);
+      // Fix: Ensure we're setting a boolean value, not an Element
+      setIsPointer(!!isClickable);
     };
     
     const handleMouseEnter = () => setIsVisible(true);
@@ -37,7 +38,8 @@ const CustomCursor = () => {
   
   return (
     <>
-      <style jsx global>{`
+      {/* Fix: Use standard style element properties without jsx and global props */}
+      <style>{`
         body {
           cursor: none;
         }
