@@ -3,13 +3,12 @@ import { useEffect, useState } from 'react';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import CustomCursor from '@/components/CustomCursor';
 import LoadingScreen from '@/components/LoadingScreen';
-import Navbar from '@/components/Navbar';
+import MinimalNavbar from '@/components/MinimalNavbar';
 import Hero from '@/components/Hero';
-import About from '@/components/About';
 import Experience from '@/components/Experience';
 import Projects from '@/components/Projects';
-import Testimonials from '@/components/Testimonials';
 import Contact from '@/components/Contact';
+import Testimonials from '@/components/Testimonials';
 import Footer from '@/components/Footer';
 
 const Index = () => {
@@ -26,7 +25,7 @@ const Index = () => {
     // Simulate page loading
     const timer = setTimeout(() => {
       setIsLoaded(true);
-    }, 2500);
+    }, 3500);
     
     return () => clearTimeout(timer);
   }, []);
@@ -37,15 +36,17 @@ const Index = () => {
       
       <AnimatedBackground />
       <CustomCursor />
-      <Navbar />
+      <MinimalNavbar />
       
-      <main className="relative z-10">
+      <main className="relative z-10 space-y-20">
         <Hero />
-        <About />
-        <Experience />
-        <Projects />
-        <Testimonials />
-        <Contact />
+        
+        <div className="container mx-auto px-4 max-w-6xl">
+          <Projects />
+          <Experience />
+          <Testimonials />
+          <Contact />
+        </div>
       </main>
       
       <Footer />

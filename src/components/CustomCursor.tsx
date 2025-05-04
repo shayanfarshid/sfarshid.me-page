@@ -17,7 +17,7 @@ const CustomCursor = () => {
                           target.tagName === 'A' ||
                           window.getComputedStyle(target).cursor === 'pointer';
       
-      setIsPointer(!!isClickable);
+      setIsPointer(Boolean(isClickable));
     };
     
     const handleMouseEnter = () => setIsVisible(true);
@@ -44,15 +44,17 @@ const CustomCursor = () => {
   
   return (
     <>
-      <style>{`
-        body {
-          cursor: none;
-        }
-        
-        a, button, [role="button"], [class*="hover\\:"], [class*="cursor-"] {
-          cursor: none !important;
-        }
-      `}</style>
+      <style>
+        {`
+          body {
+            cursor: none;
+          }
+          
+          a, button, [role="button"], [class*="hover\\:"], [class*="cursor-"] {
+            cursor: none !important;
+          }
+        `}
+      </style>
       
       <div
         className={`fixed pointer-events-none z-[9999] transition-transform duration-200 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
@@ -64,14 +66,14 @@ const CustomCursor = () => {
         }}
       >
         <div 
-          className={`rounded-full transition-all duration-200 border ${
+          className={`rounded-full transition-all duration-200 ${
             isPointer 
-              ? 'w-8 h-8 border-purple-400 border-2' 
+              ? 'w-8 h-8 border-purple-400 border-2 bg-purple-400/10' 
               : 'w-6 h-6 border-white/70 border'
           }`}
         >
           {isPointer && (
-            <div className="absolute inset-0 bg-purple-400/20 rounded-full"></div>
+            <div className="absolute inset-0 bg-purple-400/10 rounded-full"></div>
           )}
         </div>
       </div>
