@@ -1,16 +1,9 @@
 
-import { useEffect, useRef, useState } from 'react';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
-import { toast } from "@/hooks/use-toast";
+import { useEffect, useState, useRef } from 'react';
+import { ExternalLink } from 'lucide-react';
 
 const Contact = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   
   useEffect(() => {
@@ -38,155 +31,113 @@ const Contact = () => {
     };
   }, []);
   
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-  
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate form submission
-    setTimeout(() => {
-      toast({
-        title: "Message sent successfully!",
-        description: "Thanks for reaching out. I'll get back to you soon.",
-      });
-      setFormData({ name: '', email: '', message: '' });
-      setIsSubmitting(false);
-    }, 1500);
-  };
-  
   return (
     <section 
       id="contact" 
       ref={sectionRef}
-      className="section-padding relative z-10"
+      className="relative z-10 py-20 px-4 sm:py-28 overflow-hidden"
     >
-      <div className="container mx-auto">
-        <h2 className="text-3xl font-bold mb-12 text-gradient inline-block">
-          Get In Touch
-        </h2>
+      <div 
+        className="absolute inset-0 bg-gradient-to-b from-space-purple/30 to-space/60 z-0"
+        style={{ 
+          backgroundSize: '400% 400%',
+          animation: 'gradient 15s ease infinite',
+        }}
+      />
+      
+      <div className="container relative z-10 mx-auto max-w-4xl">
+        <div className={`text-center mb-12 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+          <h2 className="text-4xl sm:text-5xl font-bold text-gradient mb-4">
+            Connect With Me
+          </h2>
+          <p className="text-lg text-space-text/80 max-w-2xl mx-auto">
+            I'm currently available for new opportunities. If you'd like to discuss a project or have any questions, feel free to reach out.
+          </p>
+        </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Contact Info */}
-          <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <h3 className="text-2xl font-bold mb-6 text-purple-300">Let's Connect</h3>
-            <p className="text-space-text/80 mb-8 max-w-lg">
-              I'm always interested in new opportunities, collaborations, and connections. Feel free to reach out if you have any questions or just want to say hello!
-            </p>
-            
-            <div className="space-y-6">
-              <div className="flex items-start">
-                <div className="glass-morphism p-3 rounded-full mr-4">
-                  <Mail size={20} className="text-purple-300" />
-                </div>
-                <div>
-                  <h4 className="font-medium text-space-text">Email</h4>
+        <div className={`glass-morphism rounded-2xl p-8 transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h3 className="text-2xl font-bold mb-4 text-gradient-purple">
+                Contact Information
+              </h3>
+              
+              <div className="space-y-4">
+                <p className="flex items-center">
+                  <span className="w-24 text-space-text/60">Email:</span>
                   <a 
                     href="mailto:shayanfarshid48@gmail.com" 
-                    className="text-purple-300 hover:underline"
+                    className="text-purple-300 hover:text-purple-200 transition-colors"
                   >
                     shayanfarshid48@gmail.com
                   </a>
-                </div>
-              </div>
-              
-              <div className="flex items-start">
-                <div className="glass-morphism p-3 rounded-full mr-4">
-                  <Phone size={20} className="text-purple-300" />
-                </div>
-                <div>
-                  <h4 className="font-medium text-space-text">Phone</h4>
+                </p>
+                
+                <p className="flex items-center">
+                  <span className="w-24 text-space-text/60">LinkedIn:</span>
                   <a 
-                    href="tel:+14153123491" 
-                    className="text-purple-300 hover:underline"
+                    href="https://www.linkedin.com/in/sfarshid/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-purple-300 hover:text-purple-200 transition-colors flex items-center"
                   >
-                    (415) 312-3491
+                    <span>linkedin.com/in/sfarshid</span>
+                    <ExternalLink className="ml-1" size={14} />
                   </a>
-                </div>
-              </div>
-              
-              <div className="flex items-start">
-                <div className="glass-morphism p-3 rounded-full mr-4">
-                  <MapPin size={20} className="text-purple-300" />
-                </div>
-                <div>
-                  <h4 className="font-medium text-space-text">Location</h4>
-                  <p className="text-space-text/80">San Francisco, CA</p>
-                </div>
+                </p>
+                
+                <p className="flex items-center">
+                  <span className="w-24 text-space-text/60">Location:</span>
+                  <span>San Francisco, CA</span>
+                </p>
               </div>
             </div>
-          </div>
-          
-          {/* Contact Form */}
-          <div className={`transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="glass-morphism p-6 sm:p-8 rounded-xl">
-              <h3 className="text-xl font-medium mb-6">Send a Message</h3>
+            
+            <div>
+              <h3 className="text-2xl font-bold mb-4 text-gradient-purple">
+                Send a Message
+              </h3>
               
-              <form onSubmit={handleSubmit}>
-                <div className="space-y-4">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-space-text mb-1">
-                      Name
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-space-text focus:outline-none focus:ring-2 focus:ring-purple-500/50"
-                      required
-                    />
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-space-text mb-1">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-space-text focus:outline-none focus:ring-2 focus:ring-purple-500/50"
-                      required
-                    />
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-space-text mb-1">
-                      Message
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleInputChange}
-                      rows={5}
-                      className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-space-text resize-none focus:outline-none focus:ring-2 focus:ring-purple-500/50"
-                      required
-                    />
-                  </div>
-                  
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className={`w-full flex items-center justify-center bg-purple-800/70 hover:bg-purple-700/70 text-white py-3 px-6 rounded-lg transition-colors ${
-                      isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
-                    }`}
-                  >
-                    {isSubmitting ? (
-                      <div className="animate-spin w-5 h-5 border-2 border-white/30 border-t-white rounded-full mr-2" />
-                    ) : (
-                      <Send size={18} className="mr-2" />
-                    )}
-                    {isSubmitting ? 'Sending...' : 'Send Message'}
-                  </button>
+              <form className="space-y-4">
+                <div>
+                  <label htmlFor="name" className="block text-sm text-space-text/60 mb-1">
+                    Name
+                  </label>
+                  <input 
+                    type="text" 
+                    id="name" 
+                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 focus:border-purple-400 focus:outline-none focus:ring-1 focus:ring-purple-400 transition-colors"
+                  />
                 </div>
+                
+                <div>
+                  <label htmlFor="email" className="block text-sm text-space-text/60 mb-1">
+                    Email
+                  </label>
+                  <input 
+                    type="email" 
+                    id="email" 
+                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 focus:border-purple-400 focus:outline-none focus:ring-1 focus:ring-purple-400 transition-colors"
+                  />
+                </div>
+                
+                <div>
+                  <label htmlFor="message" className="block text-sm text-space-text/60 mb-1">
+                    Message
+                  </label>
+                  <textarea 
+                    id="message" 
+                    rows={4}
+                    className="w-full px-4 py-2 rounded-lg bg-white/5 border border-white/10 focus:border-purple-400 focus:outline-none focus:ring-1 focus:ring-purple-400 transition-colors"
+                  ></textarea>
+                </div>
+                
+                <button 
+                  type="submit" 
+                  className="w-full py-2 px-4 bg-gradient-to-r from-purple-600 to-purple-400 rounded-lg text-white font-medium hover:from-purple-700 hover:to-purple-500 transition-all hover:shadow-lg hover:shadow-purple-500/20"
+                >
+                  Send Message
+                </button>
               </form>
             </div>
           </div>

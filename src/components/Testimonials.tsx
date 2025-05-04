@@ -11,22 +11,22 @@ interface Testimonial {
 
 const testimonials: Testimonial[] = [
   {
-    name: "Jarin Tasnim Sneha",
+    name: "Prof. Dr. Azad A.",
+    position: "Professor at Islamic University of Technology",
+    content: "Throughout my career, there were only a handful of students who amazed me with their analytical skills and professionalism; Shayan was one of them. His ability to transform complex data into meaningful insights is truly exceptional.",
+    image: "/lovable-uploads/94624b1e-0201-4a79-885b-567d53161585.png"
+  },
+  {
+    name: "Jarin T.",
     position: "Marketing Strategist | Digital & Social Media Marketing",
-    content: "I am delighted to recommend Shayan as an exceptionally talented and hardworking person. His sharp analytical skills, innovative thinking, and unwavering dedication to academic excellence have consistently impressed me throughout our time as classmates.",
+    content: "I am delighted to recommend Shayan as an exceptionally talented data professional. His sharp analytical skills, innovative thinking, and unwavering dedication to excellence have consistently impressed me throughout our collaboration.",
     image: "/lovable-uploads/d6c0d878-abf7-40c0-8cfd-2b9dfd0da24a.png"
   },
   {
-    name: "Md. Riaz Mahmud, CSCA™",
+    name: "Riaz M.",
     position: "Business Graduate | Strong Communication & Leadership Skills",
-    content: "During our time as roommates, Adit's strong work ethic and problem-solving skills shone through. He consistently went above and beyond to meet deadlines and find innovative solutions to challenges.",
+    content: "Shayan's strong work ethic and problem-solving skills truly stand out. He consistently goes above and beyond to meet deadlines and find innovative solutions to complex data challenges.",
     image: "/lovable-uploads/0fb1940f-cf91-499d-944c-bff6335e0a92.png"
-  },
-  {
-    name: "Prof. Md. Abul Kalam Azad, PhD",
-    position: "Professor at Islamic University of Technology",
-    content: "Throughout my career, there were only a handful of students who amazed me with their skills and professionalism; Shayan Farshid was one of them. I am pleased to recommend him, who is an excellent student and a great person.",
-    image: "/lovable-uploads/94624b1e-0201-4a79-885b-567d53161585.png"
   }
 ];
 

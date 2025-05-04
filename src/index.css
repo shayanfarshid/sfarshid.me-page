@@ -80,4 +80,86 @@
   .terminal-text {
     @apply font-mono text-green-400;
   }
+  
+  /* Animation for gradient backgrounds */
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  /* Shine effect for buttons and elements */
+  .shine {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .shine::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      to bottom right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(30deg);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .shine:hover::after {
+    transform: rotate(30deg) translate(300px, 300px);
+  }
+  
+  /* Animate-in classes for staggered animations */
+  .animate-in {
+    animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    opacity: 0;
+  }
+  
+  .delay-1 {
+    animation-delay: 0.1s;
+  }
+  
+  .delay-2 {
+    animation-delay: 0.2s;
+  }
+  
+  .delay-3 {
+    animation-delay: 0.3s;
+  }
+  
+  .delay-4 {
+    animation-delay: 0.4s;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Scale hover effect for cards and interactive elements */
+  .hover-scale {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .hover-scale:hover {
+    transform: scale(1.03);
+  }
 }

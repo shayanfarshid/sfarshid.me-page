@@ -28,20 +28,20 @@ const Navbar = () => {
       }`}
     >
       <div className="container mx-auto flex justify-between items-center px-4 sm:px-6 md:px-8">
-        <Link to="/" className="text-space-text text-xl font-mono hover:opacity-80 transition-opacity">
-          Shayan<span className="text-purple-400">.</span>
+        <Link to="/" className="opacity-0 pointer-events-none w-0">
+          Hidden Link
         </Link>
         
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-8">
+        <nav className="hidden md:flex space-x-8 mx-auto">
           {['About', 'Experience', 'Projects', 'Contact'].map((item) => (
-            <Link 
+            <a 
               key={item} 
-              to={`/${item.toLowerCase()}`} 
+              href={`#${item.toLowerCase()}`} 
               className="text-space-text hover:text-purple-300 transition-colors relative after:content-[''] after:absolute after:w-0 after:h-px after:bg-purple-300 after:bottom-0 after:left-0 after:transition-all after:duration-300 hover:after:w-full"
             >
               {item}
-            </Link>
+            </a>
           ))}
           <a 
             href="/resume.pdf" 
@@ -55,7 +55,7 @@ const Navbar = () => {
 
         {/* Mobile Menu Button */}
         <button 
-          className="md:hidden text-space-text focus:outline-none"
+          className="md:hidden text-space-text focus:outline-none ml-auto"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -70,14 +70,14 @@ const Navbar = () => {
       >
         <nav className="flex flex-col space-y-8 items-center">
           {['About', 'Experience', 'Projects', 'Contact'].map((item) => (
-            <Link 
+            <a 
               key={item} 
-              to={`/${item.toLowerCase()}`} 
+              href={`#${item.toLowerCase()}`} 
               className="text-space-text hover:text-purple-300 text-xl transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               {item}
-            </Link>
+            </a>
           ))}
           <a 
             href="/resume.pdf" 
