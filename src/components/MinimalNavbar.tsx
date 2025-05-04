@@ -1,15 +1,14 @@
 
 import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const MinimalNavbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   // Change navbar style on scroll
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 10) {
+      if (window.scrollY > 500) {
         setScrolled(true);
       } else {
         setScrolled(false);
@@ -22,23 +21,34 @@ const MinimalNavbar = () => {
 
   return (
     <header 
-      className={`fixed bottom-8 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 ${
+      className={`fixed bottom-10 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ${
         scrolled 
-          ? 'opacity-100' 
-          : 'opacity-0'
+          ? 'opacity-100 translate-y-0' 
+          : 'opacity-0 translate-y-5'
       }`}
     >
       <div className="flex items-center">
-        <nav className="glass-morphism rounded-full px-2 py-1">
-          {['Work', 'Experience', 'Connect'].map((item) => (
-            <a 
-              key={item} 
-              href={`#${item.toLowerCase()}`} 
-              className="text-space-text hover:text-purple-300 transition-colors px-4 py-2 text-sm inline-block"
-            >
-              {item}
-            </a>
-          ))}
+        <nav className="glass-morphism rounded-full px-3 py-1.5 flex items-center">
+          <Link 
+            to="/work" 
+            className="text-space-text hover:text-purple-300 transition-colors px-4 py-1.5 text-sm inline-block"
+          >
+            Work
+          </Link>
+          <span className="text-white/20">|</span>
+          <Link 
+            to="/experience" 
+            className="text-space-text hover:text-purple-300 transition-colors px-4 py-1.5 text-sm inline-block"
+          >
+            Experience
+          </Link>
+          <span className="text-white/20">|</span>
+          <Link 
+            to="/contact" 
+            className="text-space-text hover:text-purple-300 transition-colors px-4 py-1.5 text-sm inline-block"
+          >
+            Connect
+          </Link>
         </nav>
       </div>
     </header>

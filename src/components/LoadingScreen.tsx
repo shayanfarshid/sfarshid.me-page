@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 const LoadingScreen = () => {
   const [progress, setProgress] = useState(0);
@@ -13,7 +13,7 @@ const LoadingScreen = () => {
     'Extracting insights from data fragments...',
     'Calibrating analytical frameworks...',
     'Synthesizing business intelligence...',
-    'Preparing to reveal brilliance...'
+    'Revealing brilliance...'
   ];
   
   useEffect(() => {
@@ -65,16 +65,17 @@ const LoadingScreen = () => {
       }`}
     >
       <div className="max-w-md w-full px-4 relative z-10">
-        <div className="mb-8 text-2xl font-light text-gradient">
-          <span className="text-5xl font-bold" style={{ 
-            fontFamily: 'serif',
+        <div className="mb-8 text-center">
+          <span className="text-5xl font-bold signature-font" style={{ 
             backgroundImage: 'linear-gradient(to right, #9b87f5, #7e69ab)',
             WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent'
-          }}>SF</span>
+            WebkitTextFillColor: 'transparent',
+            fontFamily: 'Playfair Display, serif',
+            letterSpacing: '1px'
+          }}>𝓢𝓕</span>
         </div>
         
-        <div className="mb-2 text-xl font-light text-space-text/70">
+        <div className="mb-2 text-xl font-light text-space-text/70 text-center">
           {loadingText}
         </div>
         

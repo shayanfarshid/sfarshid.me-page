@@ -17,7 +17,7 @@ const CustomCursor = () => {
                           target.tagName === 'A' ||
                           window.getComputedStyle(target).cursor === 'pointer';
       
-      setIsPointer(Boolean(isClickable));
+      setIsPointer(!!isClickable);
     };
     
     const handleMouseEnter = () => setIsVisible(true);
@@ -71,11 +71,7 @@ const CustomCursor = () => {
               ? 'w-8 h-8 border-purple-400 border-2 bg-purple-400/10' 
               : 'w-6 h-6 border-white/70 border'
           }`}
-        >
-          {isPointer && (
-            <div className="absolute inset-0 bg-purple-400/10 rounded-full"></div>
-          )}
-        </div>
+        />
       </div>
     </>
   );

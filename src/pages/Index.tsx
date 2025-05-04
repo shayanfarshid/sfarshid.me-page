@@ -5,10 +5,7 @@ import CustomCursor from '@/components/CustomCursor';
 import LoadingScreen from '@/components/LoadingScreen';
 import MinimalNavbar from '@/components/MinimalNavbar';
 import Hero from '@/components/Hero';
-import Experience from '@/components/Experience';
-import Projects from '@/components/Projects';
-import Contact from '@/components/Contact';
-import Testimonials from '@/components/Testimonials';
+import BentoFeatures from '@/components/BentoFeatures';
 import Footer from '@/components/Footer';
 
 const Index = () => {
@@ -31,22 +28,16 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-space">
       {!isLoaded && <LoadingScreen />}
       
       <AnimatedBackground />
       <CustomCursor />
       <MinimalNavbar />
       
-      <main className="relative z-10 space-y-20">
+      <main className="relative z-10 space-y-12">
         <Hero />
-        
-        <div className="container mx-auto px-4 max-w-6xl">
-          <Projects />
-          <Experience />
-          <Testimonials />
-          <Contact />
-        </div>
+        <BentoFeatures />
       </main>
       
       <Footer />
