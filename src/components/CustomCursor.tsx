@@ -43,39 +43,8 @@ const CustomCursor = () => {
   // Skip rendering on server
   if (typeof window === 'undefined') return null;
   
-  return (
-    <>
-      <style>
-        {`
-          body {
-            cursor: none;
-          }
-          
-          a, button, [role="button"], [class*="hover\\:"], input, textarea, select, [class*="cursor-"] {
-            cursor: none !important;
-          }
-        `}
-      </style>
-      
-      <div
-        className={`fixed pointer-events-none z-[9999] transition-all duration-200 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
-        style={{
-          left: `${position.x}px`,
-          top: `${position.y}px`,
-          transform: `translate(-50%, -50%) scale(${isPointer ? 1.5 : isClicking ? 0.8 : 1})`,
-          transition: 'transform 0.15s cubic-bezier(0.4, 0.0, 0.2, 1), opacity 0.15s ease'
-        }}
-      >
-        <div 
-          className={`rounded-full transition-all duration-200 ${
-            isPointer 
-              ? 'w-8 h-8 border border-purple-400/70 bg-purple-400/5' 
-              : 'w-6 h-6 border border-white/50 bg-transparent'
-          }`}
-        />
-      </div>
-    </>
-  );
+  // Return null to disable the custom cursor completely
+  return null;
 };
 
 export default CustomCursor;

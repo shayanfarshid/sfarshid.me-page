@@ -21,10 +21,10 @@ const AvailabilityStatus = () => {
     >
       <div className="relative mr-2 flex">
         <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-        {/* Pulse animation */}
-        <div className="absolute inset-0 rounded-full bg-green-500 animate-[pulse_3s_ease-in-out_infinite] opacity-30"></div>
+        {/* Enhanced pulse animation with glow */}
+        <div className="absolute inset-0 rounded-full bg-green-500 animate-[pulse_3s_ease-in-out_infinite] opacity-30 shadow-[0_0_8px_2px_rgba(34,197,94,0.6)]"></div>
       </div>
-      <span className="text-green-300 text-xs font-medium">open to work</span>
+      <span className="text-green-300 text-xs font-medium">Open To Work</span>
     </div>
   );
 };

@@ -29,30 +29,30 @@ const AnimatedBackground = () => {
       canvas.height = window.innerHeight;
     };
     
-    // Initialize particles
+    // Initialize particles with improved depth variation
     const initParticles = () => {
       particlesRef.current = [];
-      const particleCount = 150;
+      const particleCount = 200; // Increased count for better starfield density
       
       for (let i = 0; i < particleCount; i++) {
         particlesRef.current.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          z: Math.random() * 3 + 0.1, // depth (0.1 to 3)
-          size: Math.random() * 2 + 1,
-          color: `rgba(255, 255, 255, ${Math.random() * 0.5 + 0.3})`,
-          speed: Math.random() * 0.2 + 0.1
+          z: Math.random() * 3 + 0.1, // depth (0.1 to 3.1)
+          size: Math.random() * 2.5 + 0.5, // Slightly larger size range
+          color: `rgba(255, 255, 255, ${Math.random() * 0.6 + 0.4})`, // More varied opacity
+          speed: Math.random() * 0.2 + 0.05 // Subtle speed variation
         });
       }
     };
     
-    // Handle mouse movement for subtle parallax
+    // Handle mouse movement for enhanced parallax
     const handleMouseMove = (e: MouseEvent) => {
       mouseRef.current.x = e.clientX;
       mouseRef.current.y = e.clientY;
     };
     
-    // Create a shooting star
+    // Create a more dynamic shooting star
     const createShootingStar = () => {
       if (!canvas) return;
       
@@ -61,11 +61,11 @@ const AnimatedBackground = () => {
       
       const startX = Math.random() * canvas.width;
       const startY = Math.random() * (canvas.height / 3);
-      const length = Math.random() * 100 + 100;
+      const length = Math.random() * 150 + 100; // Longer trail
       const angle = Math.PI / 4 + (Math.random() * Math.PI / 4);
       
       let progress = 0;
-      const speed = 0.01;
+      const speed = 0.008; // Slower for more visible effect
       
       const drawStar = () => {
         ctx.save();
@@ -76,19 +76,20 @@ const AnimatedBackground = () => {
         
         const gradient = ctx.createLinearGradient(
           x, y,
-          x - Math.cos(angle) * 30, y - Math.sin(angle) * 30
+          x - Math.cos(angle) * 50, y - Math.sin(angle) * 50
         );
         
         gradient.addColorStop(0, `rgba(255, 255, 255, ${1 - progress})`);
+        gradient.addColorStop(0.4, `rgba(180, 180, 255, ${0.6 - progress * 0.6})`);
         gradient.addColorStop(1, 'rgba(120, 120, 255, 0)');
         
         ctx.strokeStyle = gradient;
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 2.5; // Thicker line
         ctx.beginPath();
         ctx.moveTo(x, y);
         ctx.lineTo(
-          x - Math.cos(angle) * 30 * (1 - progress),
-          y - Math.sin(angle) * 30 * (1 - progress)
+          x - Math.cos(angle) * 50 * (1 - progress),
+          y - Math.sin(angle) * 50 * (1 - progress)
         );
         ctx.stroke();
         ctx.restore();
@@ -102,44 +103,44 @@ const AnimatedBackground = () => {
       drawStar();
     };
     
-    // Schedule shooting stars
+    // Schedule shooting stars at random intervals
     const scheduleShootingStar = () => {
-      const timeout = Math.random() * 5000 + 5000;
+      const timeout = Math.random() * 4000 + 3000; // 3-7 seconds
       shootingStarTimerRef.current = window.setTimeout(() => {
         createShootingStar();
         scheduleShootingStar();
       }, timeout);
     };
     
-    // Animation loop
+    // Animation loop with enhanced parallax
     const animate = () => {
       if (!canvas || !ctx) return;
       
-      // Create subtle parallax effect based on mouse position
+      // Create enhanced parallax effect based on mouse position
       const mouseX = mouseRef.current.x || canvas.width / 2;
       const mouseY = mouseRef.current.y || canvas.height / 2;
       
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
       
-      const offsetX = (mouseX - centerX) * 0.005;
-      const offsetY = (mouseY - centerY) * 0.005;
+      const offsetX = (mouseX - centerX) * 0.01; // Enhanced parallax
+      const offsetY = (mouseY - centerY) * 0.01;
       
-      // Clear canvas with gradient background
+      // Clear canvas with improved gradient background
       const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      gradient.addColorStop(0, 'rgba(10, 10, 22, 1)');
-      gradient.addColorStop(1, 'rgba(8, 8, 18, 1)');
+      gradient.addColorStop(0, 'rgba(10, 10, 25, 1)');
+      gradient.addColorStop(1, 'rgba(8, 8, 20, 1)');
       
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
-      // Update and draw particles
+      // Update and draw particles with enhanced parallax and depth
       particlesRef.current.forEach(particle => {
-        // Move particles based on z-depth (parallax)
+        // Move particles based on z-depth (improved parallax)
         const parallaxX = offsetX * (4 - particle.z);
         const parallaxY = offsetY * (4 - particle.z);
         
-        particle.y += particle.speed;
+        particle.y += particle.speed / particle.z; // Speed relative to depth
         
         // Wrap around edges
         if (particle.y > canvas.height) {
@@ -162,17 +163,17 @@ const AnimatedBackground = () => {
         ctx.fillStyle = particle.color;
         ctx.fill();
         
-        // Add subtle glow for larger particles
-        if (size > 1.5) {
+        // Add enhanced glow for larger particles
+        if (size > 1.2) {
           ctx.beginPath();
           ctx.arc(
             particle.x + parallaxX, 
             particle.y + parallaxY, 
-            size * 2, 
+            size * 2.5, 
             0, 
             Math.PI * 2
           );
-          ctx.fillStyle = particle.color.replace(')', ', 0.15)');
+          ctx.fillStyle = particle.color.replace(')', ', 0.2)');
           ctx.fill();
         }
       });

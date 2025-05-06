@@ -39,12 +39,22 @@ const BentoFeatures = () => {
     };
   }, []);
 
-  // Testimonials data for carousel
+  // Testimonials data for carousel, now properly sorted
   const testimonials = [
     {
       name: "Prof. Azad",
       position: "Professor at Islamic University of Technology",
       content: "Throughout my career, there were only a handful of students who amazed me with their skills and professionalism; Shayan Farshid was one of them. I am pleased to recommend him, who is an excellent student and a great person."
+    },
+    {
+      name: "Jarin T.",
+      position: "Marketing Strategist",
+      content: "Shayan is an exceptionally talented data professional. His sharp analytical skills, innovative thinking, and unwavering dedication to excellence have consistently impressed me."
+    },
+    {
+      name: "Riaz M.",
+      position: "Communication Specialist",
+      content: "Shayan's strong work ethic and problem-solving skills truly stand out. He consistently goes above and beyond to find innovative solutions to complex data challenges."
     },
     {
       name: "Md. Abtab Karim",
@@ -167,12 +177,14 @@ const BentoFeatures = () => {
             </div>
           </div>
           
-          {/* Testimonials Card */}
+          {/* Testimonials Card with hover effect */}
           <div 
-            className={`glass-morphism rounded-2xl p-6 transition-all duration-300 ${
+            className={`glass-morphism rounded-2xl p-6 transition-all duration-300 hover:shadow-lg hover:shadow-purple-900/10 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
             }`}
             style={{ transitionDelay: '200ms' }}
+            onMouseEnter={() => setActiveCard('testimonials')}
+            onMouseLeave={() => setActiveCard(null)}
           >
             <div className="h-full flex flex-col">
               <div className="flex items-center justify-between mb-4">
@@ -211,6 +223,12 @@ const BentoFeatures = () => {
                     </div>
                   </div>
                 ))}
+              </div>
+              
+              <div className={`mt-auto pt-4 flex justify-end transition-opacity duration-300 ${
+                activeCard === 'testimonials' ? 'opacity-100' : 'opacity-0'
+              }`}>
+                <ArrowRight size={18} className="text-purple-400" />
               </div>
             </div>
           </div>
@@ -267,12 +285,14 @@ const BentoFeatures = () => {
             </div>
           </div>
           
-          {/* Certifications */}
+          {/* Certifications with hover effect */}
           <div 
-            className={`glass-morphism rounded-2xl p-6 transition-all duration-300 ${
+            className={`glass-morphism rounded-2xl p-6 transition-all duration-300 hover:shadow-lg hover:shadow-purple-900/10 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
             }`}
             style={{ transitionDelay: '400ms' }}
+            onMouseEnter={() => setActiveCard('certifications')}
+            onMouseLeave={() => setActiveCard(null)}
           >
             <div className="h-full flex flex-col">
               <div className="flex items-center mb-4">
@@ -284,12 +304,18 @@ const BentoFeatures = () => {
               
               <div className="space-y-4">
                 {certifications.map((cert) => (
-                  <div key={cert.title} className="border-b border-white/10 pb-3 last:border-0">
+                  <div key={cert.title} className="border-b border-white/10 pb-3 last:border-0 transition-all duration-300 hover:bg-white/5 hover:border-purple-400/30 rounded-md p-2 -mx-2">
                     <p className="font-medium text-sm">{cert.title}</p>
                     <p className="text-xs text-white/70">{cert.organization}</p>
                     <p className="text-xs text-white/60 mt-1">{cert.date}</p>
                   </div>
                 ))}
+              </div>
+              
+              <div className={`mt-auto pt-4 flex justify-end transition-opacity duration-300 ${
+                activeCard === 'certifications' ? 'opacity-100' : 'opacity-0'
+              }`}>
+                <ArrowRight size={18} className="text-purple-400" />
               </div>
             </div>
           </div>

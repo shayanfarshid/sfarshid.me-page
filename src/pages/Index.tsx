@@ -1,7 +1,6 @@
 
 import { useEffect, useState } from 'react';
 import AnimatedBackground from '@/components/AnimatedBackground';
-import CustomCursor from '@/components/CustomCursor';
 import LoadingScreen from '@/components/LoadingScreen';
 import MinimalNavbar from '@/components/MinimalNavbar';
 import Hero from '@/components/Hero';
@@ -58,7 +57,6 @@ const Index = () => {
       {!isLoaded && <LoadingScreen />}
       
       <AnimatedBackground />
-      <CustomCursor />
       <MinimalNavbar />
       
       <main className="relative z-10 space-y-12">
