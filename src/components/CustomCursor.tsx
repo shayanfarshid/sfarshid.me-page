@@ -45,15 +45,17 @@ const CustomCursor = () => {
   
   return (
     <>
-      <style jsx="true">{`
-        body {
-          cursor: none;
-        }
-        
-        a, button, [role="button"], [class*="hover\\:"], input, textarea, select, [class*="cursor-"] {
-          cursor: none !important;
-        }
-      `}</style>
+      <style>
+        {`
+          body {
+            cursor: none;
+          }
+          
+          a, button, [role="button"], [class*="hover\\:"], input, textarea, select, [class*="cursor-"] {
+            cursor: none !important;
+          }
+        `}
+      </style>
       
       <div
         className={`fixed pointer-events-none z-[9999] transition-all duration-200 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
