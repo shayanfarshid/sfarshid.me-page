@@ -1,10 +1,13 @@
 
 import { useEffect, useState, useRef } from 'react';
 
-const LoadingScreen = () => {
+interface LoadingScreenProps {
+  isTransitioning?: boolean;
+}
+
+const LoadingScreen = ({ isTransitioning = false }: LoadingScreenProps) => {
   const [progress, setProgress] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
-  const [isHidden, setIsHidden] = useState(false);
   const [loadingText, setLoadingText] = useState('Initializing neural pathways...');
   
   const loadingTexts = [
@@ -39,15 +42,10 @@ const LoadingScreen = () => {
       });
     }, 120);
     
-    // Handle completion and hiding with improved transition
+    // Handle completion
     const completeTimeout = setTimeout(() => {
       setProgress(100);
       setIsComplete(true);
-      
-      // Add delay before hiding with a smoother transition
-      setTimeout(() => {
-        setIsHidden(true);
-      }, 1000);
     }, 3000);
     
     return () => {
@@ -56,12 +54,10 @@ const LoadingScreen = () => {
     };
   }, []);
   
-  if (isHidden) return null;
-  
   return (
     <div 
-      className={`fixed inset-0 z-[100] bg-space flex flex-col items-center justify-center transition-opacity duration-1000 ${
-        isComplete ? 'opacity-0' : 'opacity-100'
+      className={`fixed inset-0 z-[100] bg-space flex flex-col items-center justify-center transition-all duration-1000 ${
+        isTransitioning ? 'opacity-0' : 'opacity-100'
       }`}
     >
       <div className="max-w-md w-full px-4 relative z-10">

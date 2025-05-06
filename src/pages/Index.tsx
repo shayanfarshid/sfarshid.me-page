@@ -9,6 +9,7 @@ import Footer from '@/components/Footer';
 
 const Index = () => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   
   // Change page title and description
   useEffect(() => {
@@ -18,12 +19,19 @@ const Index = () => {
       metaDescription.setAttribute('content', 'Shayan Farshid - Transforming raw data into actionable business insights through advanced analytics, data visualization, and machine learning.');
     }
     
-    // Simulate page loading
-    const timer = setTimeout(() => {
-      setIsLoaded(true);
+    // Simulate page loading with smooth transition
+    const loadTimer = setTimeout(() => {
+      setIsTransitioning(true);
+      
+      // Add a small delay before fully removing the loading screen
+      const transitionTimer = setTimeout(() => {
+        setIsLoaded(true);
+      }, 1000);
+      
+      return () => clearTimeout(transitionTimer);
     }, 3500);
     
-    return () => clearTimeout(timer);
+    return () => clearTimeout(loadTimer);
   }, []);
 
   // Add custom CSS for social icon hover effects
@@ -54,12 +62,17 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-space">
-      {!isLoaded && <LoadingScreen />}
+      {/* Loading screen with transition */}
+      {!isLoaded && (
+        <LoadingScreen 
+          isTransitioning={isTransitioning} 
+        />
+      )}
       
       <AnimatedBackground />
       <MinimalNavbar />
       
-      <main className="relative z-10 space-y-8">
+      <main className="relative z-10 space-y-6">
         <Hero />
         <BentoFeatures />
       </main>
