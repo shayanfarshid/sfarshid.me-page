@@ -15,16 +15,16 @@ const AvailabilityStatus = () => {
   
   return (
     <div 
-      className={`inline-flex items-center transition-all duration-500 px-3 py-1.5 rounded-full border border-green-500/30 bg-green-500/10 ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+      className={`inline-flex items-center transition-all duration-500 px-2.5 py-1 rounded-full border border-green-500/20 bg-green-500/10 opacity-75 hover:opacity-100 ${
+        isVisible ? 'opacity-75 translate-y-0' : 'opacity-0 translate-y-4'
       }`}
     >
       <div className="relative mr-2 flex">
-        <div className="w-2.5 h-2.5 bg-green-500 rounded-full"></div>
+        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
         {/* Pulse animation */}
-        <div className="absolute inset-0 rounded-full bg-green-500 animate-ping opacity-30"></div>
+        <div className="absolute inset-0 rounded-full bg-green-500 animate-[pulse_3s_ease-in-out_infinite] opacity-30"></div>
       </div>
-      <span className="text-green-300 text-sm font-medium">open to work</span>
+      <span className="text-green-300 text-xs font-medium">open to work</span>
     </div>
   );
 };

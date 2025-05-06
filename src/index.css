@@ -171,4 +171,19 @@
   .hover-scale:hover {
     transform: scale(1.03);
   }
+  
+  /* Social icon animations */
+  @keyframes glow-pulse {
+    0% { box-shadow: 0 0 5px rgba(111, 76, 255, 0.3); }
+    50% { box-shadow: 0 0 15px rgba(111, 76, 255, 0.5); }
+    100% { box-shadow: 0 0 5px rgba(111, 76, 255, 0.3); }
+  }
+  
+  .social-icon {
+    @apply relative rounded-full p-2;
+  }
+  
+  .social-icon:hover {
+    animation: glow-pulse 1.5s ease-in-out;
+  }
 }

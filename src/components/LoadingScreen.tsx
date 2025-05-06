@@ -66,16 +66,16 @@ const LoadingScreen = () => {
     >
       <div className="max-w-md w-full px-4 relative z-10">
         <div className="mb-8 text-center">
-          <span className="text-5xl font-bold signature-font" style={{ 
-            backgroundImage: 'linear-gradient(to right, #9b87f5, #7e69ab)',
+          <span className="text-6xl font-bold" style={{ 
+            fontFamily: "'Playfair Display', serif",
+            letterSpacing: "2px",
+            backgroundImage: 'linear-gradient(135deg, #fff 10%, #9b87f5 50%, #6E59A5 90%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
-            fontFamily: 'Playfair Display, serif',
-            letterSpacing: '1px'
-          }}>𝓢𝓕</span>
+          }}>SF</span>
         </div>
         
-        <div className="mb-2 text-xl font-light text-space-text/70 text-center">
+        <div className="mb-2 text-xl font-light text-space-text/70 text-center font-mono">
           {loadingText}
         </div>
         
@@ -91,13 +91,8 @@ const LoadingScreen = () => {
         </div>
       </div>
       
-      {/* Decorative elements */}
-      <div className="absolute inset-0 flex items-center justify-center opacity-10">
-        <div className="w-[40vw] h-[40vw] border border-purple-300/10 rounded-full animate-ping"></div>
-      </div>
-      
-      {/* Additional decorative elements */}
-      {Array.from({ length: 6 }).map((_, i) => (
+      {/* Decorative particles */}
+      {Array.from({ length: 20 }).map((_, i) => (
         <div 
           key={i} 
           className="absolute bg-purple-400/20 rounded-full animate-pulse"

@@ -4,38 +4,59 @@ import AnimatedBackground from '@/components/AnimatedBackground';
 import CustomCursor from '@/components/CustomCursor';
 import { Briefcase, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import MinimalNavbar from '@/components/MinimalNavbar';
+import Footer from '@/components/Footer';
 
 interface ExperienceItem {
   company: string;
   position: string;
+  duration: string;
+  description: string;
   skills: string[];
-  highlight: string;
 }
 
 const Experience = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   
-  // Experience data
+  // Experience data based on the screenshot
   const experiences: ExperienceItem[] = [
+    {
+      company: 'SDSU Research Foundation',
+      position: 'Graduate Research Fellow',
+      duration: 'Apr 2025 - Present',
+      description: 'Working on the P2PH-Empower project, targeting and promoting interest among URM communities to inspire their enrollment in Public Health programs.',
+      skills: ['Research', 'Data Analysis', 'Community Engagement']
+    },
     {
       company: 'MedSer',
       position: 'Clinical Operations Analyst',
-      skills: ['Data Analysis', 'Trend Analysis', 'Market Research'],
-      highlight: 'Drove strategic enhancements with robust analytical frameworks, expanding customer base by 15%.'
+      duration: 'Sep 2024 - Mar 2026',
+      description: 'Drove strategic enhancements within clinical operations by establishing robust analytical frameworks and leveraging market intelligence for precise high-value clinic identification. Implemented a comprehensive lead-tracking system that achieved substantial growth in qualified lead generation, resulting in a 15% expansion of the customer base and optimized conversion funnels.',
+      skills: ['Data Analysis', 'Trend Analysis', 'Healthcare Analytics', 'Tableau']
     },
     {
       company: 'ExPrep',
-      position: 'Business Analyst',
-      skills: ['Agile Methodologies', 'SQL', 'Power BI'],
-      highlight: 'Optimized SQL query times by 20% and implemented performance visualization dashboards.'
+      position: 'Project Manager',
+      duration: 'Sep 2023 - Jun 2024',
+      description: 'Enhanced system performance by optimizing SQL queries on Microsoft Azure, resulting in a 20% reduction in query response times and improved operational effectiveness. Achieved 10% user base growth by onboarding instructors and introducing PSS (Professor Satisfaction Score). Implemented Salesforce and Microsoft Power BI dashboards to visualize student performance metrics.',
+      skills: ['SQL', 'Azure', 'Salesforce', 'Power BI']
     },
     {
       company: 'Siemens Healthineers',
       position: 'Business Analyst',
-      skills: ['Process Optimization', 'EDA', 'Support Systems'],
-      highlight: 'Maintained 95% error-free service rate and reduced customs clearance time by 20%.'
+      duration: 'Jan 2023 - Mar 2023',
+      description: 'Coordinated import and export operations to maintain an industry-standard 95% error-free service rate, achieving a 20% reduction in customs clearance time. Conducted Exploratory Data Analysis of company database, extracting key insights that enhanced decision-making accuracy by 15%. Implemented a refined support ticket system utilizing technology management skills, significantly improving client satisfaction.',
+      skills: ['Process Optimization', 'EDA', 'Business Intelligence', 'Data Analysis']
     }
   ];
+
+  // Education data
+  const education = {
+    degree: "Master's in Business Analytics",
+    institution: "University of California, Davis",
+    date: "June 2024",
+    courses: ["Data Management", "Data Visualization", "Machine Learning", "Big Data", "Operations"]
+  };
 
   useEffect(() => {
     // Change page title and description
@@ -80,13 +101,17 @@ const Experience = () => {
               }`}
               style={{ transitionDelay: `${index * 100}ms` }}
             >
-              <div className="md:flex items-start justify-between">
+              <div className="md:flex items-start justify-between mb-4">
                 <div>
                   <h2 className="text-2xl font-bold text-purple-300 mb-2">{exp.position}</h2>
                   <h3 className="text-xl text-white/80 mb-4">{exp.company}</h3>
-                  <p className="text-white/70 mb-4">{exp.highlight}</p>
+                </div>
+                <div className="text-right text-white/60 text-sm md:mt-0 mt-2">
+                  {exp.duration}
                 </div>
               </div>
+              
+              <p className="text-white/70 mb-4">{exp.description}</p>
               
               <div className="flex flex-wrap gap-2 mt-4">
                 {exp.skills.map((skill) => (
@@ -100,8 +125,67 @@ const Experience = () => {
               </div>
             </div>
           ))}
+          
+          {/* Education Section */}
+          <div
+            className={`glass-morphism rounded-3xl p-8 transition-all duration-500 ${
+              isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}
+            style={{ transitionDelay: `${experiences.length * 100}ms` }}
+          >
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-gradient-purple mb-8">Education</h2>
+              
+              <div className="mb-4">
+                <h3 className="text-xl font-bold text-purple-300 mb-1">{education.degree}</h3>
+                <div className="flex justify-between items-start">
+                  <h4 className="text-lg text-white/80">{education.institution}</h4>
+                  <span className="text-white/60 text-sm">{education.date}</span>
+                </div>
+                
+                <div className="mt-4">
+                  <p className="text-white/70 mb-2">Coursework:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {education.courses.map(course => (
+                      <span key={course} className="bg-purple-900/20 text-purple-300 px-2 py-1 rounded-full text-xs">
+                        {course}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Certifications Section */}
+            <div>
+              <h2 className="text-2xl font-bold text-gradient-purple mb-6">Certifications</h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="glass-morphism bg-opacity-30 p-5 rounded-xl">
+                  <h3 className="text-base font-medium text-purple-300 mb-1">Lean Six Sigma Green Belt</h3>
+                  <p className="text-sm text-white/70">University of California, Davis</p>
+                  <p className="text-xs text-white/50 mt-2">Dec 2024</p>
+                </div>
+                
+                <div className="glass-morphism bg-opacity-30 p-5 rounded-xl">
+                  <h3 className="text-base font-medium text-purple-300 mb-1">Associate Certified Analytics Professional</h3>
+                  <p className="text-sm text-white/70">INFORMS</p>
+                  <p className="text-xs text-white/50 mt-2">Jun 2024</p>
+                </div>
+                
+                <div className="glass-morphism bg-opacity-30 p-5 rounded-xl">
+                  <h3 className="text-base font-medium text-purple-300 mb-1">Certified Supply Chain Analyst</h3>
+                  <p className="text-sm text-white/70">ISCEA</p>
+                  <p className="text-xs text-white/50 mt-2">Dec 2021</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+      
+      <MinimalNavbar />
+      <Footer />
     </div>
   );
 };

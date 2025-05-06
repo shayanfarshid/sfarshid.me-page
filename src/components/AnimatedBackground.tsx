@@ -4,19 +4,17 @@ import { useEffect, useRef } from 'react';
 interface Particle {
   x: number;
   y: number;
+  z: number;
   size: number;
-  speedX: number;
-  speedY: number;
-  opacity: number;
-  hue: number;
-  pulse: number;
-  pulseSpeed: number;
+  color: string;
+  speed: number;
 }
 
 const AnimatedBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
-  const mouseRef = useRef({ x: 0, y: 0, radius: 100 });
+  const mouseRef = useRef({ x: 0, y: 0 });
+  const shootingStarTimerRef = useRef<number | null>(null);
   
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -34,32 +32,100 @@ const AnimatedBackground = () => {
     // Initialize particles
     const initParticles = () => {
       particlesRef.current = [];
-      const particleCount = Math.floor(window.innerWidth * window.innerHeight / 15000);
+      const particleCount = 150;
       
       for (let i = 0; i < particleCount; i++) {
         particlesRef.current.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          size: Math.random() * 2 + 0.5,
-          speedX: (Math.random() - 0.5) * 0.3,
-          speedY: (Math.random() - 0.5) * 0.3,
-          opacity: Math.random() * 0.5 + 0.2,
-          hue: Math.random() * 60 + 240, // Blue to purple range
-          pulse: 0,
-          pulseSpeed: Math.random() * 0.02 + 0.01
+          z: Math.random() * 3 + 0.1, // depth (0.1 to 3)
+          size: Math.random() * 2 + 1,
+          color: `rgba(255, 255, 255, ${Math.random() * 0.5 + 0.3})`,
+          speed: Math.random() * 0.2 + 0.1
         });
       }
     };
     
-    // Handle mouse movement
+    // Handle mouse movement for subtle parallax
     const handleMouseMove = (e: MouseEvent) => {
-      mouseRef.current.x = e.x;
-      mouseRef.current.y = e.y;
+      mouseRef.current.x = e.clientX;
+      mouseRef.current.y = e.clientY;
+    };
+    
+    // Create a shooting star
+    const createShootingStar = () => {
+      if (!canvas) return;
+      
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      
+      const startX = Math.random() * canvas.width;
+      const startY = Math.random() * (canvas.height / 3);
+      const length = Math.random() * 100 + 100;
+      const angle = Math.PI / 4 + (Math.random() * Math.PI / 4);
+      
+      let progress = 0;
+      const speed = 0.01;
+      
+      const drawStar = () => {
+        ctx.save();
+        ctx.globalCompositeOperation = 'lighter';
+        
+        const x = startX + Math.cos(angle) * length * progress;
+        const y = startY + Math.sin(angle) * length * progress;
+        
+        const gradient = ctx.createLinearGradient(
+          x, y,
+          x - Math.cos(angle) * 30, y - Math.sin(angle) * 30
+        );
+        
+        gradient.addColorStop(0, `rgba(255, 255, 255, ${1 - progress})`);
+        gradient.addColorStop(1, 'rgba(120, 120, 255, 0)');
+        
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(
+          x - Math.cos(angle) * 30 * (1 - progress),
+          y - Math.sin(angle) * 30 * (1 - progress)
+        );
+        ctx.stroke();
+        ctx.restore();
+        
+        progress += speed;
+        if (progress < 1) {
+          requestAnimationFrame(drawStar);
+        }
+      };
+      
+      drawStar();
+    };
+    
+    // Schedule shooting stars
+    const scheduleShootingStar = () => {
+      const timeout = Math.random() * 5000 + 5000;
+      shootingStarTimerRef.current = window.setTimeout(() => {
+        createShootingStar();
+        scheduleShootingStar();
+      }, timeout);
     };
     
     // Animation loop
     const animate = () => {
-      // Create gradient background
+      if (!canvas || !ctx) return;
+      
+      // Create subtle parallax effect based on mouse position
+      const mouseX = mouseRef.current.x || canvas.width / 2;
+      const mouseY = mouseRef.current.y || canvas.height / 2;
+      
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      
+      const offsetX = (mouseX - centerX) * 0.005;
+      const offsetY = (mouseY - centerY) * 0.005;
+      
+      // Clear canvas with gradient background
       const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
       gradient.addColorStop(0, 'rgba(10, 10, 22, 1)');
       gradient.addColorStop(1, 'rgba(8, 8, 18, 1)');
@@ -69,55 +135,46 @@ const AnimatedBackground = () => {
       
       // Update and draw particles
       particlesRef.current.forEach(particle => {
-        // Update position
-        particle.x += particle.speedX;
-        particle.y += particle.speedY;
+        // Move particles based on z-depth (parallax)
+        const parallaxX = offsetX * (4 - particle.z);
+        const parallaxY = offsetY * (4 - particle.z);
+        
+        particle.y += particle.speed;
         
         // Wrap around edges
-        if (particle.x < 0) particle.x = canvas.width;
-        if (particle.x > canvas.width) particle.x = 0;
-        if (particle.y < 0) particle.y = canvas.height;
-        if (particle.y > canvas.height) particle.y = 0;
-        
-        // Pulse effect
-        particle.pulse += particle.pulseSpeed;
-        if (particle.pulse > Math.PI * 2) {
-          particle.pulse = 0;
+        if (particle.y > canvas.height) {
+          particle.y = 0;
+          particle.x = Math.random() * canvas.width;
         }
         
-        // Calculate distance to mouse for interactive effect
-        const dx = particle.x - mouseRef.current.x;
-        const dy = particle.y - mouseRef.current.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        
-        let size = particle.size;
-        let opacity = particle.opacity;
-        
-        // Add pulsing effect
-        size += Math.sin(particle.pulse) * 0.5;
-        opacity += Math.sin(particle.pulse) * 0.1;
-        
-        // Interactive effect when near mouse
-        if (distance < mouseRef.current.radius) {
-          const influence = (mouseRef.current.radius - distance) / mouseRef.current.radius;
-          size *= (1 + influence * 0.5);
-          opacity *= (1 + influence * 0.3);
-        }
+        // Size based on z-depth
+        const size = particle.size / particle.z;
         
         // Draw particle
         ctx.beginPath();
-        ctx.arc(particle.x, particle.y, size, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${particle.hue}, 70%, 70%, ${opacity})`;
+        ctx.arc(
+          particle.x + parallaxX, 
+          particle.y + parallaxY, 
+          size, 
+          0, 
+          Math.PI * 2
+        );
+        ctx.fillStyle = particle.color;
         ctx.fill();
         
         // Add subtle glow for larger particles
-        if (size > 1.2) {
+        if (size > 1.5) {
           ctx.beginPath();
-          ctx.arc(particle.x, particle.y, size * 2, 0, Math.PI * 2);
-          ctx.fillStyle = `hsla(${particle.hue}, 70%, 70%, ${opacity * 0.15})`;
+          ctx.arc(
+            particle.x + parallaxX, 
+            particle.y + parallaxY, 
+            size * 2, 
+            0, 
+            Math.PI * 2
+          );
+          ctx.fillStyle = particle.color.replace(')', ', 0.15)');
           ctx.fill();
         }
-        ctx.closePath();
       });
       
       requestAnimationFrame(animate);
@@ -129,10 +186,14 @@ const AnimatedBackground = () => {
     resizeCanvas();
     initParticles();
     animate();
+    scheduleShootingStar();
     
     return () => {
       window.removeEventListener('resize', resizeCanvas);
       window.removeEventListener('mousemove', handleMouseMove);
+      if (shootingStarTimerRef.current) {
+        clearTimeout(shootingStarTimerRef.current);
+      }
     };
   }, []);
   

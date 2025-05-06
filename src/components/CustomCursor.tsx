@@ -40,24 +40,23 @@ const CustomCursor = () => {
     };
   }, []);
   
+  // Skip rendering on server
   if (typeof window === 'undefined') return null;
   
   return (
     <>
-      <style>
-        {`
-          body {
-            cursor: none;
-          }
-          
-          a, button, [role="button"], [class*="hover\\:"], [class*="cursor-"] {
-            cursor: none !important;
-          }
-        `}
-      </style>
+      <style jsx="true">{`
+        body {
+          cursor: none;
+        }
+        
+        a, button, [role="button"], [class*="hover\\:"], input, textarea, select, [class*="cursor-"] {
+          cursor: none !important;
+        }
+      `}</style>
       
       <div
-        className={`fixed pointer-events-none z-[9999] transition-transform duration-200 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+        className={`fixed pointer-events-none z-[9999] transition-all duration-200 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
         style={{
           left: `${position.x}px`,
           top: `${position.y}px`,
@@ -68,8 +67,8 @@ const CustomCursor = () => {
         <div 
           className={`rounded-full transition-all duration-200 ${
             isPointer 
-              ? 'w-8 h-8 border-purple-400 border-2 bg-purple-400/10' 
-              : 'w-6 h-6 border-white/70 border'
+              ? 'w-8 h-8 border border-purple-400/70 bg-purple-400/5' 
+              : 'w-6 h-6 border border-white/50 bg-transparent'
           }`}
         />
       </div>

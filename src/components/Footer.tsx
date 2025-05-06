@@ -8,7 +8,6 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="flex flex-col mb-6 md:mb-0">
             <p className="text-gradient font-mono text-lg">Shayan Farshid</p>
-            <p className="text-muted-foreground mt-1">Data Analytics & BizOps Professional</p>
           </div>
           
           <div className="flex space-x-6">
@@ -16,7 +15,7 @@ const Footer = () => {
               href="https://github.com/shayanfarshid" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-space-text hover:text-purple-300 transition-colors"
+              className="text-space-text hover:text-purple-300 transition-colors social-icon"
               aria-label="GitHub"
             >
               <Github size={20} />
@@ -25,14 +24,14 @@ const Footer = () => {
               href="https://linkedin.com/in/sfarshid" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-space-text hover:text-purple-300 transition-colors"
+              className="text-space-text hover:text-purple-300 transition-colors social-icon"
               aria-label="LinkedIn"
             >
               <Linkedin size={20} />
             </a>
             <a 
               href="mailto:shayanfarshid48@gmail.com" 
-              className="text-space-text hover:text-purple-300 transition-colors"
+              className="text-space-text hover:text-purple-300 transition-colors social-icon"
               aria-label="Email"
             >
               <Mail size={20} />
