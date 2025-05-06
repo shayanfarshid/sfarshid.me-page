@@ -19,10 +19,12 @@ const AvailabilityStatus = () => {
         isVisible ? 'opacity-75 translate-y-0' : 'opacity-0 translate-y-4'
       }`}
     >
-      <div className="relative mr-2 flex">
-        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-        {/* Enhanced pulse animation with glow */}
-        <div className="absolute inset-0 rounded-full bg-green-500 animate-[pulse_3s_ease-in-out_infinite] opacity-30 shadow-[0_0_8px_2px_rgba(34,197,94,0.6)]"></div>
+      <div className="relative mr-2 flex h-2 w-2">
+        {/* Enhanced glowing dot with stronger pulse effect */}
+        <div className="absolute inset-0 rounded-full bg-green-500 animate-[pulse_3s_ease-in-out_infinite] opacity-100"></div>
+        {/* Stronger glow effect with two layers */}
+        <div className="absolute inset-[-4px] rounded-full bg-green-500 animate-[pulse_3s_ease-in-out_infinite] opacity-40 blur-[2px]"></div>
+        <div className="absolute inset-[-8px] rounded-full bg-green-500 animate-[pulse_3s_ease-in-out_infinite] opacity-20 blur-[4px]"></div>
       </div>
       <span className="text-green-300 text-xs font-medium">Open To Work</span>
     </div>

@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import CustomCursor from '@/components/CustomCursor';
@@ -30,7 +29,7 @@ const Experience = () => {
     {
       company: 'MedSer',
       position: 'Clinical Operations Analyst',
-      duration: 'Sep 2024 - Mar 2026',
+      duration: 'Sep 2024 - Mar 2025',
       description: 'Drove strategic enhancements within clinical operations by establishing robust analytical frameworks and leveraging market intelligence for precise high-value clinic identification. Implemented a comprehensive lead-tracking system that achieved substantial growth in qualified lead generation, resulting in a 15% expansion of the customer base and optimized conversion funnels.',
       skills: ['Data Analysis', 'Trend Analysis', 'Healthcare Analytics', 'Tableau']
     },
@@ -38,14 +37,14 @@ const Experience = () => {
       company: 'ExPrep',
       position: 'Project Manager',
       duration: 'Sep 2023 - Jun 2024',
-      description: 'Enhanced system performance by optimizing SQL queries on Microsoft Azure, resulting in a 20% reduction in query response times and improved operational effectiveness. Achieved 10% user base growth by onboarding instructors and introducing PSS (Professor Satisfaction Score). Implemented Salesforce and Microsoft Power BI dashboards to visualize student performance metrics.',
+      description: 'Led improvements in system efficiency by refining SQL queries on Microsoft Azure, which boosted operational performance and reduced query times. Supported user growth by onboarding instructors and launching the Professor Satisfaction Score (PSS). Built dashboards in Power BI to give clear visibility into student performance.',
       skills: ['SQL', 'Azure', 'Salesforce', 'Power BI']
     },
     {
       company: 'Siemens Healthineers',
       position: 'Business Analyst',
       duration: 'Jan 2023 - Mar 2023',
-      description: 'Coordinated import and export operations to maintain an industry-standard 95% error-free service rate, achieving a 20% reduction in customs clearance time. Conducted Exploratory Data Analysis of company database, extracting key insights that enhanced decision-making accuracy by 15%. Implemented a refined support ticket system utilizing technology management skills, significantly improving client satisfaction.',
+      description: 'Coordinated import/export workflows to maintain a 95% error-free rate and cut customs delays. Used data analysis to highlight trends that improved decision-making accuracy, and enhanced the support ticket system with new technology solutions, leading to higher client satisfaction.',
       skills: ['Process Optimization', 'EDA', 'Business Intelligence', 'Data Analysis']
     }
   ];

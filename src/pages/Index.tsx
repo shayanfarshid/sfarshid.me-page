@@ -59,7 +59,7 @@ const Index = () => {
       <AnimatedBackground />
       <MinimalNavbar />
       
-      <main className="relative z-10 space-y-12">
+      <main className="relative z-10 space-y-8">
         <Hero />
         <BentoFeatures />
       </main>

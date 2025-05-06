@@ -39,15 +39,15 @@ const LoadingScreen = () => {
       });
     }, 120);
     
-    // Handle completion and hiding
+    // Handle completion and hiding with improved transition
     const completeTimeout = setTimeout(() => {
       setProgress(100);
       setIsComplete(true);
       
-      // Add delay before hiding
+      // Add delay before hiding with a smoother transition
       setTimeout(() => {
         setIsHidden(true);
-      }, 800);
+      }, 1000);
     }, 3000);
     
     return () => {
@@ -60,7 +60,7 @@ const LoadingScreen = () => {
   
   return (
     <div 
-      className={`fixed inset-0 z-[100] bg-space flex flex-col items-center justify-center transition-opacity duration-500 ${
+      className={`fixed inset-0 z-[100] bg-space flex flex-col items-center justify-center transition-opacity duration-1000 ${
         isComplete ? 'opacity-0' : 'opacity-100'
       }`}
     >
