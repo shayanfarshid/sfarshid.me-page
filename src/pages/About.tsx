@@ -1,10 +1,10 @@
 
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Background from '@/components/Background';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import AboutComponent from '@/components/About';
+import AnimatedBackground from '@/components/AnimatedBackground';
 
 const AboutPage = () => {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ const AboutPage = () => {
   
   return (
     <div className="min-h-screen">
-      <Background />
+      <AnimatedBackground />
       <Navbar />
       
       <main className="relative z-10 pt-24">

@@ -38,7 +38,7 @@ const Index = () => {
   
   return (
     <div className="min-h-screen relative">
-      {/* AnimatedBackground with higher z-index but still behind content */}
+      {/* AnimatedBackground with z-index adjusted to be behind content */}
       <AnimatedBackground />
       
       {!isLoaded && (

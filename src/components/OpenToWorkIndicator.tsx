@@ -17,18 +17,7 @@ const OpenToWorkIndicator = () => {
   return (
     <div className="fixed top-6 right-6 z-50 flex items-center space-x-2 animate-fade-in">
       <span className="text-xs text-purple-200">OPEN TO WORK</span>
-      <div className="relative flex items-center">
-        <div className="h-2.5 w-2.5 bg-green-500 rounded-full"></div>
-        {/* Minimal glow with just one layer */}
-        <div
-          className="absolute inset-0 rounded-full animate-pulse"
-          style={{
-            backgroundColor: 'transparent',
-            boxShadow: '0 0 4px 0px rgba(74, 222, 128, 0.4)',
-            animation: 'pulse 2s ease-in-out infinite'
-          }}
-        ></div>
-      </div>
+      <div className="h-2.5 w-2.5 bg-green-500 rounded-full animate-pulse"></div>
     </div>
   );
 };

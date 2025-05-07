@@ -32,31 +32,38 @@ const AnimatedBackground = () => {
       console.log("AnimatedBackground: Canvas sized to", canvas.width, "x", canvas.height);
     };
     
-    // Stars array
+    // Stars array with additional properties for twinkling and fading
     const stars: Array<{
       x: number;
       y: number;
       size: number;
       opacity: number;
+      maxOpacity: number;
       twinkleSpeed: number;
       twinklePhase: number;
       speed: number;
+      fadeState: 'in' | 'out' | 'stable';
+      fadeSpeed: number;
     }> = [];
     
-    // Create stars with HIGHER OPACITY for visibility
+    // Create stars with proper properties
     const createStars = () => {
       stars.length = 0; // Clear existing stars
       const density = Math.max(200, Math.min(300, (window.innerWidth * window.innerHeight) / 10000));
       
       for (let i = 0; i < density; i++) {
+        const maxOpacity = Math.random() * 0.4 + 0.3; // 0.3-0.7 max opacity
         stars.push({
           x: Math.random() * window.innerWidth,
           y: Math.random() * window.innerHeight,
-          size: Math.random() * 2 + 1, // 1-3px stars
-          opacity: Math.random() * 0.3 + 0.6, // HIGHER BASE OPACITY (0.6-0.9)
-          twinkleSpeed: Math.random() * 0.01 + 0.005,
+          size: Math.random() * 1.2 + 0.5, // Smaller stars: 0.5-1.7px
+          opacity: Math.random() * maxOpacity, // Start with random opacity
+          maxOpacity: maxOpacity,
+          twinkleSpeed: Math.random() * 0.01 + 0.003,
           twinklePhase: Math.random() * Math.PI * 2,
-          speed: 0.05 / (Math.random() * 3 + 1) // Very slight movement
+          speed: 0.03 / (Math.random() * 3 + 1), // Very slight movement
+          fadeState: Math.random() > 0.5 ? 'in' : 'out', // Randomly start fading in or out
+          fadeSpeed: Math.random() * 0.002 + 0.001 // Very slow fade speed
         });
       }
       
@@ -71,7 +78,7 @@ const AnimatedBackground = () => {
       const now = Date.now();
       if (now - lastShootingStarTime < 3000) return; // Minimum 3 seconds
       
-      const shouldCreate = Math.random() < 0.3; // INCREASED probability (30%)
+      const shouldCreate = Math.random() < 0.3; // 30% probability
       if (!shouldCreate) return;
       
       lastShootingStarTime = now;
@@ -109,7 +116,7 @@ const AnimatedBackground = () => {
         gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
         
         ctx.strokeStyle = gradient;
-        ctx.lineWidth = 2.5; // THICKER line for visibility
+        ctx.lineWidth = 1.5; // Thinner line for better visuals
         ctx.lineCap = 'round';
         
         ctx.moveTo(tailX, tailY);
@@ -119,12 +126,12 @@ const AnimatedBackground = () => {
         );
         ctx.stroke();
         
-        // Add glow effect
-        ctx.shadowBlur = 15;
-        ctx.shadowColor = 'rgba(255, 255, 255, 0.8)';
+        // Add small glow effect
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = 'rgba(255, 255, 255, 0.6)';
         ctx.beginPath();
-        ctx.arc(tailX, tailY, 2, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+        ctx.arc(tailX, tailY, 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
         ctx.fill();
         ctx.restore();
         
@@ -152,7 +159,7 @@ const AnimatedBackground = () => {
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Draw stars with twinkling effect
+      // Draw stars with twinkling and fading effect
       stars.forEach(star => {
         // Very slight movement
         star.x += star.speed;
@@ -160,34 +167,44 @@ const AnimatedBackground = () => {
           star.x = 0;
         }
         
-        // Twinkling effect
+        // Handle fade in/out state
+        if (star.fadeState === 'in') {
+          star.opacity += star.fadeSpeed;
+          if (star.opacity >= star.maxOpacity) {
+            star.opacity = star.maxOpacity;
+            star.fadeState = 'stable';
+            // After stable for a while, start fading out
+            setTimeout(() => {
+              star.fadeState = 'out';
+            }, Math.random() * 10000 + 5000); // Stable for 5-15 seconds
+          }
+        } else if (star.fadeState === 'out') {
+          star.opacity -= star.fadeSpeed;
+          if (star.opacity <= 0.05) { // Don't go fully invisible
+            star.opacity = 0.05;
+            star.fadeState = 'in'; // Start fading in again
+          }
+        }
+        
+        // Twinkling effect on top of fade
         const time = Date.now() * 0.001;
         const twinkle = Math.sin(time * star.twinkleSpeed + star.twinklePhase) * 0.2 + 0.8;
-        const opacity = star.opacity * twinkle;
+        const finalOpacity = star.opacity * twinkle;
         
-        // Draw star with glow
+        // Draw star
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+        ctx.fillStyle = `rgba(255, 255, 255, ${finalOpacity})`;
         ctx.fill();
         
-        // Add glow to larger stars
-        if (star.size > 1.5) {
+        // Add subtle glow to larger stars
+        if (star.size > 1.2) {
           ctx.save();
           ctx.globalCompositeOperation = 'lighter';
-          
-          // Inner glow
           ctx.beginPath();
-          ctx.arc(star.x, star.y, star.size * 1.5, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255, 255, 255, ${opacity * 0.3})`;
+          ctx.arc(star.x, star.y, star.size * 2, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 255, 255, ${finalOpacity * 0.2})`;
           ctx.fill();
-          
-          // Outer glow
-          ctx.beginPath();
-          ctx.arc(star.x, star.y, star.size * 3, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255, 255, 255, ${opacity * 0.1})`;
-          ctx.fill();
-          
           ctx.restore();
         }
       });
@@ -224,7 +241,7 @@ const AnimatedBackground = () => {
         left: 0,
         width: '100%',
         height: '100%',
-        zIndex: -5, // Adjusted to be behind content but above background
+        zIndex: -5,
         pointerEvents: 'none',
         backgroundColor: 'transparent'
       }} 
