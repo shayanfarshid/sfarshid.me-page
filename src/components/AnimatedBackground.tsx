@@ -237,40 +237,21 @@ const AnimatedBackground = () => {
   }, []);
 
   return (
-    <>
-      {/* Debugging element to verify rendering */}
-      <div 
-        style={{ 
-          position: 'fixed', 
-          top: '10px', 
-          left: '10px', 
-          padding: '5px', 
-          background: 'rgba(0,0,0,0.5)', 
-          color: 'white', 
-          fontSize: '10px',
-          zIndex: 9999,
-          display: 'none' // Set to 'block' for debugging
-        }}
-      >
-        Starfield active
-      </div>
-      <canvas 
-        ref={canvasRef} 
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          zIndex: -5, // CHANGED from -10 to -5 for better layering
-          pointerEvents: 'none',
-          backgroundColor: 'transparent'
-        }} 
-        data-testid="starfield-canvas"
-      />
-    </>
+    <canvas 
+      ref={canvasRef} 
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: -5,
+        pointerEvents: 'none',
+        backgroundColor: 'transparent'
+      }} 
+      data-testid="starfield-canvas"
+    />
   );
 };
 
 export default AnimatedBackground;
-
