@@ -1,88 +1,98 @@
-
 import { useEffect, useRef } from 'react';
 
 const AnimatedBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const starsRef = useRef<Array<{
-    x: number;
-    y: number;
-    size: number;
-    depth: number;
-    opacity: number;
-    twinkleSpeed: number;
-    twinklePhase: number;
-    speed: number;
-  }>>([]);
-  const mouseRef = useRef({ x: 0, y: 0 });
-  const shootingStarTimerRef = useRef<number | null>(null);
-  const requestAnimationFrameIdRef = useRef<number | null>(null);
-  const lastShootingStarTimeRef = useRef<number>(0);
   
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) {
+      console.error("Canvas element not found");
+      return;
+    }
+    
+    console.log("AnimatedBackground: Canvas element found");
     
     const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    if (!ctx) {
+      console.error("Canvas context not available");
+      return;
+    }
     
-    // Set canvas to full screen with proper pixel ratio
-    const resizeCanvas = () => {
+    console.log("AnimatedBackground: Canvas context obtained");
+    
+    // Set canvas dimensions with pixel ratio consideration
+    const setCanvasSize = () => {
       const pixelRatio = window.devicePixelRatio || 1;
       canvas.width = window.innerWidth * pixelRatio;
       canvas.height = window.innerHeight * pixelRatio;
       canvas.style.width = `${window.innerWidth}px`;
       canvas.style.height = `${window.innerHeight}px`;
       ctx.scale(pixelRatio, pixelRatio);
-      
-      // Regenerate stars when resizing
-      createStars();
+      console.log("AnimatedBackground: Canvas sized to", canvas.width, "x", canvas.height);
     };
     
-    // Create stars with varying properties
+    // Stars array
+    const stars: Array<{
+      x: number;
+      y: number;
+      size: number;
+      depth: number;
+      opacity: number;
+      twinkleSpeed: number;
+      twinklePhase: number;
+      speed: number;
+    }> = [];
+    
+    // Create stars with HIGHER OPACITY for visibility
     const createStars = () => {
-      starsRef.current = [];
-      const density = Math.max(200, Math.min(300, (canvas.width * canvas.height) / 10000));
+      stars.length = 0; // Clear existing stars
+      const density = Math.max(200, Math.min(300, (window.innerWidth * window.innerHeight) / 10000));
       
       for (let i = 0; i < density; i++) {
-        starsRef.current.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
+        stars.push({
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight,
           size: Math.random() * 2 + 1, // 1-3px stars
           depth: Math.random() * 3 + 1, // Depth for parallax
-          opacity: Math.random() * 0.3 + 0.6, // 0.6-0.9 opacity for better visibility
-          twinkleSpeed: Math.random() * 0.01 + 0.005, // How fast it twinkles
-          twinklePhase: Math.random() * Math.PI * 2, // Starting phase
-          speed: 0.1 / (Math.random() * 3 + 1) // Speed based on depth
+          opacity: Math.random() * 0.3 + 0.6, // HIGHER BASE OPACITY (0.6-0.9)
+          twinkleSpeed: Math.random() * 0.01 + 0.005,
+          twinklePhase: Math.random() * Math.PI * 2,
+          speed: 0.1 / (Math.random() * 3 + 1)
         });
       }
       
-      console.log("Created", starsRef.current.length, "stars");
+      console.log("AnimatedBackground: Created", stars.length, "stars");
     };
     
-    // Handle mouse movement for parallax effect
+    // Mouse position for parallax
+    let mouseX = 0;
+    let mouseY = 0;
+    
+    // Handle mouse movement
     const handleMouseMove = (e: MouseEvent) => {
-      mouseRef.current = {
-        x: e.clientX - (window.innerWidth / 2),
-        y: e.clientY - (window.innerHeight / 2)
-      };
+      mouseX = (e.clientX - window.innerWidth / 2);
+      mouseY = (e.clientY - window.innerHeight / 2);
     };
+    
+    // Last shooting star time
+    let lastShootingStarTime = 0;
     
     // Create a shooting star
     const createShootingStar = () => {
       const now = Date.now();
-      if (now - lastShootingStarTimeRef.current < 3000) return; // Minimum 3 seconds
+      if (now - lastShootingStarTime < 3000) return; // Minimum 3 seconds
       
-      const shouldCreate = Math.random() < 0.2; // Probability check
+      const shouldCreate = Math.random() < 0.3; // INCREASED probability (30%)
       if (!shouldCreate) return;
       
-      lastShootingStarTimeRef.current = now;
-      console.log("Shooting star created");
+      lastShootingStarTime = now;
+      console.log("AnimatedBackground: Creating shooting star");
       
-      const startX = Math.random() * canvas.width;
-      const startY = Math.random() * (canvas.height / 3);
+      const startX = Math.random() * window.innerWidth;
+      const startY = Math.random() * (window.innerHeight / 3);
       const length = 100 + Math.random() * 150;
       const angle = Math.PI / 4 + (Math.random() * Math.PI / 4);
-      const duration = 1500; // 1.5 seconds
+      const duration = 1000; // 1 second
       const startTime = now;
       
       const animateShootingStar = () => {
@@ -92,7 +102,7 @@ const AnimatedBackground = () => {
         ctx.save();
         ctx.beginPath();
         
-        // Create a gradient for the shooting star trail
+        // Create a gradient for the trail
         const tailX = startX + Math.cos(angle) * length * progress;
         const tailY = startY + Math.sin(angle) * length * progress;
         
@@ -103,22 +113,22 @@ const AnimatedBackground = () => {
         );
         
         gradient.addColorStop(0, `rgba(255, 255, 255, ${1 - progress})`);
-        gradient.addColorStop(0.4, `rgba(200, 180, 255, ${(1 - progress) * 0.6})`);
-        gradient.addColorStop(1, 'rgba(150, 130, 255, 0)');
+        gradient.addColorStop(0.4, `rgba(255, 255, 255, ${(1 - progress) * 0.6})`);
+        gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
         
         ctx.strokeStyle = gradient;
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 2.5; // THICKER line for visibility
         ctx.lineCap = 'round';
         
         ctx.moveTo(tailX, tailY);
         ctx.lineTo(
-          tailX - Math.cos(angle) * length * 0.3 * (1 - progress * 0.5),
-          tailY - Math.sin(angle) * length * 0.3 * (1 - progress * 0.5)
+          tailX - Math.cos(angle) * length * 0.3,
+          tailY - Math.sin(angle) * length * 0.3
         );
         ctx.stroke();
         
-        // Add a glow effect to the shooting star
-        ctx.shadowBlur = 10;
+        // Add glow effect
+        ctx.shadowBlur = 15; // INCREASED shadow blur
         ctx.shadowColor = 'rgba(255, 255, 255, 0.8)';
         ctx.beginPath();
         ctx.arc(tailX, tailY, 2, 0, Math.PI * 2);
@@ -134,57 +144,53 @@ const AnimatedBackground = () => {
       animateShootingStar();
     };
     
-    // Schedule shooting stars at random intervals
+    // Schedule shooting stars
     const scheduleShootingStar = () => {
       const timeout = Math.random() * 4000 + 3000; // 3-7 seconds
-      shootingStarTimerRef.current = window.setTimeout(() => {
+      setTimeout(() => {
         createShootingStar();
         scheduleShootingStar();
       }, timeout);
     };
     
-    // Animation loop with enhanced parallax and twinkling
+    // Animation frame ID for cleanup
+    let animationFrameId: number;
+    
+    // Animation loop
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Create dark blue gradient for background
-      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      gradient.addColorStop(0, 'rgba(10, 10, 25, 0.1)'); // More transparent to show underlying background
-      gradient.addColorStop(1, 'rgba(8, 8, 20, 0.1)');
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // Calculate parallax offset
+      const parallaxStrength = 0.015; // INCREASED parallax effect
+      const mouseOffsetX = mouseX * parallaxStrength;
+      const mouseOffsetY = mouseY * parallaxStrength;
       
-      // Calculate parallax offset based on mouse position
-      const parallaxStrength = 0.01;
-      const mouseX = mouseRef.current.x * parallaxStrength;
-      const mouseY = mouseRef.current.y * parallaxStrength;
-      
-      // Update and draw stars
-      starsRef.current.forEach(star => {
-        // Update position based on speed
+      // Draw stars
+      stars.forEach(star => {
+        // Move stars
         star.x += star.speed;
-        if (star.x > canvas.width) {
+        if (star.x > window.innerWidth) {
           star.x = 0;
         }
         
-        // Calculate twinkling effect
+        // Twinkling effect
         const time = Date.now() * 0.001;
         const twinkle = Math.sin(time * star.twinkleSpeed + star.twinklePhase) * 0.2 + 0.8;
         const opacity = star.opacity * twinkle;
         
-        // Calculate position with parallax effect
-        const parallaxX = mouseX * (4 - star.depth);
-        const parallaxY = mouseY * (4 - star.depth);
+        // Parallax effect based on depth
+        const parallaxX = mouseOffsetX * (4 - star.depth);
+        const parallaxY = mouseOffsetY * (4 - star.depth);
         const displayX = star.x + parallaxX;
         const displayY = star.y + parallaxY;
         
-        // Draw main star with glow effect
+        // Draw star with glow
         ctx.beginPath();
         ctx.arc(displayX, displayY, star.size, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
         ctx.fill();
         
-        // Add glow effect for larger stars
+        // Add glow to larger stars
         if (star.size > 1.5) {
           ctx.save();
           ctx.globalCompositeOperation = 'lighter';
@@ -205,50 +211,66 @@ const AnimatedBackground = () => {
         }
       });
       
-      requestAnimationFrameIdRef.current = requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
     };
     
-    // Initialize everything
-    resizeCanvas();
+    // Initialize
+    setCanvasSize();
     createStars();
-    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('resize', () => {
+      setCanvasSize();
+      createStars();
+    });
     window.addEventListener('mousemove', handleMouseMove);
     animate();
     scheduleShootingStar();
-    console.log("Starfield background initialized");
+    
+    console.log("AnimatedBackground: Initialization complete");
     
     // Cleanup
     return () => {
-      if (requestAnimationFrameIdRef.current) {
-        cancelAnimationFrame(requestAnimationFrameIdRef.current);
-      }
-      
-      if (shootingStarTimerRef.current) {
-        clearTimeout(shootingStarTimerRef.current);
-      }
-      
-      window.removeEventListener('resize', resizeCanvas);
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('resize', setCanvasSize);
       window.removeEventListener('mousemove', handleMouseMove);
+      console.log("AnimatedBackground: Cleanup complete");
     };
   }, []);
-  
+
   return (
-    <canvas 
-      ref={canvasRef} 
-      className="fixed inset-0 -z-10" 
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        zIndex: -10,
-        background: 'transparent',
-        pointerEvents: 'none'
-      }} 
-      data-testid="starfield-canvas"
-    />
+    <>
+      {/* Debugging element to verify rendering */}
+      <div 
+        style={{ 
+          position: 'fixed', 
+          top: '10px', 
+          left: '10px', 
+          padding: '5px', 
+          background: 'rgba(0,0,0,0.5)', 
+          color: 'white', 
+          fontSize: '10px',
+          zIndex: 9999,
+          display: 'none' // Set to 'block' for debugging
+        }}
+      >
+        Starfield active
+      </div>
+      <canvas 
+        ref={canvasRef} 
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: -5, // CHANGED from -10 to -5 for better layering
+          pointerEvents: 'none',
+          backgroundColor: 'transparent'
+        }} 
+        data-testid="starfield-canvas"
+      />
+    </>
   );
 };
 
 export default AnimatedBackground;
+
