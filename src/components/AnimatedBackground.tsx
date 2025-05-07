@@ -1,23 +1,13 @@
 
 import { useEffect, useRef } from 'react';
 
-interface Particle {
-  x: number;
-  y: number;
-  z: number;
-  size: number;
-  color: string;
-  speed: number;
-  opacity: number;
-  twinkleSpeed: number;
-}
-
 const AnimatedBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const particlesRef = useRef<Particle[]>([]);
+  const starsRef = useRef<any[]>([]);
   const mouseRef = useRef({ x: 0, y: 0 });
   const shootingStarTimerRef = useRef<number | null>(null);
-  const requestAnimationRef = useRef<number | null>(null);
+  const requestAnimationFrameIdRef = useRef<number | null>(null);
+  const lastShootingStarTimeRef = useRef<number>(0);
   
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -34,72 +24,87 @@ const AnimatedBackground = () => {
       canvas.style.width = `${window.innerWidth}px`;
       canvas.style.height = `${window.innerHeight}px`;
       ctx.scale(pixelRatio, pixelRatio);
+      
+      // Regenerate stars when resizing
+      createStars();
     };
     
-    // Initialize particles with enhanced visual properties
-    const initParticles = () => {
-      particlesRef.current = [];
-      // Increased count for better starfield density
-      const particleCount = 350; 
+    // Create stars with varying properties
+    const createStars = () => {
+      starsRef.current = [];
+      const density = Math.max(200, Math.min(300, (canvas.width * canvas.height) / 10000));
       
-      for (let i = 0; i < particleCount; i++) {
-        particlesRef.current.push({
+      for (let i = 0; i < density; i++) {
+        starsRef.current.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          z: Math.random() * 3 + 0.1, // depth (0.1 to 3.1)
-          size: Math.random() * 3 + 0.5, // Larger size range
-          color: `rgba(255, 255, 255, ${Math.random() * 0.5 + 0.5})`, // More varied opacity
-          speed: Math.random() * 0.15 + 0.05, // Speed variation
-          opacity: Math.random() * 0.7 + 0.3, // Base opacity for twinkling
-          twinkleSpeed: Math.random() * 0.02 + 0.005 // How fast it twinkles
+          size: Math.random() * 2 + 1, // 1-3px stars
+          depth: Math.random() * 3 + 1, // Depth for parallax
+          opacity: Math.random() * 0.3 + 0.5, // 0.5-0.8 opacity
+          twinkleSpeed: Math.random() * 0.01 + 0.005, // How fast it twinkles
+          twinklePhase: Math.random() * Math.PI * 2, // Starting phase
+          speed: 0.1 / (Math.random() * 3 + 1) // Speed based on depth
         });
       }
-    };
-    
-    // Handle mouse movement for enhanced parallax
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseRef.current.x = e.clientX;
-      mouseRef.current.y = e.clientY;
-    };
-    
-    // Create a dynamic shooting star
-    const createShootingStar = () => {
-      if (!canvas) return;
       
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
+      console.log("Created", starsRef.current.length, "stars");
+    };
+    
+    // Handle mouse movement for parallax effect
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseRef.current = {
+        x: e.clientX - (window.innerWidth / 2),
+        y: e.clientY - (window.innerHeight / 2)
+      };
+    };
+    
+    // Create a shooting star
+    const createShootingStar = () => {
+      const now = Date.now();
+      if (now - lastShootingStarTimeRef.current < 3000) return; // Minimum 3 seconds
+      
+      const shouldCreate = Math.random() < 0.2; // Probability check
+      if (!shouldCreate) return;
+      
+      lastShootingStarTimeRef.current = now;
+      console.log("Shooting star created");
       
       const startX = Math.random() * canvas.width;
       const startY = Math.random() * (canvas.height / 3);
-      const length = Math.random() * 150 + 100; // Longer trail
+      const length = 100 + Math.random() * 150;
       const angle = Math.PI / 4 + (Math.random() * Math.PI / 4);
+      const duration = 1500; // 1.5 seconds
+      const startTime = now;
       
-      let progress = 0;
-      const speed = 0.008; // Slower for more visible effect
-      
-      const drawStar = () => {
-        ctx.save();
-        ctx.globalCompositeOperation = 'lighter';
+      const animateShootingStar = () => {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
         
-        const x = startX + Math.cos(angle) * length * progress;
-        const y = startY + Math.sin(angle) * length * progress;
+        ctx.save();
+        ctx.beginPath();
+        
+        // Create a gradient for the shooting star trail
+        const tailX = startX + Math.cos(angle) * length * progress;
+        const tailY = startY + Math.sin(angle) * length * progress;
         
         const gradient = ctx.createLinearGradient(
-          x, y,
-          x - Math.cos(angle) * 50, y - Math.sin(angle) * 50
+          tailX, tailY,
+          tailX - Math.cos(angle) * length * 0.3,
+          tailY - Math.sin(angle) * length * 0.3
         );
         
         gradient.addColorStop(0, `rgba(255, 255, 255, ${1 - progress})`);
-        gradient.addColorStop(0.4, `rgba(200, 180, 255, ${0.8 - progress * 0.6})`);
+        gradient.addColorStop(0.4, `rgba(200, 180, 255, ${(1 - progress) * 0.6})`);
         gradient.addColorStop(1, 'rgba(150, 130, 255, 0)');
         
         ctx.strokeStyle = gradient;
-        ctx.lineWidth = 3; // Thicker line for visibility
-        ctx.beginPath();
-        ctx.moveTo(x, y);
+        ctx.lineWidth = 2;
+        ctx.lineCap = 'round';
+        
+        ctx.moveTo(tailX, tailY);
         ctx.lineTo(
-          x - Math.cos(angle) * 60 * (1 - progress),
-          y - Math.sin(angle) * 60 * (1 - progress)
+          tailX - Math.cos(angle) * length * 0.3 * (1 - progress * 0.5),
+          tailY - Math.sin(angle) * length * 0.3 * (1 - progress * 0.5)
         );
         ctx.stroke();
         
@@ -107,18 +112,17 @@ const AnimatedBackground = () => {
         ctx.shadowBlur = 10;
         ctx.shadowColor = 'rgba(255, 255, 255, 0.8)';
         ctx.beginPath();
-        ctx.arc(x, y, 2, 0, Math.PI * 2);
+        ctx.arc(tailX, tailY, 2, 0, Math.PI * 2);
         ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
         ctx.fill();
         ctx.restore();
         
-        progress += speed;
         if (progress < 1) {
-          requestAnimationFrame(drawStar);
+          requestAnimationFrame(animateShootingStar);
         }
       };
       
-      drawStar();
+      animateShootingStar();
     };
     
     // Schedule shooting stars at random intervals
@@ -132,129 +136,107 @@ const AnimatedBackground = () => {
     
     // Animation loop with enhanced parallax and twinkling
     const animate = () => {
-      if (!canvas || !ctx) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Create enhanced parallax effect based on mouse position
-      const mouseX = mouseRef.current.x || canvas.width / 2;
-      const mouseY = mouseRef.current.y || canvas.height / 2;
-      
-      const centerX = window.innerWidth / 2;
-      const centerY = window.innerHeight / 2;
-      
-      const offsetX = (mouseX - centerX) * 0.01; // Enhanced parallax
-      const offsetY = (mouseY - centerY) * 0.01;
-      
-      // Clear canvas with improved gradient background
-      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-      const gradient = ctx.createLinearGradient(0, 0, 0, window.innerHeight);
+      // Create dark blue gradient for background
+      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
       gradient.addColorStop(0, 'rgba(10, 10, 25, 1)');
       gradient.addColorStop(1, 'rgba(8, 8, 20, 1)');
-      
       ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
       
-      // Update and draw particles with enhanced twinkling
-      particlesRef.current.forEach((particle) => {
-        // Move particles based on z-depth (improved parallax)
-        const parallaxX = offsetX * (4 - particle.z);
-        const parallaxY = offsetY * (4 - particle.z);
-        
-        particle.y += particle.speed / particle.z; // Speed relative to depth
-        
-        // Update opacity for twinkling effect
-        particle.opacity += Math.sin(Date.now() * particle.twinkleSpeed) * 0.05;
-        const currentOpacity = Math.max(0.1, Math.min(1, particle.opacity));
-        
-        // Wrap around edges
-        if (particle.y > window.innerHeight) {
-          particle.y = 0;
-          particle.x = Math.random() * window.innerWidth;
+      // Calculate parallax offset based on mouse position
+      const parallaxStrength = 0.01;
+      const mouseX = mouseRef.current.x * parallaxStrength;
+      const mouseY = mouseRef.current.y * parallaxStrength;
+      
+      // Update and draw stars
+      starsRef.current.forEach(star => {
+        // Update position based on speed
+        star.x += star.speed;
+        if (star.x > canvas.width) {
+          star.x = 0;
         }
         
-        // Size based on z-depth
-        const size = particle.size / particle.z;
+        // Calculate twinkling effect
+        const time = Date.now() * 0.001;
+        const twinkle = Math.sin(time * star.twinkleSpeed + star.twinklePhase) * 0.2 + 0.8;
+        const opacity = star.opacity * twinkle;
         
-        // Draw particle with glow effect
+        // Calculate position with parallax effect
+        const parallaxX = mouseX * (4 - star.depth);
+        const parallaxY = mouseY * (4 - star.depth);
+        const displayX = star.x + parallaxX;
+        const displayY = star.y + parallaxY;
+        
+        // Draw main star with glow effect
         ctx.beginPath();
-        
-        // Main star
-        ctx.arc(
-          particle.x + parallaxX, 
-          particle.y + parallaxY, 
-          size, 
-          0, 
-          Math.PI * 2
-        );
-        
-        // Use opacity for twinkling
-        const color = particle.color.replace(')', `, ${currentOpacity})`);
-        ctx.fillStyle = color;
+        ctx.arc(displayX, displayY, star.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
         ctx.fill();
         
-        // Add glow for larger stars
-        if (size > 1) {
+        // Add glow effect for larger stars
+        if (star.size > 1.5) {
           ctx.save();
           ctx.globalCompositeOperation = 'lighter';
-          ctx.shadowBlur = size * 3;
-          ctx.shadowColor = 'rgba(255, 255, 255, 0.5)';
           
           // Inner glow
           ctx.beginPath();
-          ctx.arc(
-            particle.x + parallaxX, 
-            particle.y + parallaxY, 
-            size * 1.2, 
-            0, 
-            Math.PI * 2
-          );
-          ctx.fillStyle = color.replace(')', ', 0.4)');
+          ctx.arc(displayX, displayY, star.size * 1.5, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 255, 255, ${opacity * 0.3})`;
           ctx.fill();
           
-          // Outer faint glow
+          // Outer glow
           ctx.beginPath();
-          ctx.arc(
-            particle.x + parallaxX, 
-            particle.y + parallaxY, 
-            size * 2.5, 
-            0, 
-            Math.PI * 2
-          );
-          ctx.fillStyle = color.replace(')', ', 0.1)');
+          ctx.arc(displayX, displayY, star.size * 3, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 255, 255, ${opacity * 0.1})`;
           ctx.fill();
+          
           ctx.restore();
         }
       });
       
-      requestAnimationRef.current = requestAnimationFrame(animate);
+      requestAnimationFrameIdRef.current = requestAnimationFrame(animate);
     };
     
+    // Initialize everything
+    resizeCanvas();
+    createStars();
     window.addEventListener('resize', resizeCanvas);
     window.addEventListener('mousemove', handleMouseMove);
-    
-    resizeCanvas();
-    initParticles();
     animate();
     scheduleShootingStar();
+    console.log("Starfield background initialized");
     
+    // Cleanup
     return () => {
-      window.removeEventListener('resize', resizeCanvas);
-      window.removeEventListener('mousemove', handleMouseMove);
+      if (requestAnimationFrameIdRef.current) {
+        cancelAnimationFrame(requestAnimationFrameIdRef.current);
+      }
       
       if (shootingStarTimerRef.current) {
         clearTimeout(shootingStarTimerRef.current);
       }
       
-      if (requestAnimationRef.current) {
-        cancelAnimationFrame(requestAnimationRef.current);
-      }
+      window.removeEventListener('resize', resizeCanvas);
+      window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
   
   return (
     <canvas 
       ref={canvasRef} 
-      className="fixed inset-0 -z-10 bg-space" 
-      style={{ pointerEvents: 'none' }}
+      className="fixed inset-0 -z-10" 
+      style={{ 
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: -10,
+        background: 'transparent',
+        pointerEvents: 'none'
+      }} 
     />
   );
 };

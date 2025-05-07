@@ -69,7 +69,9 @@ const Index = () => {
         />
       )}
       
+      {/* The starfield background */}
       <AnimatedBackground />
+      
       <MinimalNavbar />
       
       <main className="relative z-10 space-y-6">

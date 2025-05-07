@@ -20,20 +20,20 @@ const AvailabilityStatus = () => {
       }`}
     >
       <div className="relative mr-2 flex h-2 w-2">
-        {/* Strong pulsating dot with multiple layers for enhanced glow effect */}
+        {/* Strong pulsating dot with reduced glow radius */}
         <span className="absolute inset-0 rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite]"></span>
         
-        {/* Inner glow layer */}
-        <span className="absolute inset-[-3px] rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite] opacity-60 blur-[1px]"></span>
+        {/* Inner glow layer - reduced radius */}
+        <span className="absolute inset-[-2px] rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite] opacity-60 blur-[1px]"></span>
         
-        {/* Middle glow layer */}
-        <span className="absolute inset-[-6px] rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite] opacity-40 blur-[2px]"></span>
+        {/* Middle glow layer - reduced radius */}
+        <span className="absolute inset-[-4px] rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite] opacity-40 blur-[1px]"></span>
         
-        {/* Outer glow layer */}
-        <span className="absolute inset-[-10px] rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite] opacity-20 blur-[4px]"></span>
+        {/* Outer glow layer - reduced radius */}
+        <span className="absolute inset-[-6px] rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite] opacity-20 blur-[2px]"></span>
         
-        {/* Extreme outer glow */}
-        <span className="absolute inset-[-14px] rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite] opacity-10 blur-[6px]"></span>
+        {/* Extreme outer glow - reduced radius */}
+        <span className="absolute inset-[-8px] rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite] opacity-10 blur-[3px]"></span>
       </div>
       <span className="text-green-300 text-xs font-medium">Open To Work</span>
     </div>
