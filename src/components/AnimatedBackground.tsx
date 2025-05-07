@@ -3,7 +3,16 @@ import { useEffect, useRef } from 'react';
 
 const AnimatedBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const starsRef = useRef<any[]>([]);
+  const starsRef = useRef<Array<{
+    x: number;
+    y: number;
+    size: number;
+    depth: number;
+    opacity: number;
+    twinkleSpeed: number;
+    twinklePhase: number;
+    speed: number;
+  }>>([]);
   const mouseRef = useRef({ x: 0, y: 0 });
   const shootingStarTimerRef = useRef<number | null>(null);
   const requestAnimationFrameIdRef = useRef<number | null>(null);
@@ -40,7 +49,7 @@ const AnimatedBackground = () => {
           y: Math.random() * canvas.height,
           size: Math.random() * 2 + 1, // 1-3px stars
           depth: Math.random() * 3 + 1, // Depth for parallax
-          opacity: Math.random() * 0.3 + 0.5, // 0.5-0.8 opacity
+          opacity: Math.random() * 0.3 + 0.6, // 0.6-0.9 opacity for better visibility
           twinkleSpeed: Math.random() * 0.01 + 0.005, // How fast it twinkles
           twinklePhase: Math.random() * Math.PI * 2, // Starting phase
           speed: 0.1 / (Math.random() * 3 + 1) // Speed based on depth
@@ -140,8 +149,8 @@ const AnimatedBackground = () => {
       
       // Create dark blue gradient for background
       const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      gradient.addColorStop(0, 'rgba(10, 10, 25, 1)');
-      gradient.addColorStop(1, 'rgba(8, 8, 20, 1)');
+      gradient.addColorStop(0, 'rgba(10, 10, 25, 0.1)'); // More transparent to show underlying background
+      gradient.addColorStop(1, 'rgba(8, 8, 20, 0.1)');
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
@@ -227,7 +236,7 @@ const AnimatedBackground = () => {
     <canvas 
       ref={canvasRef} 
       className="fixed inset-0 -z-10" 
-      style={{ 
+      style={{
         position: 'fixed',
         top: 0,
         left: 0,
@@ -237,6 +246,7 @@ const AnimatedBackground = () => {
         background: 'transparent',
         pointerEvents: 'none'
       }} 
+      data-testid="starfield-canvas"
     />
   );
 };

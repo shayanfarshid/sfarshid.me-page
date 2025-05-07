@@ -24,16 +24,16 @@ const AvailabilityStatus = () => {
         <span className="absolute inset-0 rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite]"></span>
         
         {/* Inner glow layer - reduced radius */}
-        <span className="absolute inset-[-2px] rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite] opacity-60 blur-[1px]"></span>
+        <span className="absolute inset-[-1.5px] rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite] opacity-60 blur-[1px]"></span>
         
         {/* Middle glow layer - reduced radius */}
-        <span className="absolute inset-[-4px] rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite] opacity-40 blur-[1px]"></span>
+        <span className="absolute inset-[-3px] rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite] opacity-40 blur-[1px]"></span>
         
         {/* Outer glow layer - reduced radius */}
-        <span className="absolute inset-[-6px] rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite] opacity-20 blur-[2px]"></span>
+        <span className="absolute inset-[-4.5px] rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite] opacity-20 blur-[1.5px]"></span>
         
         {/* Extreme outer glow - reduced radius */}
-        <span className="absolute inset-[-8px] rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite] opacity-10 blur-[3px]"></span>
+        <span className="absolute inset-[-6px] rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite] opacity-10 blur-[2px]"></span>
       </div>
       <span className="text-green-300 text-xs font-medium">Open To Work</span>
     </div>
