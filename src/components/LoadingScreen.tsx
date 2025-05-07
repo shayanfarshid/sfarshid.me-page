@@ -1,5 +1,5 @@
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 
 interface LoadingScreenProps {
   isTransitioning?: boolean;
@@ -7,7 +7,6 @@ interface LoadingScreenProps {
 
 const LoadingScreen = ({ isTransitioning = false }: LoadingScreenProps) => {
   const [progress, setProgress] = useState(0);
-  const [isComplete, setIsComplete] = useState(false);
   const [loadingText, setLoadingText] = useState('Initializing neural pathways...');
   
   const loadingTexts = [
@@ -42,23 +41,18 @@ const LoadingScreen = ({ isTransitioning = false }: LoadingScreenProps) => {
       });
     }, 120);
     
-    // Handle completion
-    const completeTimeout = setTimeout(() => {
-      setProgress(100);
-      setIsComplete(true);
-    }, 3000);
-    
-    return () => {
-      clearInterval(interval);
-      clearTimeout(completeTimeout);
-    };
+    // Clean up interval
+    return () => clearInterval(interval);
   }, []);
   
   return (
     <div 
-      className={`fixed inset-0 z-[100] bg-space flex flex-col items-center justify-center transition-all duration-1000 ${
-        isTransitioning ? 'opacity-0' : 'opacity-100'
+      className={`fixed inset-0 z-[100] flex flex-col items-center justify-center transition-all duration-1000 ${
+        isTransitioning ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
+      style={{
+        backgroundColor: '#0a0a16' // Matching the bg-space color
+      }}
     >
       <div className="max-w-md w-full px-4 relative z-10">
         <div className="mb-8 text-center">

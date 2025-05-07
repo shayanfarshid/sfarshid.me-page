@@ -1,3 +1,4 @@
+
 import { useEffect, useRef } from 'react';
 
 const AnimatedBackground = () => {
@@ -245,7 +246,7 @@ const AnimatedBackground = () => {
         left: 0,
         width: '100%',
         height: '100%',
-        zIndex: -5,
+        zIndex: -5, // Adjusted to be behind content but above background
         pointerEvents: 'none',
         backgroundColor: 'transparent'
       }} 

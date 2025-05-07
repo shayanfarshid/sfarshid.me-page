@@ -1,3 +1,4 @@
+
 import { useEffect, useState, useRef } from 'react';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import LoadingScreen from '@/components/LoadingScreen';
@@ -10,7 +11,6 @@ import OpenToWorkIndicator from '@/components/OpenToWorkIndicator';
 const Index = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const backgroundInitialized = useRef(false);
   
   // Change page title and description
   useEffect(() => {
@@ -27,8 +27,6 @@ const Index = () => {
       // Add a small delay before fully removing the loading screen
       const transitionTimer = setTimeout(() => {
         setIsLoaded(true);
-        // Mark background as initialized after loading completes
-        backgroundInitialized.current = true;
         console.log("Main content loaded, background should be visible");
       }, 1000);
       
@@ -39,8 +37,8 @@ const Index = () => {
   }, []);
   
   return (
-    <div className="min-h-screen bg-space relative">
-      {/* AnimatedBackground must be rendered first but with proper z-index */}
+    <div className="min-h-screen relative">
+      {/* AnimatedBackground with higher z-index but still behind content */}
       <AnimatedBackground />
       
       {!isLoaded && (
