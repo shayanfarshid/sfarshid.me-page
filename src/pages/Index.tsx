@@ -1,15 +1,16 @@
-
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import LoadingScreen from '@/components/LoadingScreen';
 import MinimalNavbar from '@/components/MinimalNavbar';
 import Hero from '@/components/Hero';
 import BentoFeatures from '@/components/BentoFeatures';
 import Footer from '@/components/Footer';
+import OpenToWorkIndicator from '@/components/OpenToWorkIndicator';
 
 const Index = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const backgroundInitialized = useRef(false);
   
   // Change page title and description
   useEffect(() => {
@@ -26,6 +27,9 @@ const Index = () => {
       // Add a small delay before fully removing the loading screen
       const transitionTimer = setTimeout(() => {
         setIsLoaded(true);
+        // Mark background as initialized after loading completes
+        backgroundInitialized.current = true;
+        console.log("Main content loaded, background should be visible");
       }, 1000);
       
       return () => clearTimeout(transitionTimer);
@@ -33,18 +37,17 @@ const Index = () => {
     
     return () => clearTimeout(loadTimer);
   }, []);
-
+  
   return (
-    <div className="min-h-screen bg-space">
-      {/* Loading screen with transition */}
+    <div className="min-h-screen bg-space relative">
+      {/* AnimatedBackground must be rendered first but with proper z-index */}
+      <AnimatedBackground />
+      
       {!isLoaded && (
-        <LoadingScreen 
-          isTransitioning={isTransitioning} 
-        />
+        <LoadingScreen isTransitioning={isTransitioning} />
       )}
       
-      {/* The starfield background - placed here for z-index control */}
-      <AnimatedBackground />
+      <OpenToWorkIndicator />
       
       <MinimalNavbar />
       
