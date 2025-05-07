@@ -37,7 +37,6 @@ const AnimatedBackground = () => {
       x: number;
       y: number;
       size: number;
-      depth: number;
       opacity: number;
       twinkleSpeed: number;
       twinklePhase: number;
@@ -54,25 +53,14 @@ const AnimatedBackground = () => {
           x: Math.random() * window.innerWidth,
           y: Math.random() * window.innerHeight,
           size: Math.random() * 2 + 1, // 1-3px stars
-          depth: Math.random() * 3 + 1, // Depth for parallax
           opacity: Math.random() * 0.3 + 0.6, // HIGHER BASE OPACITY (0.6-0.9)
           twinkleSpeed: Math.random() * 0.01 + 0.005,
           twinklePhase: Math.random() * Math.PI * 2,
-          speed: 0.1 / (Math.random() * 3 + 1)
+          speed: 0.05 / (Math.random() * 3 + 1) // Very slight movement
         });
       }
       
       console.log("AnimatedBackground: Created", stars.length, "stars");
-    };
-    
-    // Mouse position for parallax
-    let mouseX = 0;
-    let mouseY = 0;
-    
-    // Handle mouse movement
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseX = (e.clientX - window.innerWidth / 2);
-      mouseY = (e.clientY - window.innerHeight / 2);
     };
     
     // Last shooting star time
@@ -92,7 +80,10 @@ const AnimatedBackground = () => {
       const startX = Math.random() * window.innerWidth;
       const startY = Math.random() * (window.innerHeight / 3);
       const length = 100 + Math.random() * 150;
-      const angle = Math.PI / 4 + (Math.random() * Math.PI / 4);
+      
+      // Angle shooting star toward bottom-right (approximately π/4 or 45 degrees)
+      const angle = Math.PI / 4 + (Math.random() * 0.2 - 0.1); // Small variation around 45 degrees
+      
       const duration = 1000; // 1 second
       const startTime = now;
       
@@ -129,7 +120,7 @@ const AnimatedBackground = () => {
         ctx.stroke();
         
         // Add glow effect
-        ctx.shadowBlur = 15; // INCREASED shadow blur
+        ctx.shadowBlur = 15;
         ctx.shadowColor = 'rgba(255, 255, 255, 0.8)';
         ctx.beginPath();
         ctx.arc(tailX, tailY, 2, 0, Math.PI * 2);
@@ -161,14 +152,9 @@ const AnimatedBackground = () => {
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
-      // Calculate parallax offset
-      const parallaxStrength = 0.015; // INCREASED parallax effect
-      const mouseOffsetX = mouseX * parallaxStrength;
-      const mouseOffsetY = mouseY * parallaxStrength;
-      
-      // Draw stars
+      // Draw stars with twinkling effect
       stars.forEach(star => {
-        // Move stars
+        // Very slight movement
         star.x += star.speed;
         if (star.x > window.innerWidth) {
           star.x = 0;
@@ -179,15 +165,9 @@ const AnimatedBackground = () => {
         const twinkle = Math.sin(time * star.twinkleSpeed + star.twinklePhase) * 0.2 + 0.8;
         const opacity = star.opacity * twinkle;
         
-        // Parallax effect based on depth
-        const parallaxX = mouseOffsetX * (4 - star.depth);
-        const parallaxY = mouseOffsetY * (4 - star.depth);
-        const displayX = star.x + parallaxX;
-        const displayY = star.y + parallaxY;
-        
         // Draw star with glow
         ctx.beginPath();
-        ctx.arc(displayX, displayY, star.size, 0, Math.PI * 2);
+        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
         ctx.fill();
         
@@ -198,13 +178,13 @@ const AnimatedBackground = () => {
           
           // Inner glow
           ctx.beginPath();
-          ctx.arc(displayX, displayY, star.size * 1.5, 0, Math.PI * 2);
+          ctx.arc(star.x, star.y, star.size * 1.5, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(255, 255, 255, ${opacity * 0.3})`;
           ctx.fill();
           
           // Outer glow
           ctx.beginPath();
-          ctx.arc(displayX, displayY, star.size * 3, 0, Math.PI * 2);
+          ctx.arc(star.x, star.y, star.size * 3, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(255, 255, 255, ${opacity * 0.1})`;
           ctx.fill();
           
@@ -222,7 +202,6 @@ const AnimatedBackground = () => {
       setCanvasSize();
       createStars();
     });
-    window.addEventListener('mousemove', handleMouseMove);
     animate();
     scheduleShootingStar();
     
@@ -232,7 +211,6 @@ const AnimatedBackground = () => {
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', setCanvasSize);
-      window.removeEventListener('mousemove', handleMouseMove);
       console.log("AnimatedBackground: Cleanup complete");
     };
   }, []);

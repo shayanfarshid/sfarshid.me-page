@@ -1,5 +1,5 @@
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import LoadingScreen from '@/components/LoadingScreen';
 import MinimalNavbar from '@/components/MinimalNavbar';

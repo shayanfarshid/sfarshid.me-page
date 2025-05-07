@@ -3,7 +3,12 @@ import { Github, Linkedin, Mail } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="section-padding border-t border-white/10 mt-12">
+    <footer 
+      className="section-padding border-t border-white/10 mt-12"
+      style={{
+        background: 'linear-gradient(to bottom, rgba(10, 10, 22, 0.3) 0%, rgba(26, 31, 44, 0.8) 100%)'
+      }}
+    >
       <div className="container mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="flex flex-col mb-6 md:mb-0">
