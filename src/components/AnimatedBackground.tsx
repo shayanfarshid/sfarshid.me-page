@@ -1,8 +1,9 @@
-
 import { useEffect, useRef } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const AnimatedBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const isMobile = useIsMobile();
   
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -49,21 +50,26 @@ const AnimatedBackground = () => {
     // Create stars with proper properties
     const createStars = () => {
       stars.length = 0; // Clear existing stars
-      const density = Math.max(200, Math.min(300, (window.innerWidth * window.innerHeight) / 10000));
+      
+      // Slightly increased density for more stars
+      const density = Math.max(250, Math.min(350, (window.innerWidth * window.innerHeight) / 9000));
       
       for (let i = 0; i < density; i++) {
         const maxOpacity = Math.random() * 0.4 + 0.3; // 0.3-0.7 max opacity
+        // Faster fade speed for more frequent appearing/disappearing
+        const fadeSpeed = Math.random() * 0.003 + 0.0015; // Increased from 0.002 + 0.001
+        
         stars.push({
           x: Math.random() * window.innerWidth,
           y: Math.random() * window.innerHeight,
-          size: Math.random() * 1.2 + 0.5, // Smaller stars: 0.5-1.7px
+          size: Math.random() * 1.1 + 0.4, // Slightly smaller stars: 0.4-1.5px
           opacity: Math.random() * maxOpacity, // Start with random opacity
           maxOpacity: maxOpacity,
-          twinkleSpeed: Math.random() * 0.01 + 0.003,
+          twinkleSpeed: Math.random() * 0.012 + 0.005, // Slightly faster twinkling
           twinklePhase: Math.random() * Math.PI * 2,
-          speed: 0.03 / (Math.random() * 3 + 1), // Very slight movement
+          speed: 0.02 / (Math.random() * 3 + 1), // Very slight movement
           fadeState: Math.random() > 0.5 ? 'in' : 'out', // Randomly start fading in or out
-          fadeSpeed: Math.random() * 0.002 + 0.001 // Very slow fade speed
+          fadeSpeed: fadeSpeed // Slightly faster fade speed
         });
       }
       
@@ -76,9 +82,9 @@ const AnimatedBackground = () => {
     // Create a shooting star
     const createShootingStar = () => {
       const now = Date.now();
-      if (now - lastShootingStarTime < 3000) return; // Minimum 3 seconds
+      if (now - lastShootingStarTime < 2500) return; // Reduced from 3000 for more frequent shooting stars
       
-      const shouldCreate = Math.random() < 0.3; // 30% probability
+      const shouldCreate = Math.random() < 0.35; // Increased from 0.3 (35% probability)
       if (!shouldCreate) return;
       
       lastShootingStarTime = now;
@@ -88,8 +94,8 @@ const AnimatedBackground = () => {
       const startY = Math.random() * (window.innerHeight / 3);
       const length = 100 + Math.random() * 150;
       
-      // Angle shooting star toward bottom-right (approximately π/4 or 45 degrees)
-      const angle = Math.PI / 4 + (Math.random() * 0.2 - 0.1); // Small variation around 45 degrees
+      // Angle shooting star more toward bottom-right (approximately π/3 or 60 degrees)
+      const angle = Math.PI / 3 + (Math.random() * 0.2 - 0.1); // Small variation around 60 degrees
       
       const duration = 1000; // 1 second
       const startTime = now;
@@ -145,7 +151,7 @@ const AnimatedBackground = () => {
     
     // Schedule shooting stars
     const scheduleShootingStar = () => {
-      const timeout = Math.random() * 4000 + 3000; // 3-7 seconds
+      const timeout = Math.random() * 3500 + 2500; // 2.5-6 seconds (reduced from 3-7 seconds)
       setTimeout(() => {
         createShootingStar();
         scheduleShootingStar();
@@ -155,16 +161,29 @@ const AnimatedBackground = () => {
     // Animation frame ID for cleanup
     let animationFrameId: number;
     
+    // Fix for mobile scrolling - position canvas as fixed but with transform
+    const handleScroll = () => {
+      if (isMobile) {
+        // For mobile devices, we'll use a different approach
+        // Instead of moving stars with scroll, we'll keep them fixed
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+      }
+    };
+    
     // Animation loop
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
       // Draw stars with twinkling and fading effect
       stars.forEach(star => {
-        // Very slight movement
-        star.x += star.speed;
-        if (star.x > window.innerWidth) {
-          star.x = 0;
+        // Very slight movement, but not on mobile
+        if (!isMobile) {
+          star.x += star.speed;
+          if (star.x > window.innerWidth) {
+            star.x = 0;
+          }
         }
         
         // Handle fade in/out state
@@ -176,7 +195,7 @@ const AnimatedBackground = () => {
             // After stable for a while, start fading out
             setTimeout(() => {
               star.fadeState = 'out';
-            }, Math.random() * 10000 + 5000); // Stable for 5-15 seconds
+            }, Math.random() * 8000 + 4000); // Stable for 4-12 seconds (reduced from 5-15)
           }
         } else if (star.fadeState === 'out') {
           star.opacity -= star.fadeSpeed;
@@ -198,7 +217,7 @@ const AnimatedBackground = () => {
         ctx.fill();
         
         // Add subtle glow to larger stars
-        if (star.size > 1.2) {
+        if (star.size > 1.0) {
           ctx.save();
           ctx.globalCompositeOperation = 'lighter';
           ctx.beginPath();
@@ -215,10 +234,16 @@ const AnimatedBackground = () => {
     // Initialize
     setCanvasSize();
     createStars();
+    handleScroll(); // Set initial position
+    
     window.addEventListener('resize', () => {
       setCanvasSize();
       createStars();
+      handleScroll();
     });
+    
+    window.addEventListener('scroll', handleScroll);
+    
     animate();
     scheduleShootingStar();
     
@@ -228,9 +253,10 @@ const AnimatedBackground = () => {
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', setCanvasSize);
+      window.removeEventListener('scroll', handleScroll);
       console.log("AnimatedBackground: Cleanup complete");
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <canvas 
@@ -246,6 +272,7 @@ const AnimatedBackground = () => {
         backgroundColor: 'transparent'
       }} 
       data-testid="starfield-canvas"
+      aria-hidden="true"
     />
   );
 };

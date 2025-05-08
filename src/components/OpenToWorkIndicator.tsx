@@ -1,8 +1,10 @@
 
 import { useEffect, useState } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const OpenToWorkIndicator = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const isMobile = useIsMobile();
   
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -15,8 +17,8 @@ const OpenToWorkIndicator = () => {
   if (!isVisible) return null;
   
   return (
-    <div className="fixed top-6 right-6 z-50 flex items-center space-x-2 animate-fade-in">
-      <span className="text-xs text-purple-200">OPEN TO WORK</span>
+    <div className={`fixed ${isMobile ? 'top-4 right-4' : 'top-6 right-6'} z-50 flex items-center space-x-2 animate-fade-in`}>
+      <span className="text-xs text-green-400 font-medium">Open to Work</span>
       <div className="h-2.5 w-2.5 bg-green-500 rounded-full animate-pulse"></div>
     </div>
   );
