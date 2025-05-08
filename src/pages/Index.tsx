@@ -45,6 +45,7 @@ const Index = () => {
         <LoadingScreen isTransitioning={isTransitioning} />
       )}
       
+      {/* Single OpenToWorkIndicator component only - no duplicates */}
       <OpenToWorkIndicator />
       
       <MinimalNavbar />

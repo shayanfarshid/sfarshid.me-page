@@ -42,7 +42,8 @@ const AnimatedBackground = () => {
       maxOpacity: number;
       twinkleSpeed: number;
       twinklePhase: number;
-      speed: number;
+      speedX: number;
+      speedY: number;
       fadeState: 'in' | 'out' | 'stable';
       fadeSpeed: number;
     }> = [];
@@ -57,18 +58,23 @@ const AnimatedBackground = () => {
       for (let i = 0; i < density; i++) {
         const maxOpacity = Math.random() * 0.4 + 0.3; // 0.3-0.7 max opacity
         // Faster fade speed for more frequent appearing/disappearing
-        const fadeSpeed = Math.random() * 0.003 + 0.0015; // Increased from 0.002 + 0.001
+        const fadeSpeed = Math.random() * 0.003 + 0.002; // Increased for more frequent fading
+        
+        // Very subtle random movement speed - significantly reduced for mobile
+        const baseSpeed = isMobile ? 0.003 : 0.008; // Much lower speed for mobile
+        const speedMultiplier = isMobile ? 0.3 : 1.0; // Further reduction for mobile
         
         stars.push({
           x: Math.random() * window.innerWidth,
           y: Math.random() * window.innerHeight,
-          size: Math.random() * 1.1 + 0.4, // Slightly smaller stars: 0.4-1.5px
+          size: Math.random() * 0.9 + 0.3, // Smaller stars: 0.3-1.2px
           opacity: Math.random() * maxOpacity, // Start with random opacity
           maxOpacity: maxOpacity,
           twinkleSpeed: Math.random() * 0.012 + 0.005, // Slightly faster twinkling
           twinklePhase: Math.random() * Math.PI * 2,
-          speed: 0.02 / (Math.random() * 3 + 1), // Very slight movement
-          fadeState: Math.random() > 0.5 ? 'in' : 'out', // Randomly start fading in or out
+          speedX: (Math.random() * 2 - 1) * baseSpeed * speedMultiplier, // Random direction, very slow
+          speedY: (Math.random() * 2 - 1) * baseSpeed * speedMultiplier, // Random direction, very slow
+          fadeState: Math.random() > 0.4 ? 'in' : 'out', // More likely to start fading in
           fadeSpeed: fadeSpeed // Slightly faster fade speed
         });
       }
@@ -82,9 +88,9 @@ const AnimatedBackground = () => {
     // Create a shooting star
     const createShootingStar = () => {
       const now = Date.now();
-      if (now - lastShootingStarTime < 2500) return; // Reduced from 3000 for more frequent shooting stars
+      if (now - lastShootingStarTime < 2000) return; // Reduced for more frequent shooting stars
       
-      const shouldCreate = Math.random() < 0.35; // Increased from 0.3 (35% probability)
+      const shouldCreate = Math.random() < 0.4; // Increased to 40% probability
       if (!shouldCreate) return;
       
       lastShootingStarTime = now;
@@ -151,7 +157,7 @@ const AnimatedBackground = () => {
     
     // Schedule shooting stars
     const scheduleShootingStar = () => {
-      const timeout = Math.random() * 3500 + 2500; // 2.5-6 seconds (reduced from 3-7 seconds)
+      const timeout = Math.random() * 3000 + 2000; // 2-5 seconds (reduced from before)
       setTimeout(() => {
         createShootingStar();
         scheduleShootingStar();
@@ -161,15 +167,12 @@ const AnimatedBackground = () => {
     // Animation frame ID for cleanup
     let animationFrameId: number;
     
-    // Fix for mobile scrolling - position canvas as fixed but with transform
+    // Fix for mobile scrolling - position canvas as fixed
     const handleScroll = () => {
-      if (isMobile) {
-        // For mobile devices, we'll use a different approach
-        // Instead of moving stars with scroll, we'll keep them fixed
-        canvas.style.position = 'fixed';
-        canvas.style.top = '0';
-        canvas.style.left = '0';
-      }
+      // Always keep it fixed regardless of device
+      canvas.style.position = 'fixed';
+      canvas.style.top = '0';
+      canvas.style.left = '0';
     };
     
     // Animation loop
@@ -178,13 +181,15 @@ const AnimatedBackground = () => {
       
       // Draw stars with twinkling and fading effect
       stars.forEach(star => {
-        // Very slight movement, but not on mobile
-        if (!isMobile) {
-          star.x += star.speed;
-          if (star.x > window.innerWidth) {
-            star.x = 0;
-          }
-        }
+        // Very subtle movement
+        star.x += star.speedX;
+        star.y += star.speedY;
+        
+        // Wrap around edges
+        if (star.x < 0) star.x = window.innerWidth;
+        if (star.x > window.innerWidth) star.x = 0;
+        if (star.y < 0) star.y = window.innerHeight;
+        if (star.y > window.innerHeight) star.y = 0;
         
         // Handle fade in/out state
         if (star.fadeState === 'in') {
@@ -195,7 +200,7 @@ const AnimatedBackground = () => {
             // After stable for a while, start fading out
             setTimeout(() => {
               star.fadeState = 'out';
-            }, Math.random() * 8000 + 4000); // Stable for 4-12 seconds (reduced from 5-15)
+            }, Math.random() * 6000 + 3000); // Stable for 3-9 seconds (reduced from before)
           }
         } else if (star.fadeState === 'out') {
           star.opacity -= star.fadeSpeed;
@@ -217,11 +222,11 @@ const AnimatedBackground = () => {
         ctx.fill();
         
         // Add subtle glow to larger stars
-        if (star.size > 1.0) {
+        if (star.size > 0.8) {
           ctx.save();
           ctx.globalCompositeOperation = 'lighter';
           ctx.beginPath();
-          ctx.arc(star.x, star.y, star.size * 2, 0, Math.PI * 2);
+          ctx.arc(star.x, star.y, star.size * 1.8, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(255, 255, 255, ${finalOpacity * 0.2})`;
           ctx.fill();
           ctx.restore();
