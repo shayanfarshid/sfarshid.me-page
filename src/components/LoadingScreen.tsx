@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 
 interface LoadingScreenProps {
@@ -21,7 +22,7 @@ const LoadingScreen = ({ isTransitioning = false }: LoadingScreenProps) => {
     // Simulate loading progress - make it faster by reducing interval time
     const interval = setInterval(() => {
       setProgress(prev => {
-        const newProgress = prev + Math.random() * 10; // Increased increment speed further
+        const newProgress = prev + Math.random() * 8; // Increased increment speed
         
         // Change loading text based on progress
         if (newProgress > 20 && newProgress < 40) {
@@ -38,7 +39,7 @@ const LoadingScreen = ({ isTransitioning = false }: LoadingScreenProps) => {
         
         return newProgress >= 100 ? 100 : newProgress;
       });
-    }, 80); // Reduced from 100ms to 80ms
+    }, 100); // Reduced from 120ms to 100ms
     
     // Clean up interval
     return () => clearInterval(interval);
