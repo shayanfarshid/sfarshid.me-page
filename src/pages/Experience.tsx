@@ -6,6 +6,7 @@ import { Briefcase, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import MinimalNavbar from '@/components/MinimalNavbar';
 import Footer from '@/components/Footer';
+import { Badge } from '@/components/ui/badge';
 
 interface ExperienceItem {
   company: string;
@@ -16,6 +17,7 @@ interface ExperienceItem {
     name: string;
     class: string;
   }[];
+  isCurrent?: boolean;
 }
 
 const Experience = () => {
@@ -31,8 +33,11 @@ const Experience = () => {
       skills: [
         { name: 'Research', class: 'tag-data-analysis' },
         { name: 'Data Analysis', class: 'tag-data-analysis' },
-        { name: 'Community Engagement', class: 'tag-data-viz' }
-      ]
+        { name: 'Community Engagement', class: 'tag-data-viz' },
+        { name: 'URM Programs', class: 'tag-tableau' },
+        { name: 'Public Health', class: 'tag-ml' }
+      ],
+      isCurrent: true
     },
     {
       company: 'MedSer',
@@ -43,7 +48,8 @@ const Experience = () => {
         { name: 'Data Analysis', class: 'tag-data-analysis' },
         { name: 'Trend Analysis', class: 'tag-data-viz' },
         { name: 'Healthcare Analytics', class: 'tag-tableau' },
-        { name: 'Tableau', class: 'tag-tableau' }
+        { name: 'Lead Generation', class: 'tag-dashboard' },
+        { name: 'Market Intelligence', class: 'tag-ml' }
       ]
     },
     {
@@ -55,7 +61,8 @@ const Experience = () => {
         { name: 'SQL', class: 'tag-data-analysis' },
         { name: 'Azure', class: 'tag-ml' },
         { name: 'Salesforce', class: 'tag-dashboard' },
-        { name: 'Power BI', class: 'tag-dashboard' }
+        { name: 'Power BI', class: 'tag-dashboard' },
+        { name: 'Agile Methodologies', class: 'tag-data-analysis' }
       ]
     },
     {
@@ -67,7 +74,8 @@ const Experience = () => {
         { name: 'Process Optimization', class: 'tag-data-analysis' },
         { name: 'EDA', class: 'tag-data-viz' },
         { name: 'Business Intelligence', class: 'tag-dashboard' },
-        { name: 'Data Analysis', class: 'tag-data-analysis' }
+        { name: 'Data Analysis', class: 'tag-data-analysis' },
+        { name: 'Workflow Analysis', class: 'tag-geospatial' }
       ]
     }
   ];
@@ -119,13 +127,24 @@ const Experience = () => {
             <div
               key={exp.company}
               className={`glass-morphism rounded-[16px] p-8 transition-all project-card-hover duration-500 ${
+                exp.isCurrent ? 'border border-purple-500/30' : 'border border-white/5'
+              } ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
               style={{ transitionDelay: `${index * 100}ms` }}
             >
               <div className="md:flex items-start justify-between mb-4">
                 <div>
-                  <h2 className="text-2xl font-bold text-purple-300 mb-2">{exp.position}</h2>
+                  <div className="flex items-center gap-2">
+                    <h2 className={`text-2xl font-bold ${exp.isCurrent ? 'text-purple-300' : 'text-purple-300'} mb-2`}>
+                      {exp.position}
+                    </h2>
+                    {exp.isCurrent && (
+                      <Badge className="bg-green-700/30 text-green-300 border-green-500/30 text-xs">
+                        Current
+                      </Badge>
+                    )}
+                  </div>
                   <h3 className="text-xl text-white/80 mb-4">{exp.company}</h3>
                 </div>
                 <div className="text-right text-white/60 text-sm md:mt-0 mt-2">
@@ -139,7 +158,7 @@ const Experience = () => {
                 {exp.skills.map((skill) => (
                   <span 
                     key={skill.name} 
-                    className={`${skill.class} px-3 py-1.5 rounded-full text-sm`}
+                    className={`${skill.class} px-3 py-1.5 rounded-full text-sm font-medium shadow-sm`}
                   >
                     {skill.name}
                   </span>
@@ -169,7 +188,7 @@ const Experience = () => {
                   <p className="text-white/70 mb-2">Coursework:</p>
                   <div className="flex flex-wrap gap-2">
                     {education.courses.map(course => (
-                      <span key={course} className="bg-purple-900/20 text-purple-300 px-2 py-1 rounded-full text-xs">
+                      <span key={course} className="tag-tableau px-3 py-1.5 rounded-full text-sm font-medium shadow-sm">
                         {course}
                       </span>
                     ))}

@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import { Briefcase } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
 interface ExperienceItem {
   company: string;
@@ -10,6 +11,7 @@ interface ExperienceItem {
     class: string;
   }[];
   highlight: string;
+  isCurrent?: boolean;
 }
 
 const experiences: ExperienceItem[] = [
@@ -19,9 +21,12 @@ const experiences: ExperienceItem[] = [
     skills: [
       { name: 'Data Analysis', class: 'tag-data-analysis' },
       { name: 'Trend Analysis', class: 'tag-data-viz' },
-      { name: 'Market Research', class: 'tag-data-analysis' }
+      { name: 'Market Research', class: 'tag-data-analysis' },
+      { name: 'Healthcare Analytics', class: 'tag-tableau' },
+      { name: 'Lead Generation', class: 'tag-dashboard' }
     ],
-    highlight: 'Drove strategic enhancements with robust analytical frameworks, expanding customer base by 15%.'
+    highlight: 'Drove strategic enhancements with robust analytical frameworks, expanding customer base by 15%.',
+    isCurrent: false
   },
   {
     company: 'ExPrep',
@@ -29,9 +34,12 @@ const experiences: ExperienceItem[] = [
     skills: [
       { name: 'Agile Methodologies', class: 'tag-data-analysis' },
       { name: 'SQL', class: 'tag-data-analysis' },
-      { name: 'Power BI', class: 'tag-dashboard' }
+      { name: 'Power BI', class: 'tag-dashboard' },
+      { name: 'Azure', class: 'tag-ml' },
+      { name: 'Salesforce', class: 'tag-data-viz' }
     ],
-    highlight: 'Optimized SQL query times by 20% and implemented performance visualization dashboards.'
+    highlight: 'Optimized SQL query times by 20% and implemented performance visualization dashboards.',
+    isCurrent: false
   },
   {
     company: 'Siemens Healthineers',
@@ -39,9 +47,25 @@ const experiences: ExperienceItem[] = [
     skills: [
       { name: 'Process Optimization', class: 'tag-data-analysis' },
       { name: 'EDA', class: 'tag-data-viz' },
-      { name: 'Support Systems', class: 'tag-dashboard' }
+      { name: 'Support Systems', class: 'tag-dashboard' },
+      { name: 'Business Intelligence', class: 'tag-tableau' },
+      { name: 'Workflow Analysis', class: 'tag-geospatial' }
     ],
-    highlight: 'Maintained 95% error-free service rate and reduced customs clearance time by 20%.'
+    highlight: 'Maintained 95% error-free service rate and reduced customs clearance time by 20%.',
+    isCurrent: false
+  },
+  {
+    company: 'SDSU Research Foundation',
+    position: 'Graduate Research Fellow',
+    skills: [
+      { name: 'Research', class: 'tag-data-analysis' },
+      { name: 'Data Analysis', class: 'tag-data-analysis' },
+      { name: 'Community Engagement', class: 'tag-data-viz' },
+      { name: 'URM Programs', class: 'tag-tableau' },
+      { name: 'Public Health', class: 'tag-ml' }
+    ],
+    highlight: 'Working on P2PH-Empower project to promote interest among URM communities in Public Health programs.',
+    isCurrent: true
   }
 ];
 
@@ -64,18 +88,33 @@ const Experience = () => {
           <h2 className="text-3xl font-bold text-gradient inline-block">Experience</h2>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {experiences.map((exp, index) => (
             <div 
               key={`${exp.company}-${exp.position}`}
-              className={`glass-morphism rounded-[16px] p-6 project-card-hover transition-all duration-300 border border-white/5 ${
+              className={`glass-morphism rounded-[16px] p-6 project-card-hover transition-all duration-300 border ${
+                exp.isCurrent ? 'border-purple-500/50' : 'border-white/5'
+              } ${
                 activeItem === index ? 'transform scale-[1.02] bg-white/5' : ''
               }`}
               onMouseEnter={() => handleMouseEnter(index)}
               onMouseLeave={handleMouseLeave}
             >
               <div className="space-y-4">
-                <h3 className="text-xl font-medium text-purple-300">{exp.position}</h3>
+                <div className="flex justify-between items-start">
+                  <h3 className={`text-xl font-medium ${exp.isCurrent ? 'text-purple-300 font-semibold' : 'text-purple-300'}`}>
+                    {exp.position}
+                    {exp.isCurrent && (
+                      <span className="ml-2 inline-flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+                    )}
+                  </h3>
+                  {exp.isCurrent && (
+                    <Badge variant="outline" className="bg-purple-900/30 text-purple-300 border-purple-500/30 text-xs">
+                      Current
+                    </Badge>
+                  )}
+                </div>
+                
                 <p className="text-space-text/90 text-lg">{exp.company}</p>
                 
                 <p className="text-space-text/70">{exp.highlight}</p>

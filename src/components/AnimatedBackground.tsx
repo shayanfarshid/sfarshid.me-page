@@ -1,3 +1,4 @@
+
 import { useEffect, useRef } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -60,9 +61,9 @@ const AnimatedBackground = () => {
         // Faster fade speed for more frequent appearing/disappearing
         const fadeSpeed = Math.random() * 0.003 + 0.002; // Increased for more frequent fading
         
-        // Very subtle random movement speed - significantly reduced for mobile
-        const baseSpeed = isMobile ? 0.003 : 0.008; // Much lower speed for mobile
-        const speedMultiplier = isMobile ? 0.3 : 1.0; // Further reduction for mobile
+        // More noticeable but still subtle random movement speed
+        const baseSpeed = isMobile ? 0.005 : 0.012; // Increased for more visible motion
+        const speedMultiplier = isMobile ? 0.5 : 1.0; 
         
         stars.push({
           x: Math.random() * window.innerWidth,
@@ -70,10 +71,10 @@ const AnimatedBackground = () => {
           size: Math.random() * 0.9 + 0.3, // Smaller stars: 0.3-1.2px
           opacity: Math.random() * maxOpacity, // Start with random opacity
           maxOpacity: maxOpacity,
-          twinkleSpeed: Math.random() * 0.012 + 0.005, // Slightly faster twinkling
+          twinkleSpeed: Math.random() * 0.015 + 0.007, // Slightly faster twinkling
           twinklePhase: Math.random() * Math.PI * 2,
-          speedX: (Math.random() * 2 - 1) * baseSpeed * speedMultiplier, // Random direction, very slow
-          speedY: (Math.random() * 2 - 1) * baseSpeed * speedMultiplier, // Random direction, very slow
+          speedX: (Math.random() * 2 - 1) * baseSpeed * speedMultiplier, // Random direction, slightly faster
+          speedY: (Math.random() * 2 - 1) * baseSpeed * speedMultiplier, // Random direction, slightly faster
           fadeState: Math.random() > 0.4 ? 'in' : 'out', // More likely to start fading in
           fadeSpeed: fadeSpeed // Slightly faster fade speed
         });
@@ -88,9 +89,9 @@ const AnimatedBackground = () => {
     // Create a shooting star
     const createShootingStar = () => {
       const now = Date.now();
-      if (now - lastShootingStarTime < 2000) return; // Reduced for more frequent shooting stars
+      if (now - lastShootingStarTime < 1800) return; // Reduced for more frequent shooting stars
       
-      const shouldCreate = Math.random() < 0.4; // Increased to 40% probability
+      const shouldCreate = Math.random() < 0.45; // Increased to 45% probability
       if (!shouldCreate) return;
       
       lastShootingStarTime = now;
@@ -157,7 +158,7 @@ const AnimatedBackground = () => {
     
     // Schedule shooting stars
     const scheduleShootingStar = () => {
-      const timeout = Math.random() * 3000 + 2000; // 2-5 seconds (reduced from before)
+      const timeout = Math.random() * 2500 + 1500; // 1.5-4 seconds (reduced from before)
       setTimeout(() => {
         createShootingStar();
         scheduleShootingStar();
@@ -181,7 +182,7 @@ const AnimatedBackground = () => {
       
       // Draw stars with twinkling and fading effect
       stars.forEach(star => {
-        // Very subtle movement
+        // More noticeable but still subtle movement
         star.x += star.speedX;
         star.y += star.speedY;
         
@@ -200,7 +201,7 @@ const AnimatedBackground = () => {
             // After stable for a while, start fading out
             setTimeout(() => {
               star.fadeState = 'out';
-            }, Math.random() * 6000 + 3000); // Stable for 3-9 seconds (reduced from before)
+            }, Math.random() * 5000 + 2500); // Stable for 2.5-7.5 seconds (reduced from before)
           }
         } else if (star.fadeState === 'out') {
           star.opacity -= star.fadeSpeed;
@@ -212,7 +213,7 @@ const AnimatedBackground = () => {
         
         // Twinkling effect on top of fade
         const time = Date.now() * 0.001;
-        const twinkle = Math.sin(time * star.twinkleSpeed + star.twinklePhase) * 0.2 + 0.8;
+        const twinkle = Math.sin(time * star.twinkleSpeed + star.twinklePhase) * 0.25 + 0.75; // Increased twinkling intensity
         const finalOpacity = star.opacity * twinkle;
         
         // Draw star
@@ -222,12 +223,12 @@ const AnimatedBackground = () => {
         ctx.fill();
         
         // Add subtle glow to larger stars
-        if (star.size > 0.8) {
+        if (star.size > 0.7) {
           ctx.save();
           ctx.globalCompositeOperation = 'lighter';
           ctx.beginPath();
-          ctx.arc(star.x, star.y, star.size * 1.8, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255, 255, 255, ${finalOpacity * 0.2})`;
+          ctx.arc(star.x, star.y, star.size * 2, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 255, 255, ${finalOpacity * 0.25})`; // Increased glow intensity
           ctx.fill();
           ctx.restore();
         }
