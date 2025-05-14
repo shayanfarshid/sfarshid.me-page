@@ -6,6 +6,7 @@ import MinimalNavbar from '@/components/MinimalNavbar';
 import Hero from '@/components/Hero';
 import BentoFeatures from '@/components/BentoFeatures';
 import Footer from '@/components/Footer';
+import OpenToWorkIndicator from '@/components/OpenToWorkIndicator';
 
 const Index = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -19,7 +20,7 @@ const Index = () => {
       metaDescription.setAttribute('content', 'Shayan Farshid - Transforming raw data into actionable business insights through advanced analytics, data visualization, and machine learning.');
     }
     
-    // Simulate page loading with smooth transition
+    // Simulate page loading with smooth transition - make it faster
     const loadTimer = setTimeout(() => {
       setIsTransitioning(true);
       
@@ -27,10 +28,10 @@ const Index = () => {
       const transitionTimer = setTimeout(() => {
         setIsLoaded(true);
         console.log("Main content loaded, background should be visible");
-      }, 1000);
+      }, 800); // Reduced from 1000ms to 800ms
       
       return () => clearTimeout(transitionTimer);
-    }, 3500);
+    }, 3000); // Reduced from 3500ms to 3000ms
     
     return () => clearTimeout(loadTimer);
   }, []);
@@ -45,6 +46,7 @@ const Index = () => {
       )}
       
       <MinimalNavbar />
+      <OpenToWorkIndicator />
       
       <main className="relative z-10 space-y-4">
         <Hero />
