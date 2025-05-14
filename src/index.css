@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -113,46 +112,46 @@
     @apply bg-gradient-to-b from-[#2F4F4F] to-[#1D1B3A];
   }
 
-  /* Tech tag colors */
+  /* Tech tag colors - updated for better visibility and consistent styling */
   .tag-python {
-    @apply bg-[#815AC0] text-white/90;
+    @apply bg-[#815AC0] text-white/90 shadow-md shadow-[#815AC0]/20;
   }
   
   .tag-jupyter {
-    @apply bg-[#A267AC] text-white/90;
+    @apply bg-[#A267AC] text-white/90 shadow-md shadow-[#A267AC]/20;
   }
   
   .tag-data-viz {
-    @apply bg-[#6D4EA0] text-white/90;
+    @apply bg-[#6D4EA0] text-white/90 shadow-md shadow-[#6D4EA0]/20;
   }
   
   .tag-tableau {
-    @apply bg-[#577590] text-white/90;
+    @apply bg-[#577590] text-white/90 shadow-md shadow-[#577590]/20;
   }
   
   .tag-geospatial {
-    @apply bg-[#4C6A92] text-white/90;
+    @apply bg-[#4C6A92] text-white/90 shadow-md shadow-[#4C6A92]/20;
   }
   
   .tag-dashboard {
-    @apply bg-[#5A678C] text-white/90;
+    @apply bg-[#5A678C] text-white/90 shadow-md shadow-[#5A678C]/20;
   }
   
   .tag-data-analysis {
-    @apply bg-[#64748B] text-white/90;
+    @apply bg-[#64748B] text-white/90 shadow-md shadow-[#64748B]/20;
   }
   
   .tag-ml {
-    @apply bg-[#54727D] text-white/90;
+    @apply bg-[#54727D] text-white/90 shadow-md shadow-[#54727D]/20;
   }
   
   .tag-random-forest {
-    @apply bg-[#466B78] text-white/90;
+    @apply bg-[#466B78] text-white/90 shadow-md shadow-[#466B78]/20;
   }
 
   /* Project card hover effect */
   .project-card-hover {
-    @apply transition-all duration-300 hover:shadow-[0_0_10px_rgba(102,51,153,0.1)] rounded-[16px];
+    @apply transition-all duration-300 hover:shadow-[0_0_10px_rgba(102,51,153,0.2)] rounded-[16px];
   }
   
   /* Animation for gradient backgrounds */

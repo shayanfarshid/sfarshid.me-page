@@ -84,7 +84,7 @@ const Experience = () => {
                   {exp.skills.map((skill) => (
                     <span 
                       key={skill.name} 
-                      className={`${skill.class} px-2 py-1 rounded-full text-xs`}
+                      className={`${skill.class} px-3 py-1.5 rounded-full text-xs font-medium shadow-sm`}
                     >
                       {skill.name}
                     </span>

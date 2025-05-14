@@ -23,7 +23,7 @@ interface Project {
 const Projects = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   
-  // Projects data with updated details
+  // Projects data with updated GitHub links
   const projects: Project[] = [
     {
       title: "Valentines Day Trends",
@@ -35,7 +35,7 @@ const Projects = () => {
       ],
       highlight: "Revealed key market insights by analyzing 5+ years of seasonal data with interactive visualizations.",
       gradientClass: "project-gradient-valentine",
-      link: "https://github.com/shayanfarshid",
+      link: "https://github.com/shayanfarshid/Valentines-Day-Trends",
       category: "Data Visualization"
     },
     {
@@ -48,7 +48,7 @@ const Projects = () => {
       ],
       highlight: "Predicted collision chances with 85%+ accuracy using machine learning models integrated with mapping.",
       gradientClass: "project-gradient-bay",
-      link: "https://github.com/shayanfarshid",
+      link: "https://github.com/shayanfarshid/Bay-Area-Collision-Analysis",
       category: "Geospatial/Dashboard"
     },
     {
@@ -61,7 +61,7 @@ const Projects = () => {
       ],
       highlight: "Analyzed 100,000+ job postings to identify emerging trends and in-demand skills across industries.",
       gradientClass: "project-gradient-job",
-      link: "https://github.com/shayanfarshid",
+      link: "https://github.com/shayanfarshid/Job-Market-Exploration",
       category: "Data Analysis/Python"
     },
     {
@@ -74,7 +74,7 @@ const Projects = () => {
       ],
       highlight: "Implemented models achieving 87.05% accuracy, deployed into customer service workflows.",
       gradientClass: "project-gradient-bank",
-      link: "https://github.com/shayanfarshid",
+      link: "https://github.com/shayanfarshid/bank-churn",
       category: "Machine Learning/Python"
     }
   ];
