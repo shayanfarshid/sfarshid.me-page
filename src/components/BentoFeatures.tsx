@@ -116,17 +116,17 @@ const BentoFeatures = () => {
     {
       title: "Lean Six Sigma Green Belt",
       organization: "University of California, Davis",
-      date: "Dec 2024"
+      date: "2024"
     },
     {
       title: "Associate Certified Analytics Professional",
       organization: "INFORMS",
-      date: "Jun 2024"
+      date: "2024"
     },
     {
       title: "Certified Supply Chain Analyst",
       organization: "ISCEA",
-      date: "Dec 2021"
+      date: "2021"
     }
   ];
 
@@ -179,7 +179,7 @@ const BentoFeatures = () => {
           
           {/* Testimonials Card with hover effect */}
           <div 
-            className={`glass-morphism rounded-2xl p-6 transition-all duration-300 hover:shadow-lg hover:shadow-purple-900/10 ${
+            className={`glass-morphism rounded-2xl p-6 transition-all duration-300 hover-scale ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
             }`}
             style={{ transitionDelay: '200ms' }}
@@ -287,7 +287,7 @@ const BentoFeatures = () => {
           
           {/* Certifications with hover effect */}
           <div 
-            className={`glass-morphism rounded-2xl p-6 transition-all duration-300 hover:shadow-lg hover:shadow-purple-900/10 ${
+            className={`glass-morphism rounded-2xl p-6 transition-all duration-300 hover-scale ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
             }`}
             style={{ transitionDelay: '400ms' }}

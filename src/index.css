@@ -42,6 +42,11 @@
   html {
     @apply scroll-smooth;
   }
+  
+  /* Add subtle glow effect for Shayan name */
+  .shayan-glow {
+    text-shadow: 0 0 4px rgba(155, 135, 245, 0.3), 0 0 8px rgba(155, 135, 245, 0.1);
+  }
 }
 
 @layer utilities {

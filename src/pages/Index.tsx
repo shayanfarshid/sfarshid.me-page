@@ -6,7 +6,6 @@ import MinimalNavbar from '@/components/MinimalNavbar';
 import Hero from '@/components/Hero';
 import BentoFeatures from '@/components/BentoFeatures';
 import Footer from '@/components/Footer';
-import OpenToWorkIndicator from '@/components/OpenToWorkIndicator';
 
 const Index = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -44,9 +43,6 @@ const Index = () => {
       {!isLoaded && (
         <LoadingScreen isTransitioning={isTransitioning} />
       )}
-      
-      {/* Single OpenToWorkIndicator component only - no duplicates */}
-      <OpenToWorkIndicator />
       
       <MinimalNavbar />
       

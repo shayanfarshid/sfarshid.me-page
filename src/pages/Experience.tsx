@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import CustomCursor from '@/components/CustomCursor';
@@ -43,7 +44,7 @@ const Experience = () => {
     {
       company: 'Siemens Healthineers',
       position: 'Business Analyst',
-      duration: 'Jan 2023 - Mar 2023',
+      duration: 'Jan 2022 - Mar 2023',
       description: 'Coordinated import/export workflows to maintain a 95% error-free rate and cut customs delays. Used data analysis to highlight trends that improved decision-making accuracy, and enhanced the support ticket system with new technology solutions, leading to higher client satisfaction.',
       skills: ['Process Optimization', 'EDA', 'Business Intelligence', 'Data Analysis']
     }
@@ -53,7 +54,7 @@ const Experience = () => {
   const education = {
     degree: "Master's in Business Analytics",
     institution: "University of California, Davis",
-    date: "June 2024",
+    date: "2024",
     courses: ["Data Management", "Data Visualization", "Machine Learning", "Big Data", "Operations"]
   };
 
@@ -163,19 +164,19 @@ const Experience = () => {
                 <div className="glass-morphism bg-opacity-30 p-5 rounded-xl">
                   <h3 className="text-base font-medium text-purple-300 mb-1">Lean Six Sigma Green Belt</h3>
                   <p className="text-sm text-white/70">University of California, Davis</p>
-                  <p className="text-xs text-white/50 mt-2">Dec 2024</p>
+                  <p className="text-xs text-white/50 mt-2">2024</p>
                 </div>
                 
                 <div className="glass-morphism bg-opacity-30 p-5 rounded-xl">
                   <h3 className="text-base font-medium text-purple-300 mb-1">Associate Certified Analytics Professional</h3>
                   <p className="text-sm text-white/70">INFORMS</p>
-                  <p className="text-xs text-white/50 mt-2">Jun 2024</p>
+                  <p className="text-xs text-white/50 mt-2">2024</p>
                 </div>
                 
                 <div className="glass-morphism bg-opacity-30 p-5 rounded-xl">
                   <h3 className="text-base font-medium text-purple-300 mb-1">Certified Supply Chain Analyst</h3>
                   <p className="text-sm text-white/70">ISCEA</p>
-                  <p className="text-xs text-white/50 mt-2">Dec 2021</p>
+                  <p className="text-xs text-white/50 mt-2">2021</p>
                 </div>
               </div>
             </div>

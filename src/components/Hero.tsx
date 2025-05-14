@@ -1,6 +1,5 @@
 
 import { useEffect, useState } from 'react';
-import AvailabilityStatus from './AvailabilityStatus';
 import TypeWriter from './TypeWriter';
 import { Github, Linkedin, Mail } from 'lucide-react';
 
@@ -34,7 +33,7 @@ const Hero = () => {
               <h1 className={`text-6xl sm:text-7xl md:text-8xl font-bold mb-4 transition-all duration-1000 ${
                 showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               }`}>
-                <span className="font-normal">Shayan</span>{" "}
+                <span className="font-normal shayan-glow">Shayan</span>{" "}
                 <span className="font-light" style={{ fontFamily: 'Playfair Display, serif' }}>Farshid</span>
               </h1>
             </div>
@@ -83,11 +82,6 @@ const Hero = () => {
             </div>
           </div>
         </div>
-      </div>
-      
-      {/* Availability status in the top right */}
-      <div className="absolute top-6 right-6">
-        <AvailabilityStatus />
       </div>
     </section>
   );
