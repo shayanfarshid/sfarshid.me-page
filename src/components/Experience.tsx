@@ -5,7 +5,10 @@ import { Briefcase } from 'lucide-react';
 interface ExperienceItem {
   company: string;
   position: string;
-  skills: string[];
+  skills: {
+    name: string;
+    class: string;
+  }[];
   highlight: string;
 }
 
@@ -13,19 +16,31 @@ const experiences: ExperienceItem[] = [
   {
     company: 'MedSer',
     position: 'Clinical Operations Analyst',
-    skills: ['Data Analysis', 'Trend Analysis', 'Market Research'],
+    skills: [
+      { name: 'Data Analysis', class: 'tag-data-analysis' },
+      { name: 'Trend Analysis', class: 'tag-data-viz' },
+      { name: 'Market Research', class: 'tag-data-analysis' }
+    ],
     highlight: 'Drove strategic enhancements with robust analytical frameworks, expanding customer base by 15%.'
   },
   {
     company: 'ExPrep',
-    position: 'Business Analyst',
-    skills: ['Agile Methodologies', 'SQL', 'Power BI'],
+    position: 'Project Manager',
+    skills: [
+      { name: 'Agile Methodologies', class: 'tag-data-analysis' },
+      { name: 'SQL', class: 'tag-data-analysis' },
+      { name: 'Power BI', class: 'tag-dashboard' }
+    ],
     highlight: 'Optimized SQL query times by 20% and implemented performance visualization dashboards.'
   },
   {
     company: 'Siemens Healthineers',
     position: 'Business Analyst',
-    skills: ['Process Optimization', 'EDA', 'Support Systems'],
+    skills: [
+      { name: 'Process Optimization', class: 'tag-data-analysis' },
+      { name: 'EDA', class: 'tag-data-viz' },
+      { name: 'Support Systems', class: 'tag-dashboard' }
+    ],
     highlight: 'Maintained 95% error-free service rate and reduced customs clearance time by 20%.'
   }
 ];
@@ -53,7 +68,7 @@ const Experience = () => {
           {experiences.map((exp, index) => (
             <div 
               key={`${exp.company}-${exp.position}`}
-              className={`glass-morphism rounded-2xl p-6 transition-all duration-300 border border-white/5 hover:border-purple-400/30 ${
+              className={`glass-morphism rounded-[16px] p-6 project-card-hover transition-all duration-300 border border-white/5 ${
                 activeItem === index ? 'transform scale-[1.02] bg-white/5' : ''
               }`}
               onMouseEnter={() => handleMouseEnter(index)}
@@ -68,10 +83,10 @@ const Experience = () => {
                 <div className="flex flex-wrap gap-2 pt-3">
                   {exp.skills.map((skill) => (
                     <span 
-                      key={skill} 
-                      className="bg-purple-900/20 text-purple-200 px-2 py-1 rounded-full text-xs"
+                      key={skill.name} 
+                      className={`${skill.class} px-2 py-1 rounded-full text-xs`}
                     >
-                      {skill}
+                      {skill.name}
                     </span>
                   ))}
                 </div>

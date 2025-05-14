@@ -5,28 +5,45 @@ import { GalleryHorizontal, ChevronLeft, ChevronRight } from 'lucide-react';
 interface Project {
   title: string;
   description: string;
-  skills: string[];
+  skills: {
+    name: string;
+    class: string;
+  }[];
   highlight: string;
+  gradientClass: string;
 }
 
 const projects: Project[] = [
   {
     title: 'Bay Area Collision Analysis',
     description: 'Visualization and prediction project to identify high-risk traffic areas.',
-    skills: ['Python', 'R', 'Data Visualization'],
-    highlight: 'Predicted collision chances with 85%+ accuracy using machine learning models.'
+    skills: [
+      { name: 'Python', class: 'tag-python' },
+      { name: 'R', class: 'tag-data-analysis' },
+      { name: 'Data Visualization', class: 'tag-data-viz' }
+    ],
+    highlight: 'Predicted collision chances with 85%+ accuracy using machine learning models.',
+    gradientClass: 'project-gradient-bay'
   },
   {
     title: 'Bank Churn Prediction',
     description: 'Predictive modeling to identify and reduce customer churn.',
-    skills: ['Random Forest', 'Customer Analytics'],
-    highlight: 'Implemented models achieving 87.05% accuracy, deployed into customer service workflows.'
+    skills: [
+      { name: 'Random Forest', class: 'tag-random-forest' },
+      { name: 'Customer Analytics', class: 'tag-data-analysis' }
+    ],
+    highlight: 'Implemented models achieving 87.05% accuracy, deployed into customer service workflows.',
+    gradientClass: 'project-gradient-bank'
   },
   {
     title: 'Healthcare Operations Dashboard',
     description: 'Interactive analytics for clinical performance monitoring.',
-    skills: ['Tableau', 'Power BI'],
-    highlight: 'Developed KPI tracking system with real-time data integration for executive decision-making.'
+    skills: [
+      { name: 'Tableau', class: 'tag-tableau' },
+      { name: 'Power BI', class: 'tag-dashboard' }
+    ],
+    highlight: 'Developed KPI tracking system with real-time data integration for executive decision-making.',
+    gradientClass: 'project-gradient-job'
   }
 ];
 
@@ -109,7 +126,7 @@ const Projects = () => {
                 key={project.title}
                 className="min-w-full"
               >
-                <div className={`glass-morphism rounded-3xl p-8 transition-all duration-500 h-[280px] ${
+                <div className={`${project.gradientClass} project-card-hover rounded-[16px] p-8 transition-all duration-500 h-[280px] ${
                   isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                 }`}>
                   <div className="flex flex-col h-full">
@@ -121,10 +138,10 @@ const Projects = () => {
                     <div className="flex flex-wrap gap-2 mt-auto">
                       {project.skills.map((skill) => (
                         <span 
-                          key={skill} 
-                          className="bg-purple-900/40 text-purple-200 px-2 py-1 rounded-full text-xs"
+                          key={skill.name} 
+                          className={`${skill.class} px-2 py-1 rounded-full text-xs`}
                         >
-                          {skill}
+                          {skill.name}
                         </span>
                       ))}
                     </div>

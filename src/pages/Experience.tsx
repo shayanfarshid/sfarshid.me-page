@@ -12,7 +12,10 @@ interface ExperienceItem {
   position: string;
   duration: string;
   description: string;
-  skills: string[];
+  skills: {
+    name: string;
+    class: string;
+  }[];
 }
 
 const Experience = () => {
@@ -25,28 +28,47 @@ const Experience = () => {
       position: 'Graduate Research Fellow',
       duration: 'Apr 2025 - Present',
       description: 'Working on the P2PH-Empower project, targeting and promoting interest among URM communities to inspire their enrollment in Public Health programs.',
-      skills: ['Research', 'Data Analysis', 'Community Engagement']
+      skills: [
+        { name: 'Research', class: 'tag-data-analysis' },
+        { name: 'Data Analysis', class: 'tag-data-analysis' },
+        { name: 'Community Engagement', class: 'tag-data-viz' }
+      ]
     },
     {
       company: 'MedSer',
       position: 'Clinical Operations Analyst',
       duration: 'Sep 2024 - Mar 2025',
       description: 'Drove strategic enhancements within clinical operations by establishing robust analytical frameworks and leveraging market intelligence for precise high-value clinic identification. Implemented a comprehensive lead-tracking system that achieved substantial growth in qualified lead generation, resulting in a 15% expansion of the customer base and optimized conversion funnels.',
-      skills: ['Data Analysis', 'Trend Analysis', 'Healthcare Analytics', 'Tableau']
+      skills: [
+        { name: 'Data Analysis', class: 'tag-data-analysis' },
+        { name: 'Trend Analysis', class: 'tag-data-viz' },
+        { name: 'Healthcare Analytics', class: 'tag-tableau' },
+        { name: 'Tableau', class: 'tag-tableau' }
+      ]
     },
     {
       company: 'ExPrep',
       position: 'Project Manager',
       duration: 'Sep 2023 - Jun 2024',
       description: 'Led improvements in system efficiency by refining SQL queries on Microsoft Azure, which boosted operational performance and reduced query times. Supported user growth by onboarding instructors and launching the Professor Satisfaction Score (PSS). Built dashboards in Power BI to give clear visibility into student performance.',
-      skills: ['SQL', 'Azure', 'Salesforce', 'Power BI']
+      skills: [
+        { name: 'SQL', class: 'tag-data-analysis' },
+        { name: 'Azure', class: 'tag-ml' },
+        { name: 'Salesforce', class: 'tag-dashboard' },
+        { name: 'Power BI', class: 'tag-dashboard' }
+      ]
     },
     {
       company: 'Siemens Healthineers',
       position: 'Business Analyst',
       duration: 'Jan 2022 - Mar 2023',
       description: 'Coordinated import/export workflows to maintain a 95% error-free rate and cut customs delays. Used data analysis to highlight trends that improved decision-making accuracy, and enhanced the support ticket system with new technology solutions, leading to higher client satisfaction.',
-      skills: ['Process Optimization', 'EDA', 'Business Intelligence', 'Data Analysis']
+      skills: [
+        { name: 'Process Optimization', class: 'tag-data-analysis' },
+        { name: 'EDA', class: 'tag-data-viz' },
+        { name: 'Business Intelligence', class: 'tag-dashboard' },
+        { name: 'Data Analysis', class: 'tag-data-analysis' }
+      ]
     }
   ];
 
@@ -96,7 +118,7 @@ const Experience = () => {
           {experiences.map((exp, index) => (
             <div
               key={exp.company}
-              className={`glass-morphism rounded-3xl p-8 transition-all duration-500 ${
+              className={`glass-morphism rounded-[16px] p-8 transition-all project-card-hover duration-500 ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
               style={{ transitionDelay: `${index * 100}ms` }}
@@ -116,10 +138,10 @@ const Experience = () => {
               <div className="flex flex-wrap gap-2 mt-4">
                 {exp.skills.map((skill) => (
                   <span 
-                    key={skill} 
-                    className="bg-purple-900/30 text-purple-300 px-3 py-1.5 rounded-full text-sm"
+                    key={skill.name} 
+                    className={`${skill.class} px-3 py-1.5 rounded-full text-sm`}
                   >
-                    {skill}
+                    {skill.name}
                   </span>
                 ))}
               </div>
@@ -128,7 +150,7 @@ const Experience = () => {
           
           {/* Education Section */}
           <div
-            className={`glass-morphism rounded-3xl p-8 transition-all duration-500 ${
+            className={`glass-morphism rounded-[16px] p-8 project-card-hover transition-all duration-500 ${
               isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
             style={{ transitionDelay: `${experiences.length * 100}ms` }}
@@ -161,20 +183,41 @@ const Experience = () => {
               <h2 className="text-2xl font-bold text-gradient-purple mb-6">Certifications</h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div className="glass-morphism bg-opacity-30 p-5 rounded-xl">
-                  <h3 className="text-base font-medium text-purple-300 mb-1">Lean Six Sigma Green Belt</h3>
+                <div className="glass-morphism bg-opacity-30 p-5 rounded-xl project-card-hover">
+                  <a 
+                    href="https://leansixsigma.ucdavis.edu/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-base font-medium text-purple-300 mb-1 hover:text-purple-200 transition-colors"
+                  >
+                    Lean Six Sigma Green Belt
+                  </a>
                   <p className="text-sm text-white/70">University of California, Davis</p>
                   <p className="text-xs text-white/50 mt-2">2024</p>
                 </div>
                 
-                <div className="glass-morphism bg-opacity-30 p-5 rounded-xl">
-                  <h3 className="text-base font-medium text-purple-300 mb-1">Associate Certified Analytics Professional</h3>
+                <div className="glass-morphism bg-opacity-30 p-5 rounded-xl project-card-hover">
+                  <a 
+                    href="https://certifiedanalytics.org/acap"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-base font-medium text-purple-300 mb-1 hover:text-purple-200 transition-colors"
+                  >
+                    Associate Certified Analytics Professional
+                  </a>
                   <p className="text-sm text-white/70">INFORMS</p>
                   <p className="text-xs text-white/50 mt-2">2024</p>
                 </div>
                 
-                <div className="glass-morphism bg-opacity-30 p-5 rounded-xl">
-                  <h3 className="text-base font-medium text-purple-300 mb-1">Certified Supply Chain Analyst</h3>
+                <div className="glass-morphism bg-opacity-30 p-5 rounded-xl project-card-hover">
+                  <a 
+                    href="https://www.iscea.org/csca"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-base font-medium text-purple-300 mb-1 hover:text-purple-200 transition-colors"
+                  >
+                    Certified Supply Chain Analyst
+                  </a>
                   <p className="text-sm text-white/70">ISCEA</p>
                   <p className="text-xs text-white/50 mt-2">2021</p>
                 </div>

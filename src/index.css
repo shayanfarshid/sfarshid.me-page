@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -94,6 +95,65 @@
   .btn-secondary {
     @apply bg-purple-800/50 border border-purple-500/30 shadow-md shadow-purple-900/10 hover:shadow-lg hover:shadow-purple-800/20 transition-all;
   }
+
+  /* Project card gradients */
+  .project-gradient-valentine {
+    @apply bg-gradient-to-b from-[#3A2D71] to-[#1D1B3A];
+  }
+  
+  .project-gradient-bay {
+    @apply bg-gradient-to-b from-[#264653] to-[#1D1B3A];
+  }
+  
+  .project-gradient-job {
+    @apply bg-gradient-to-b from-[#433B73] to-[#1D1B3A];
+  }
+  
+  .project-gradient-bank {
+    @apply bg-gradient-to-b from-[#2F4F4F] to-[#1D1B3A];
+  }
+
+  /* Tech tag colors */
+  .tag-python {
+    @apply bg-[#815AC0] text-white/90;
+  }
+  
+  .tag-jupyter {
+    @apply bg-[#A267AC] text-white/90;
+  }
+  
+  .tag-data-viz {
+    @apply bg-[#6D4EA0] text-white/90;
+  }
+  
+  .tag-tableau {
+    @apply bg-[#577590] text-white/90;
+  }
+  
+  .tag-geospatial {
+    @apply bg-[#4C6A92] text-white/90;
+  }
+  
+  .tag-dashboard {
+    @apply bg-[#5A678C] text-white/90;
+  }
+  
+  .tag-data-analysis {
+    @apply bg-[#64748B] text-white/90;
+  }
+  
+  .tag-ml {
+    @apply bg-[#54727D] text-white/90;
+  }
+  
+  .tag-random-forest {
+    @apply bg-[#466B78] text-white/90;
+  }
+
+  /* Project card hover effect */
+  .project-card-hover {
+    @apply transition-all duration-300 hover:shadow-[0_0_10px_rgba(102,51,153,0.1)] rounded-[16px];
+  }
   
   /* Animation for gradient backgrounds */
   @keyframes gradient {
@@ -189,7 +249,7 @@
   }
   
   .social-icon:hover {
-    animation: glow-pulse 1.5s ease-in-out;
+    animation: glow-pulse 1.5s ease-in-out infinite;
   }
   
   /* Make sure canvas element is always visible */

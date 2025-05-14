@@ -10,9 +10,12 @@ import Footer from '@/components/Footer';
 interface Project {
   title: string;
   description: string;
-  skills: string[];
+  skills: {
+    name: string;
+    class: string;
+  }[];
   highlight: string;
-  color: string;
+  gradientClass: string;
   link: string;
   category: string;
 }
@@ -25,36 +28,52 @@ const Projects = () => {
     {
       title: "Valentines Day Trends",
       description: "A comprehensive analysis of consumer behavior and spending patterns during Valentine's Day season.",
-      skills: ["Python", "Jupyter", "Data Visualization"],
+      skills: [
+        { name: "Python", class: "tag-python" },
+        { name: "Jupyter", class: "tag-jupyter" },
+        { name: "Data Visualization", class: "tag-data-viz" }
+      ],
       highlight: "Revealed key market insights by analyzing 5+ years of seasonal data with interactive visualizations.",
-      color: "from-purple-500/20 to-blue-500/20",
+      gradientClass: "project-gradient-valentine",
       link: "https://github.com/shayanfarshid",
       category: "Data Visualization"
     },
     {
       title: "Bay Area Collision Analysis",
       description: "Geospatial visualization and prediction project to identify high-risk traffic areas.",
-      skills: ["Tableau", "Geospatial", "Dashboard"],
+      skills: [
+        { name: "Tableau", class: "tag-tableau" },
+        { name: "Geospatial", class: "tag-geospatial" },
+        { name: "Dashboard", class: "tag-dashboard" }
+      ],
       highlight: "Predicted collision chances with 85%+ accuracy using machine learning models integrated with mapping.",
-      color: "from-cyan-500/20 to-blue-500/20",
+      gradientClass: "project-gradient-bay",
       link: "https://github.com/shayanfarshid",
       category: "Geospatial/Dashboard"
     },
     {
       title: "Job Market Exploration",
       description: "Data-driven exploration of job market trends, salary distributions, and skill demands.",
-      skills: ["Python", "Data Analysis", "Visualization"],
+      skills: [
+        { name: "Python", class: "tag-python" },
+        { name: "Data Analysis", class: "tag-data-analysis" },
+        { name: "Data Visualization", class: "tag-data-viz" }
+      ],
       highlight: "Analyzed 100,000+ job postings to identify emerging trends and in-demand skills across industries.",
-      color: "from-blue-400/20 to-purple-400/20",
+      gradientClass: "project-gradient-job",
       link: "https://github.com/shayanfarshid",
       category: "Data Analysis/Python"
     },
     {
       title: "Bank Churn Prediction",
       description: "Machine learning model to predict and reduce customer churn in banking sector.",
-      skills: ["Random Forest", "Python", "ML"],
+      skills: [
+        { name: "Random Forest", class: "tag-random-forest" },
+        { name: "Python", class: "tag-python" },
+        { name: "ML", class: "tag-ml" }
+      ],
       highlight: "Implemented models achieving 87.05% accuracy, deployed into customer service workflows.",
-      color: "from-green-400/20 to-cyan-400/20",
+      gradientClass: "project-gradient-bank",
       link: "https://github.com/shayanfarshid",
       category: "Machine Learning/Python"
     }
@@ -98,12 +117,12 @@ const Projects = () => {
           {projects.map((project, index) => (
             <div
               key={project.title}
-              className={`glass-morphism rounded-3xl overflow-hidden transition-all duration-500 hover-scale ${
+              className={`glass-morphism rounded-[16px] overflow-hidden transition-all duration-500 project-card-hover ${
                 isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
               style={{ transitionDelay: `${index * 100}ms` }}
             >
-              <div className={`bg-gradient-to-br ${project.color} p-6 relative`}>
+              <div className={`${project.gradientClass} p-6 relative`}>
                 <span className="absolute top-3 right-3 text-xs bg-white/10 px-2 py-1 rounded-full">
                   {project.category}
                 </span>
@@ -117,10 +136,10 @@ const Projects = () => {
                 <div className="flex flex-wrap gap-2 mb-4">
                   {project.skills.map((skill) => (
                     <span 
-                      key={skill} 
-                      className="bg-purple-900/30 text-purple-300 px-2 py-1 rounded-full text-xs"
+                      key={skill.name} 
+                      className={`${skill.class} px-2 py-1 rounded-full text-xs`}
                     >
-                      {skill}
+                      {skill.name}
                     </span>
                   ))}
                 </div>

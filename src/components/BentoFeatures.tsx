@@ -3,7 +3,6 @@ import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Briefcase,
-  ArrowRight,
   Heart,
   Github
 } from 'lucide-react';
@@ -79,54 +78,97 @@ const BentoFeatures = () => {
     return () => clearInterval(interval);
   }, [testimonials.length]);
 
-  // Projects data
+  // Projects data with updated gradient classes
   const projects = [
     {
       title: "Valentines Day Trends",
       description: "Data visualization project analyzing consumer behavior during Valentine's season",
-      skills: ["Python", "Jupyter", "Data Visualization"],
-      color: "from-purple-500/20 to-blue-500/20",
+      skills: [
+        { name: "Python", class: "tag-python" }, 
+        { name: "Jupyter", class: "tag-jupyter" }, 
+        { name: "Data Visualization", class: "tag-data-viz" }
+      ],
+      gradientClass: "project-gradient-valentine",
       link: "https://github.com/shayanfarshid"
     },
     {
       title: "Bay Area Collision Analysis",
       description: "Geospatial analysis of traffic collision patterns in the Bay Area",
-      skills: ["Tableau", "Geospatial", "Dashboard"],
-      color: "from-cyan-500/20 to-blue-500/20",
+      skills: [
+        { name: "Tableau", class: "tag-tableau" }, 
+        { name: "Geospatial", class: "tag-geospatial" }, 
+        { name: "Dashboard", class: "tag-dashboard" }
+      ],
+      gradientClass: "project-gradient-bay",
       link: "https://github.com/shayanfarshid"
     },
     {
       title: "Job Market Exploration",
       description: "Comprehensive analysis of job market trends and opportunities",
-      skills: ["Python", "Data Analysis", "Visualization"],
-      color: "from-blue-400/20 to-purple-400/20",
+      skills: [
+        { name: "Python", class: "tag-python" }, 
+        { name: "Data Analysis", class: "tag-data-analysis" }, 
+        { name: "Data Visualization", class: "tag-data-viz" }
+      ],
+      gradientClass: "project-gradient-job",
       link: "https://github.com/shayanfarshid"
     },
     {
       title: "Bank Churn Prediction",
       description: "Machine learning model to predict and reduce customer churn",
-      skills: ["Python", "ML", "Random Forest"],
-      color: "from-green-400/20 to-cyan-400/20",
+      skills: [
+        { name: "Python", class: "tag-python" }, 
+        { name: "ML", class: "tag-ml" }, 
+        { name: "Random Forest", class: "tag-random-forest" }
+      ],
+      gradientClass: "project-gradient-bank",
       link: "https://github.com/shayanfarshid"
     }
   ];
 
-  // Certifications data
+  // Updated experience data with 4 entries
+  const experiences = [
+    {
+      position: "Graduate Research Fellow",
+      company: "SDSU Research Foundation",
+      skills: ["Research", "Data Analysis"]
+    },
+    {
+      position: "Clinical Operations Analyst",
+      company: "MedSer",
+      skills: ["Healthcare Analytics"]
+    },
+    {
+      position: "Project Manager",
+      company: "ExPrep",
+      skills: ["SQL", "Azure"]
+    },
+    {
+      position: "Business Analyst",
+      company: "Siemens Healthineers",
+      skills: ["Process Optimization", "Data Analysis"]
+    }
+  ];
+
+  // Certifications data with links
   const certifications = [
     {
       title: "Lean Six Sigma Green Belt",
       organization: "University of California, Davis",
-      date: "2024"
+      date: "2024",
+      link: "https://leansixsigma.ucdavis.edu/"
     },
     {
       title: "Associate Certified Analytics Professional",
       organization: "INFORMS",
-      date: "2024"
+      date: "2024",
+      link: "https://certifiedanalytics.org/acap"
     },
     {
       title: "Certified Supply Chain Analyst",
       organization: "ISCEA",
-      date: "2021"
+      date: "2021",
+      link: "https://www.iscea.org/csca"
     }
   ];
 
@@ -136,7 +178,7 @@ const BentoFeatures = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           {/* Projects Card - Large */}
           <div 
-            className={`glass-morphism rounded-2xl p-6 col-span-1 md:col-span-2 row-span-1 hover-scale transition-all duration-300 ${
+            className={`glass-morphism rounded-[16px] p-6 col-span-1 md:col-span-2 row-span-1 hover-scale project-card-hover transition-all duration-300 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
             }`}
             style={{ transitionDelay: '100ms' }}
@@ -154,32 +196,26 @@ const BentoFeatures = () => {
                 {projects.map((project, i) => (
                   <div 
                     key={project.title} 
-                    className={`bg-gradient-to-br ${project.color} p-4 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-purple-900/10 group`}
+                    className={`${project.gradientClass} p-4 rounded-[16px] transition-all duration-300 hover:shadow-[0_0_10px_rgba(102,51,153,0.1)] group`}
                   >
                     <h4 className="text-lg font-medium mb-1 group-hover:text-purple-300 transition-colors">{project.title}</h4>
                     <p className="text-sm text-white/70 mb-3">{project.description}</p>
                     <div className="flex flex-wrap gap-1">
                       {project.skills.map(skill => (
-                        <span key={skill} className="text-xs bg-white/10 px-2 py-0.5 rounded-full text-white/80">
-                          {skill}
+                        <span key={skill.name} className={`text-xs ${skill.class} px-2 py-1 rounded-full`}>
+                          {skill.name}
                         </span>
                       ))}
                     </div>
                   </div>
                 ))}
               </div>
-              
-              <div className={`mt-auto pt-4 flex justify-end transition-opacity duration-300 ${
-                activeCard === 'projects' ? 'opacity-100' : 'opacity-0'
-              }`}>
-                <ArrowRight size={18} className="text-purple-400" />
-              </div>
             </div>
           </div>
           
           {/* Testimonials Card with hover effect */}
           <div 
-            className={`glass-morphism rounded-2xl p-6 transition-all duration-300 hover-scale ${
+            className={`glass-morphism rounded-[16px] p-6 transition-all duration-300 hover-scale project-card-hover ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
             }`}
             style={{ transitionDelay: '200ms' }}
@@ -224,12 +260,6 @@ const BentoFeatures = () => {
                   </div>
                 ))}
               </div>
-              
-              <div className={`mt-auto pt-4 flex justify-end transition-opacity duration-300 ${
-                activeCard === 'testimonials' ? 'opacity-100' : 'opacity-0'
-              }`}>
-                <ArrowRight size={18} className="text-purple-400" />
-              </div>
             </div>
           </div>
         </div>
@@ -238,7 +268,7 @@ const BentoFeatures = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Experience preview card */}
           <div 
-            className={`glass-morphism rounded-2xl p-6 transition-all duration-300 hover-scale col-span-1 md:col-span-2 ${
+            className={`glass-morphism rounded-[16px] p-6 transition-all duration-300 hover-scale project-card-hover col-span-1 md:col-span-2 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
             }`}
             style={{ transitionDelay: '300ms' }}
@@ -253,41 +283,26 @@ const BentoFeatures = () => {
               </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-                <div className="glass-morphism bg-opacity-50 p-4 rounded-xl">
-                  <h4 className="font-medium">Graduate Research Fellow</h4>
-                  <p className="text-sm text-white/70 mb-2">SDSU Research Foundation</p>
-                  <div className="flex flex-wrap gap-1 mt-2">
-                    <span className="bg-purple-900/30 text-purple-300 px-2 py-0.5 text-xs rounded-full">
-                      Research
-                    </span>
-                    <span className="bg-purple-900/30 text-purple-300 px-2 py-0.5 text-xs rounded-full">
-                      Data Analysis
-                    </span>
+                {experiences.map((exp, index) => (
+                  <div key={`${exp.position}-${exp.company}`} className="glass-morphism bg-opacity-50 p-4 rounded-[16px]">
+                    <h4 className="font-medium">{exp.position}</h4>
+                    <p className="text-sm text-white/70 mb-2">{exp.company}</p>
+                    <div className="flex flex-wrap gap-1 mt-2">
+                      {exp.skills.map(skill => (
+                        <span key={skill} className={`tag-${skill.toLowerCase().replace(/\s+/g, '-')} px-2 py-0.5 text-xs rounded-full`}>
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
-                
-                <div className="glass-morphism bg-opacity-50 p-4 rounded-xl">
-                  <h4 className="font-medium">Clinical Operations Analyst</h4>
-                  <p className="text-sm text-white/70 mb-2">MedSer</p>
-                  <div className="flex flex-wrap gap-1 mt-2">
-                    <span className="bg-purple-900/30 text-purple-300 px-2 py-0.5 text-xs rounded-full">
-                      Healthcare Analytics
-                    </span>
-                  </div>
-                </div>
-              </div>
-              
-              <div className={`mt-auto pt-4 flex justify-end transition-opacity duration-300 ${
-                activeCard === 'experience' ? 'opacity-100' : 'opacity-0'
-              }`}>
-                <ArrowRight size={18} className="text-purple-400" />
+                ))}
               </div>
             </div>
           </div>
           
           {/* Certifications with hover effect */}
           <div 
-            className={`glass-morphism rounded-2xl p-6 transition-all duration-300 hover-scale ${
+            className={`glass-morphism rounded-[16px] p-6 transition-all duration-300 hover-scale project-card-hover ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
             }`}
             style={{ transitionDelay: '400ms' }}
@@ -305,17 +320,18 @@ const BentoFeatures = () => {
               <div className="space-y-4">
                 {certifications.map((cert) => (
                   <div key={cert.title} className="border-b border-white/10 pb-3 last:border-0 transition-all duration-300 hover:bg-white/5 hover:border-purple-400/30 rounded-md p-2 -mx-2">
-                    <p className="font-medium text-sm">{cert.title}</p>
+                    <a 
+                      href={cert.link} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="font-medium text-sm hover:text-purple-300 transition-colors"
+                    >
+                      {cert.title}
+                    </a>
                     <p className="text-xs text-white/70">{cert.organization}</p>
                     <p className="text-xs text-white/60 mt-1">{cert.date}</p>
                   </div>
                 ))}
-              </div>
-              
-              <div className={`mt-auto pt-4 flex justify-end transition-opacity duration-300 ${
-                activeCard === 'certifications' ? 'opacity-100' : 'opacity-0'
-              }`}>
-                <ArrowRight size={18} className="text-purple-400" />
               </div>
             </div>
           </div>
