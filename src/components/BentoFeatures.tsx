@@ -129,6 +129,11 @@ const BentoFeatures = () => {
   // Updated experience data with 4 entries
   const experiences = [
     {
+      position: "Expediting Analyst",
+      company: "AIR Silicon Valley",
+      skills: ["Supply Chain", "Procurement"]
+    },
+    {
       position: "Graduate Research Fellow",
       company: "SDSU Research Foundation",
       skills: ["Research", "Data Analysis"]
@@ -142,11 +147,6 @@ const BentoFeatures = () => {
       position: "Project Manager",
       company: "ExPrep",
       skills: ["SQL", "Azure"]
-    },
-    {
-      position: "Business Analyst",
-      company: "Siemens Healthineers",
-      skills: ["Process Optimization", "Data Analysis"]
     }
   ];
 
