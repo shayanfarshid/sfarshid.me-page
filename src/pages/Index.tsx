@@ -27,10 +27,10 @@ const Index = () => {
       const transitionTimer = setTimeout(() => {
         setIsLoaded(true);
         console.log("Main content loaded, background should be visible");
-      }, 1000);
+      }, 500);
       
       return () => clearTimeout(transitionTimer);
-    }, 3500);
+    }, 1500);
     
     return () => clearTimeout(loadTimer);
   }, []);

@@ -16,45 +16,6 @@ interface ExperienceItem {
 
 const experiences: ExperienceItem[] = [
   {
-    company: 'MedSer',
-    position: 'Clinical Operations Analyst',
-    skills: [
-      { name: 'Data Analysis', class: 'tag-data-analysis' },
-      { name: 'Trend Analysis', class: 'tag-data-viz' },
-      { name: 'Market Research', class: 'tag-data-analysis' },
-      { name: 'Healthcare Analytics', class: 'tag-tableau' },
-      { name: 'Lead Generation', class: 'tag-dashboard' }
-    ],
-    highlight: 'Drove strategic enhancements with robust analytical frameworks, expanding customer base by 15%.',
-    isCurrent: false
-  },
-  {
-    company: 'ExPrep',
-    position: 'Project Manager',
-    skills: [
-      { name: 'Agile Methodologies', class: 'tag-data-analysis' },
-      { name: 'SQL', class: 'tag-data-analysis' },
-      { name: 'Power BI', class: 'tag-dashboard' },
-      { name: 'Azure', class: 'tag-ml' },
-      { name: 'Salesforce', class: 'tag-data-viz' }
-    ],
-    highlight: 'Optimized SQL query times by 20% and implemented performance visualization dashboards.',
-    isCurrent: false
-  },
-  {
-    company: 'Siemens Healthineers',
-    position: 'Business Analyst',
-    skills: [
-      { name: 'Process Optimization', class: 'tag-data-analysis' },
-      { name: 'EDA', class: 'tag-data-viz' },
-      { name: 'Support Systems', class: 'tag-dashboard' },
-      { name: 'Business Intelligence', class: 'tag-tableau' },
-      { name: 'Workflow Analysis', class: 'tag-geospatial' }
-    ],
-    highlight: 'Maintained 95% error-free service rate and reduced customs clearance time by 20%.',
-    isCurrent: false
-  },
-  {
     company: 'AIR Silicon Valley',
     position: 'Expediting Analyst',
     skills: [
@@ -78,6 +39,32 @@ const experiences: ExperienceItem[] = [
       { name: 'Public Health', class: 'tag-ml' }
     ],
     highlight: 'Worked on P2PH-Empower project to promote interest among URM communities in Public Health programs.',
+    isCurrent: false
+  },
+  {
+    company: 'MedSer',
+    position: 'Clinical Operations Analyst',
+    skills: [
+      { name: 'Data Analysis', class: 'tag-data-analysis' },
+      { name: 'Trend Analysis', class: 'tag-data-viz' },
+      { name: 'Market Research', class: 'tag-data-analysis' },
+      { name: 'Healthcare Analytics', class: 'tag-tableau' },
+      { name: 'Lead Generation', class: 'tag-dashboard' }
+    ],
+    highlight: 'Drove strategic enhancements with robust analytical frameworks, expanding customer base by 15%.',
+    isCurrent: false
+  },
+  {
+    company: 'ExPrep',
+    position: 'Project Manager',
+    skills: [
+      { name: 'Agile Methodologies', class: 'tag-data-analysis' },
+      { name: 'SQL', class: 'tag-data-analysis' },
+      { name: 'Power BI', class: 'tag-dashboard' },
+      { name: 'Azure', class: 'tag-ml' },
+      { name: 'Salesforce', class: 'tag-data-viz' }
+    ],
+    highlight: 'Optimized SQL query times by 20% and implemented performance visualization dashboards.',
     isCurrent: false
   }
 ];

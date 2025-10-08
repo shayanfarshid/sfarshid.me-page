@@ -20,7 +20,9 @@ const Hero = () => {
     "create engaging data visualizations",
     "build predictive models for business growth",
     "optimize operations through data insights",
-    "craft compelling data narratives"
+    "craft compelling data narratives",
+    "streamline supply chains through strategic procurement",
+    "accelerate production timelines with precision component sourcing"
   ];
   
   return (
