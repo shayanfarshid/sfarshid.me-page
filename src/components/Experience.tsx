@@ -55,6 +55,19 @@ const experiences: ExperienceItem[] = [
     isCurrent: false
   },
   {
+    company: 'AIR Silicon Valley',
+    position: 'Expediting Analyst',
+    skills: [
+      { name: 'Supply Chain', class: 'tag-data-analysis' },
+      { name: 'Procurement', class: 'tag-dashboard' },
+      { name: 'Vendor Management', class: 'tag-data-viz' },
+      { name: 'Component Sourcing', class: 'tag-tableau' },
+      { name: 'Project Coordination', class: 'tag-ml' }
+    ],
+    highlight: 'Working as an Expediting Analyst to secure critical OEM and custom automation components for F-500 rollouts and prototypes for venture-scale disruptors.',
+    isCurrent: true
+  },
+  {
     company: 'SDSU Research Foundation',
     position: 'Graduate Research Fellow',
     skills: [
@@ -64,8 +77,8 @@ const experiences: ExperienceItem[] = [
       { name: 'URM Programs', class: 'tag-tableau' },
       { name: 'Public Health', class: 'tag-ml' }
     ],
-    highlight: 'Working on P2PH-Empower project to promote interest among URM communities in Public Health programs.',
-    isCurrent: true
+    highlight: 'Worked on P2PH-Empower project to promote interest among URM communities in Public Health programs.',
+    isCurrent: false
   }
 ];
 

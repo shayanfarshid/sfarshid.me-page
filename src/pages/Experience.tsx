@@ -26,10 +26,24 @@ const Experience = () => {
   // Experience data based on the screenshot
   const experiences: ExperienceItem[] = [
     {
+      company: 'AIR Silicon Valley',
+      position: 'Expediting Analyst',
+      duration: 'Sep 2025 - Present',
+      description: 'Working as an Expediting Analyst to secure critical OEM and custom automation components for F-500 rollouts and prototypes for venture-scale disruptors.',
+      skills: [
+        { name: 'Supply Chain', class: 'tag-data-analysis' },
+        { name: 'Procurement', class: 'tag-dashboard' },
+        { name: 'Vendor Management', class: 'tag-data-viz' },
+        { name: 'Component Sourcing', class: 'tag-tableau' },
+        { name: 'Project Coordination', class: 'tag-ml' }
+      ],
+      isCurrent: true
+    },
+    {
       company: 'SDSU Research Foundation',
       position: 'Graduate Research Fellow',
-      duration: 'Apr 2025 - Present',
-      description: 'Working on the P2PH-Empower project, targeting and promoting interest among URM communities to inspire their enrollment in Public Health programs.',
+      duration: 'Apr 2025 - Aug 2025',
+      description: 'Worked on the P2PH-Empower project, targeting and promoting interest among URM communities to inspire their enrollment in Public Health programs.',
       skills: [
         { name: 'Research', class: 'tag-data-analysis' },
         { name: 'Data Analysis', class: 'tag-data-analysis' },
@@ -37,7 +51,7 @@ const Experience = () => {
         { name: 'URM Programs', class: 'tag-tableau' },
         { name: 'Public Health', class: 'tag-ml' }
       ],
-      isCurrent: true
+      isCurrent: false
     },
     {
       company: 'MedSer',
