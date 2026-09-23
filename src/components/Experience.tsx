@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Briefcase } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
@@ -17,7 +16,7 @@ interface ExperienceItem {
 const experiences: ExperienceItem[] = [
   {
     company: 'AIR Silicon Valley',
-    position: 'Expediting Analyst',
+    position: 'Procurement Analyst',
     skills: [
       { name: 'Supply Chain', class: 'tag-data-analysis' },
       { name: 'Procurement', class: 'tag-dashboard' },
