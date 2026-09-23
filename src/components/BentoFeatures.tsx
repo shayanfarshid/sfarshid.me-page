@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -129,7 +128,7 @@ const BentoFeatures = () => {
   // Updated experience data with 4 entries
   const experiences = [
     {
-      position: "Expediting Analyst",
+      position: "Procurement Analyst",
       company: "AIR Silicon Valley",
       skills: ["Supply Chain", "Procurement"]
     },
