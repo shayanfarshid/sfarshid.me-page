@@ -288,7 +288,7 @@ const BentoFeatures = () => {
                     <p className="text-sm text-white/70 mb-2">{exp.company}</p>
                     <div className="flex flex-wrap gap-1 mt-2">
                       {exp.skills.map(skill => (
-                        <span key={skill} className={`tag-${skill.toLowerCase().replace(/\s+/g, '-')} px-2 py-0.5 text-xs rounded-full`}>
+                        <span key={skill} className="tag-data-analysis px-2 py-0.5 text-xs rounded-full">
                           {skill}
                         </span>
                       ))}
