@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import CustomCursor from '@/components/CustomCursor';
@@ -13,6 +12,7 @@ interface ExperienceItem {
   position: string;
   duration: string;
   description: string;
+  additionalDescription?: string;
   skills: {
     name: string;
     class: string;
@@ -27,9 +27,10 @@ const Experience = () => {
   const experiences: ExperienceItem[] = [
     {
       company: 'AIR Silicon Valley',
-      position: 'Expediting Analyst',
+      position: 'Procurement Analyst',
       duration: 'Sep 2025 - Present',
       description: 'Working as an Expediting Analyst to secure critical OEM and custom automation components for F-500 rollouts and prototypes for venture-scale disruptors.',
+      additionalDescription: 'Owning end-to-end procurement for NPI and production programs on critical OEM and custom automation components, driving strategic sourcing, supplier negotiations, and quotation strategy for venture-scale robotics and automation builds, from first prototype through full production ramp.',
       skills: [
         { name: 'Supply Chain', class: 'tag-data-analysis' },
         { name: 'Procurement', class: 'tag-dashboard' },
@@ -77,19 +78,6 @@ const Experience = () => {
         { name: 'Salesforce', class: 'tag-dashboard' },
         { name: 'Power BI', class: 'tag-dashboard' },
         { name: 'Agile Methodologies', class: 'tag-data-analysis' }
-      ]
-    },
-    {
-      company: 'Siemens Healthineers',
-      position: 'Business Analyst',
-      duration: 'Jan 2022 - Mar 2023',
-      description: 'Coordinated import/export workflows to maintain a 95% error-free rate and cut customs delays. Used data analysis to highlight trends that improved decision-making accuracy, and enhanced the support ticket system with new technology solutions, leading to higher client satisfaction.',
-      skills: [
-        { name: 'Process Optimization', class: 'tag-data-analysis' },
-        { name: 'EDA', class: 'tag-data-viz' },
-        { name: 'Business Intelligence', class: 'tag-dashboard' },
-        { name: 'Data Analysis', class: 'tag-data-analysis' },
-        { name: 'Workflow Analysis', class: 'tag-geospatial' }
       ]
     }
   ];
@@ -167,6 +155,9 @@ const Experience = () => {
               </div>
               
               <p className="text-white/70 mb-4">{exp.description}</p>
+              {exp.additionalDescription && (
+                <p className="text-white/70 mb-4">{exp.additionalDescription}</p>
+              )}
               
               <div className="flex flex-wrap gap-2 mt-4">
                 {exp.skills.map((skill) => (
